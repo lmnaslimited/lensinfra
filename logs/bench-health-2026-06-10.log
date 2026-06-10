@@ -1,0 +1,76 @@
+{"level":30,"time":"2026-06-10T09:11:16.208Z","LdConfigSnapshot":{"portainerUrl":"http://portainer.docker.localhost","portainerAuthMode":"api-key","portainerEndpointId":"auto","allowSelfSignedCert":false,"stackNameFilter":"","stackLabelFilter":"","reportDir":"reports","logDir":"logs"},"msg":"config validation passed"}
+{"level":50,"time":"2026-06-10T09:11:16.486Z","error":"Portainer API access failed: TLS certificate validation failed. Set ALLOW_SELF_SIGNED_CERT=true for local self-signed Portainer certificates.","msg":"command failed"}
+{"level":30,"time":"2026-06-10T09:12:32.192Z","LdConfigSnapshot":{"portainerUrl":"http://portainer.docker.localhost","portainerAuthMode":"api-key","portainerEndpointId":"auto","allowSelfSignedCert":true,"stackNameFilter":"","stackLabelFilter":"","reportDir":"reports","logDir":"logs"},"msg":"config validation passed"}
+{"level":30,"time":"2026-06-10T09:12:32.409Z","msg":"Portainer API access validated"}
+{"level":30,"time":"2026-06-10T09:12:32.488Z","activeEndpointCount":1,"msg":"endpoint validation: active endpoints discovered"}
+{"level":30,"time":"2026-06-10T09:12:32.554Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: Docker gateway reachable"}
+{"level":30,"time":"2026-06-10T09:12:32.554Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: auto-selected endpoint"}
+{"level":30,"time":"2026-06-10T09:12:32.599Z","endpoint":{"id":1,"name":"primary"},"msg":"Docker gateway access validated"}
+{"level":30,"time":"2026-06-10T09:14:47.264Z","LdConfigSnapshot":{"portainerUrl":"http://portainer.docker.localhost","portainerAuthMode":"api-key","portainerEndpointId":"auto","allowSelfSignedCert":true,"stackNameFilter":"","stackLabelFilter":"","reportDir":"reports","logDir":"logs"},"msg":"config validation passed"}
+{"level":30,"time":"2026-06-10T09:14:47.509Z","activeEndpointCount":1,"msg":"endpoint validation: active endpoints discovered"}
+{"level":30,"time":"2026-06-10T09:14:47.563Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: Docker gateway reachable"}
+{"level":30,"time":"2026-06-10T09:14:47.563Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: auto-selected endpoint"}
+{"level":30,"time":"2026-06-10T09:14:47.617Z","endpoint":{"id":1,"name":"primary"},"msg":"health check: scanning started"}
+{"level":30,"time":"2026-06-10T09:14:48.013Z","stackCount":9,"serviceCount":31,"taskCount":143,"containerCount":40,"msg":"health check: Docker and Portainer resources fetched"}
+{"level":30,"time":"2026-06-10T09:14:48.116Z","stackName":"qsgbin-amr-pub-db","stackStatus":"warning","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:14:48.314Z","stackName":"qsgbin-amr-pub","serviceName":"qsgbin-amr-pub_migration","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:14:48.827Z","stackName":"qsgbin-amr-pub","stackStatus":"healthy","serviceCount":11,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:14:48.827Z","stackName":"qsgbin-amr-pub-configure","serviceName":"qsgbin-amr-pub-configure_configurator","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:14:48.827Z","stackName":"qsgbin-amr-pub-configure","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:14:48.827Z","stackName":"qsgbin-amr-pub-site","serviceName":"qsgbin-amr-pub-site_configurator","status":"failed","migrationStatus":"failed","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:14:48.828Z","stackName":"qsgbin-amr-pub-site","stackStatus":"critical","serviceCount":1,"msg":"stack scan complete"}
+{"level":30,"time":"2026-06-10T09:14:48.872Z","stackName":"blue-amr-pub-db","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:14:49.193Z","stackName":"blue-amr-pub","serviceName":"blue-amr-pub_migration","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:14:49.466Z","stackName":"blue-amr-pub","stackStatus":"healthy","serviceCount":11,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:14:49.466Z","stackName":"blue-amr-pub-config","serviceName":"blue-amr-pub-config_configurator","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:14:49.466Z","stackName":"blue-amr-pub-config","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:14:49.466Z","stackName":"blue-amr-pub-site","serviceName":"blue-amr-pub-site_configurator","status":"failed","migrationStatus":"failed","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:14:49.466Z","stackName":"blue-amr-pub-site","stackStatus":"critical","serviceCount":1,"msg":"stack scan complete"}
+{"level":30,"time":"2026-06-10T09:14:49.471Z","summary":{"totalStacks":8,"healthyStacks":5,"warningStacks":1,"criticalStacks":2,"totalServices":28,"runningServices":22,"partialServices":0,"readyServices":0,"preparingServices":0,"completedServices":4,"failedServices":2,"unavailableServices":0,"migrationServices":6,"completedMigrations":4,"failedMigrations":2,"pendingMigrations":0,"totalContainers":34,"healthyContainers":2,"unhealthyContainers":0,"unknownHealthContainers":31},"reportPath":"reports\\bench-health-report-2026-06-10-14-44-49.json","msg":"health check complete"}
+{"level":30,"time":"2026-06-10T09:16:53.707Z","LdConfigSnapshot":{"portainerUrl":"http://portainer.docker.localhost","portainerAuthMode":"api-key","portainerEndpointId":"auto","allowSelfSignedCert":true,"stackNameFilter":"","stackLabelFilter":"","reportDir":"reports","logDir":"logs"},"msg":"config validation passed"}
+{"level":30,"time":"2026-06-10T09:16:53.872Z","activeEndpointCount":1,"msg":"endpoint validation: active endpoints discovered"}
+{"level":30,"time":"2026-06-10T09:16:53.925Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: Docker gateway reachable"}
+{"level":30,"time":"2026-06-10T09:16:53.925Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: auto-selected endpoint"}
+{"level":30,"time":"2026-06-10T09:16:53.966Z","endpoint":{"id":1,"name":"primary"},"msg":"health check: scanning started"}
+{"level":30,"time":"2026-06-10T09:16:54.294Z","stackCount":9,"serviceCount":31,"taskCount":143,"containerCount":40,"msg":"health check: Docker and Portainer resources fetched"}
+{"level":30,"time":"2026-06-10T09:16:54.356Z","stackName":"qsgbin-amr-pub-db","stackStatus":"warning","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:16:54.471Z","stackName":"qsgbin-amr-pub","serviceName":"qsgbin-amr-pub_migration","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:16:54.812Z","stackName":"qsgbin-amr-pub","stackStatus":"healthy","serviceCount":11,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:16:54.812Z","stackName":"qsgbin-amr-pub-configure","serviceName":"qsgbin-amr-pub-configure_configurator","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:16:54.812Z","stackName":"qsgbin-amr-pub-configure","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:16:54.813Z","stackName":"qsgbin-amr-pub-site","serviceName":"qsgbin-amr-pub-site_configurator","status":"failed","migrationStatus":"failed","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:16:54.813Z","stackName":"qsgbin-amr-pub-site","stackStatus":"critical","serviceCount":1,"msg":"stack scan complete"}
+{"level":30,"time":"2026-06-10T09:16:54.839Z","stackName":"blue-amr-pub-db","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:16:55.059Z","stackName":"blue-amr-pub","serviceName":"blue-amr-pub_migration","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:16:55.348Z","stackName":"blue-amr-pub","stackStatus":"healthy","serviceCount":11,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:16:55.348Z","stackName":"blue-amr-pub-config","serviceName":"blue-amr-pub-config_configurator","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:16:55.348Z","stackName":"blue-amr-pub-config","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:16:55.349Z","stackName":"blue-amr-pub-site","serviceName":"blue-amr-pub-site_configurator","status":"failed","migrationStatus":"failed","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:16:55.349Z","stackName":"blue-amr-pub-site","stackStatus":"critical","serviceCount":1,"msg":"stack scan complete"}
+{"level":30,"time":"2026-06-10T09:16:55.358Z","summary":{"totalStacks":8,"healthyStacks":5,"warningStacks":1,"criticalStacks":2,"totalServices":28,"runningServices":22,"partialServices":0,"readyServices":0,"preparingServices":0,"completedServices":4,"failedServices":2,"unavailableServices":0,"migrationServices":6,"completedMigrations":4,"failedMigrations":2,"pendingMigrations":0,"totalContainers":34,"healthyContainers":2,"unhealthyContainers":0,"unknownHealthContainers":31},"reportPath":"reports\\bench-health-report-2026-06-10-14-46-55.json","msg":"health check complete"}
+{"level":30,"time":"2026-06-10T09:17:11.867Z","LdConfigSnapshot":{"portainerUrl":"http://portainer.docker.localhost","portainerAuthMode":"api-key","portainerEndpointId":"auto","allowSelfSignedCert":true,"stackNameFilter":"","stackLabelFilter":"","reportDir":"reports","logDir":"logs"},"msg":"config validation passed"}
+{"level":30,"time":"2026-06-10T09:17:11.993Z","activeEndpointCount":1,"msg":"endpoint validation: active endpoints discovered"}
+{"level":30,"time":"2026-06-10T09:17:12.029Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: Docker gateway reachable"}
+{"level":30,"time":"2026-06-10T09:17:12.029Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: auto-selected endpoint"}
+{"level":30,"time":"2026-06-10T09:17:12.242Z","endpointCount":1,"stackCount":9,"serviceCount":31,"containerCount":40,"msg":"inspect summary"}
+{"level":30,"time":"2026-06-10T09:49:51.228Z","LdConfigSnapshot":{"portainerUrl":"http://portainer.docker.localhost","portainerAuthMode":"api-key","portainerEndpointId":"auto","allowSelfSignedCert":true,"stackNameFilter":"","stackLabelFilter":"","reportDir":"reports","logDir":"logs"},"msg":"config validation passed"}
+{"level":30,"time":"2026-06-10T09:49:52.653Z","activeEndpointCount":1,"msg":"endpoint validation: active endpoints discovered"}
+{"level":30,"time":"2026-06-10T09:49:53.044Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: Docker gateway reachable"}
+{"level":30,"time":"2026-06-10T09:49:53.044Z","endpointId":1,"endpointName":"primary","msg":"endpoint validation: auto-selected endpoint"}
+{"level":30,"time":"2026-06-10T09:49:53.136Z","endpoint":{"id":1,"name":"primary"},"msg":"health check: scanning started"}
+{"level":30,"time":"2026-06-10T09:49:54.872Z","stackCount":9,"serviceCount":31,"taskCount":143,"containerCount":40,"msg":"health check: Docker and Portainer resources fetched"}
+{"level":30,"time":"2026-06-10T09:49:55.884Z","stackName":"qsgbin-amr-pub-db","stackStatus":"warning","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:49:57.087Z","stackName":"qsgbin-amr-pub","serviceName":"qsgbin-amr-pub_migration","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:49:58.028Z","stackName":"qsgbin-amr-pub","stackStatus":"healthy","serviceCount":11,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:49:58.028Z","stackName":"qsgbin-amr-pub-configure","serviceName":"qsgbin-amr-pub-configure_configurator","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:49:58.028Z","stackName":"qsgbin-amr-pub-configure","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:49:58.028Z","stackName":"qsgbin-amr-pub-site","serviceName":"qsgbin-amr-pub-site_configurator","status":"failed","migrationStatus":"failed","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:49:58.029Z","stackName":"qsgbin-amr-pub-site","stackStatus":"critical","serviceCount":1,"msg":"stack scan complete"}
+{"level":30,"time":"2026-06-10T09:49:58.072Z","stackName":"blue-amr-pub-db","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:49:58.811Z","stackName":"blue-amr-pub","serviceName":"blue-amr-pub_migration","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:50:00.548Z","stackName":"blue-amr-pub","stackStatus":"healthy","serviceCount":11,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:50:00.548Z","stackName":"blue-amr-pub-config","serviceName":"blue-amr-pub-config_configurator","status":"complete","migrationStatus":"complete","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:50:00.548Z","stackName":"blue-amr-pub-config","stackStatus":"healthy","serviceCount":1,"msg":"stack scan complete"}
+{"level":40,"time":"2026-06-10T09:50:00.548Z","stackName":"blue-amr-pub-site","serviceName":"blue-amr-pub-site_configurator","status":"failed","migrationStatus":"failed","desiredReplicas":1,"runningReplicas":0,"msg":"service scan: issue detected"}
+{"level":30,"time":"2026-06-10T09:50:00.548Z","stackName":"blue-amr-pub-site","stackStatus":"critical","serviceCount":1,"msg":"stack scan complete"}
+{"level":30,"time":"2026-06-10T09:50:00.560Z","summary":{"totalStacks":8,"healthyStacks":5,"warningStacks":1,"criticalStacks":2,"totalServices":28,"runningServices":22,"partialServices":0,"readyServices":0,"preparingServices":0,"completedServices":4,"failedServices":2,"unavailableServices":0,"migrationServices":6,"completedMigrations":4,"failedMigrations":2,"pendingMigrations":0,"totalContainers":34,"healthyContainers":2,"unhealthyContainers":0,"unknownHealthContainers":31},"reportPath":"reports\\bench-health-report-2026-06-10-15-20-00.json","msg":"health check complete"}

@@ -1,0 +1,1638 @@
+{
+  "startedAt": "2026-06-10T09:14:47.265Z",
+  "finishedAt": "2026-06-10T09:14:49.467Z",
+  "endpoint": {
+    "id": 1,
+    "name": "primary"
+  },
+  "summary": {
+    "totalStacks": 8,
+    "healthyStacks": 5,
+    "warningStacks": 1,
+    "criticalStacks": 2,
+    "totalServices": 28,
+    "runningServices": 22,
+    "partialServices": 0,
+    "readyServices": 0,
+    "preparingServices": 0,
+    "completedServices": 4,
+    "failedServices": 2,
+    "unavailableServices": 0,
+    "migrationServices": 6,
+    "completedMigrations": 4,
+    "failedMigrations": 2,
+    "pendingMigrations": 0,
+    "totalContainers": 34,
+    "healthyContainers": 2,
+    "unhealthyContainers": 0,
+    "unknownHealthContainers": 31
+  },
+  "stacks": [
+    {
+      "stackName": "qsgbin-amr-pub-db",
+      "status": "warning",
+      "services": [
+        {
+          "serviceName": "qsgbin-amr-pub-db_db",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 2 rejected, 2 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "tqq1iaveu4uyvh956dv9l97up",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "failed to lookup digest: Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "v7cc5e4ig1c40bcqfufs5p2x8",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "x4v6lmairswoxv5zdk15mvkie",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "yvyztgegnauz7y2yuxu8t64m6",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "zmszkmyfva07w1mk6qj9pbxkv",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "cf82d4ed0ba7a828306fb5fcf04b17dc49307720ce6c436771400b5392d4eff3",
+              "containerName": "qsgbin-amr-pub-db_db.1.x4v6lmairswoxv5zdk15mvkie",
+              "state": "running",
+              "status": "Up 3 hours (healthy)",
+              "health": "healthy",
+              "reason": "mysqld is alive"
+            },
+            {
+              "containerId": "9e54637fa4c99bab455af696e58fc45375c363d9a2272e139d0bb15b761491b4",
+              "containerName": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "starting",
+              "reason": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stackName": "qsgbin-amr-pub",
+      "status": "healthy",
+      "services": [
+        {
+          "serviceName": "qsgbin-amr-pub_backend",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "2dtuju35zndt6k8i7uwvx8zyk",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            },
+            {
+              "taskId": "7a1m1she0qbdfekj5krt9y0c2",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "h43srqxd8y15cg6p75f6f6uy4",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "mdzf44tc2rs4wbjfczq0vzcbq",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "uzrjjhqzrhzn3yfq1nun9u5ka",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "27bf51268e28bcc47a397d3124787399548c51b1e88c2823d7d3fe973050c059",
+              "containerName": "qsgbin-amr-pub_backend.1.h43srqxd8y15cg6p75f6f6uy4",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "fa987d5e264f3fa7beb712b9f4117a0c19a571d18fcc56176d19127cf2de2a9a",
+              "containerName": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_queue-long",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "4jvhsupgvcle113zdryew4zep",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "5rzr4ewi3tyt9aj27lp8sbi3j",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "8hn3e7nm7xf4496rnzm5cdwqm",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "8thjkabki5ldr4d38819uwz3q",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            },
+            {
+              "taskId": "tupo9074hywohqtce36yr08av",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "5077e51a3217d5f7bab59fdf4df48d0bdc4a5f20ff07b402d729b645176857a7",
+              "containerName": "qsgbin-amr-pub_queue-long.1.tupo9074hywohqtce36yr08av",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "25673afa10c8bb1d7cb18fe02ca1e4fa24ee4d8bea949bab9ff679a29fd7709b",
+              "containerName": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_migration",
+          "desiredReplicas": 1,
+          "runningReplicas": 0,
+          "status": "complete",
+          "migrationStatus": "complete",
+          "notes": [
+            "migration check: qsgbin-amr-pub_migration is complete"
+          ],
+          "tasks": [
+            {
+              "taskId": "jf3lyn0sud14ef9hqbm7pclt3",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            }
+          ],
+          "containers": []
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_websocket",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "6vg023zj232k508a4ylg4l19c",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "9w3n7die8bygzkenhh7rkofg9",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "e6etgeh45z07bjzpohkbajonf",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "x7mrfzw46enu4u37ofh0pf9jx",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "zqa9utzff85pfn477ev85w9z0",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "001a508dc0373bed5c2848be551a40aebf5b4cad6f9992b244d08ae50f1da101",
+              "containerName": "qsgbin-amr-pub_websocket.1.9w3n7die8bygzkenhh7rkofg9",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_queue-short",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "etk9nwi1ehybay4jrmys20xe7",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "i1kohkctprx2hjj1qcl7hn3xe",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "ksm3qd5hwajasr9f0vr2nd913",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "lfruc3corkflnjgsa3amj8qmi",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "qyp20ix0keladwgghtvfurdut",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "ad74f12eb4afeb93a373492e1ef96cc1fcac644d42371ed7a4a5c116f940c5bd",
+              "containerName": "qsgbin-amr-pub_queue-short.1.i1kohkctprx2hjj1qcl7hn3xe",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "e92c5125b2933defd6cfacf81f2c9ceff7184a04636dc9c0231b33795d135e17",
+              "containerName": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_redis-socketio",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 2 rejected, 2 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "1uux9knob3okbco6rwbtki635",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "5xrzr7l6e2y5m9qaa6z7v2i0e",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "nk77i8f1ylgxe7rw6x3x2obqk",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "op8aia0lphwrgbxxp2tr4nrtb",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "w9w8xpyp6ig11ybgkyzc5dcnj",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "61377b4d065e11a17c45d2273e1ac079f93c17810cff98bb4fe30b1421526d68",
+              "containerName": "qsgbin-amr-pub_redis-socketio.1.nk77i8f1ylgxe7rw6x3x2obqk",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_redis-cache",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 rejected"
+          ],
+          "tasks": [
+            {
+              "taskId": "l2tnt7twpcp4z6sgh7eidgidn",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "m3o88g1x2dn1y8zwi70prxw1l",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            },
+            {
+              "taskId": "qx0p9b4434xi2z29kyakyvogg",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "u2hyurltkscen5bwo85q4sg48",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "rpc error: code = Canceled desc = rpc error: code = Canceled desc = context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "ufn1q0znit34maa3m57h7tcy9",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "8c4b9d79ec664b20a90f97f9e963287d8f708f6f34858959cc6c8c0e9716d6fa",
+              "containerName": "qsgbin-amr-pub_redis-cache.1.qx0p9b4434xi2z29kyakyvogg",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_scheduler",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "3rm80oxnx5pf4cl21uwdbj2kk",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "f74ye0vmh64f5mfo72mdos2ox",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "knlk2nat23zyepz1ltz9hmnwt",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "mqhthnmyq8ijm7o9na18rw49j",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "qotalakmui1ippeq3mab0twae",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "d9a6db0877a60aab8167660b4191d3aa9fa74b2e4bd50888466936b69a721bea",
+              "containerName": "qsgbin-amr-pub_scheduler.1.mqhthnmyq8ijm7o9na18rw49j",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "bec58f5b2051942dc6cb1415ade0ce425350cbb6c3a23a5c8682b28230ca1dd3",
+              "containerName": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_redis-queue",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 2 rejected, 2 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "i7dhxbnqx7tyipbjvjs9y44ce",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "k1l1grc9y1fjuz54fbn9q17cr",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "m3g90d536j0pwgmwqffp4vr0w",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "oql8c99un7ma8zyncepghtxg2",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "rmpak95r2hjv8qx9i8nf8yf2b",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "58c26af6f0f4204f1c1fb6002893bde8333b938fbe2df83bb9e25133e40156d9",
+              "containerName": "qsgbin-amr-pub_redis-queue.1.k1l1grc9y1fjuz54fbn9q17cr",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "04e6dafb53a7292d4dffdd1e58106e05e8a2a83a584e4cd4a0b0f5804acac818",
+              "containerName": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_queue-default",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "b6ylwk3mdsi0pcg3ftty8kb5l",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "nnh4bv04f4ltzvpqv6ad9bwp4",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "nyh8bjdmse9dyho28z6qlbgwz",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "u49z7jmzg9uld5tu7tra2xplw",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "vw0h8m5ga9mn3hdz1fpe1g1bp",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "990c3a21ead26fc6b410275c4985f1f1d2ef18cf8a56dd5652fdddcdb384efa5",
+              "containerName": "qsgbin-amr-pub_queue-default.1.u49z7jmzg9uld5tu7tra2xplw",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "e58924228d5b05e155346b0f8dd2cc71ebbc7b0f7152a70e4bed6ed92ec245fe",
+              "containerName": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "qsgbin-amr-pub_frontend",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "c4trct95gg6y2duh5prp6iboa",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "jcpxr6gecchk4usi33a96knzh",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "rles07af7gq14ffco2yfb1koo",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "y9ru2bke5z98i1np4c0nhmoyh",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "yu1zb86fzjik1iysk7l2zobb8",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "b24379b5b01577f8239fe529ca01573322aa608248d011893c3eba004d348154",
+              "containerName": "qsgbin-amr-pub_frontend.1.rles07af7gq14ffco2yfb1koo",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stackName": "qsgbin-amr-pub-configure",
+      "status": "healthy",
+      "services": [
+        {
+          "serviceName": "qsgbin-amr-pub-configure_configurator",
+          "desiredReplicas": 1,
+          "runningReplicas": 0,
+          "status": "complete",
+          "migrationStatus": "complete",
+          "notes": [
+            "migration check: qsgbin-amr-pub-configure_configurator is complete"
+          ],
+          "tasks": [
+            {
+              "taskId": "lhf1gteuyjvumhvd0ibjadi4w",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            }
+          ],
+          "containers": []
+        }
+      ]
+    },
+    {
+      "stackName": "qsgbin-amr-pub-site",
+      "status": "critical",
+      "services": [
+        {
+          "serviceName": "qsgbin-amr-pub-site_configurator",
+          "desiredReplicas": 1,
+          "runningReplicas": 0,
+          "status": "failed",
+          "migrationStatus": "failed",
+          "notes": [
+            "0/1 replicas running",
+            "task history only, current service is OK: 3 failed",
+            "migration check: qsgbin-amr-pub-site_configurator is failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "edfxp417tfwmu4ztexmejzzh3",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            },
+            {
+              "taskId": "nx439lr8tjvksc28ykmpduks6",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "r2modxw2ck3pkoh03i6qs8861",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            },
+            {
+              "taskId": "wogvwq6rob0ryw9ubb8478r0m",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "xs3k2m55m6vlth61ur5rpfiin",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            }
+          ],
+          "containers": []
+        }
+      ]
+    },
+    {
+      "stackName": "blue-amr-pub-db",
+      "status": "healthy",
+      "services": [
+        {
+          "serviceName": "blue-amr-pub-db_db",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "ghm2n2t3kxxylnu00x16b34hg",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "k12901g2n2twf4hnibrxxiswu",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "lgnrz53jaho8armwgon3o3f57",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "lsaqtxseuvwt0b48baatwcqe7",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "yn2rppqaer1uo0yp1xwx6bqn9",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "83f62d6c8ae69f7ff527b75d57eec3664530dc4dae8753ba8b23749e94d32f6a",
+              "containerName": "blue-amr-pub-db_db.1.k12901g2n2twf4hnibrxxiswu",
+              "state": "running",
+              "status": "Up 3 hours (healthy)",
+              "health": "healthy",
+              "reason": "mysqld is alive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stackName": "blue-amr-pub",
+      "status": "healthy",
+      "services": [
+        {
+          "serviceName": "blue-amr-pub_backend",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "firwctnacr4s846tpqn04ydqk",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "oi0v2dzuod5bmc4wkeganinq9",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "ugasklkf67mreocxnz6wfhsu9",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "vhau0u37hh26x6d54ldr1usfu",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "vkvwp0m8ogtyd4raxruwy7as8",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "c09b95086ee16c213bd565daa58ba48782fbde5a58286a9dd867d8c71e851c28",
+              "containerName": "blue-amr-pub_backend.1.firwctnacr4s846tpqn04ydqk",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_frontend",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "d8gfdlzcz3cvv3m8sq7yh3shc",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "no3601o8ob5dn8hg6g6au2rxs",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "on3rw9yfs2tajqyqhiwa9u0fh",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "rm6niqex0udqixa7zhyfepo9t",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "s7gb4keprkk6mljkxjvnc4el9",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "b1aa887bc13221250dce50bf324b776289e73dd637c4102a73eff23afb936da3",
+              "containerName": "blue-amr-pub_frontend.1.d8gfdlzcz3cvv3m8sq7yh3shc",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "58c7cacd0729840dc7970ed03c3eee674b6cc7caeb59da94bf72f9eeaf597e42",
+              "containerName": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_scheduler",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "4cti29hs54c4yk544psunkhq9",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "ea5m99f0n34qg24h5ogcj1fte",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "etn85dqrp8y40kzo2h9d1ly0f",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "itsuxlxsvaioa8eboev0qsxt8",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "obdtlwykxdbv3bftgb7j5h0em",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "bd2719ecdd8c9a8dd3b1bda5389122b1557781615e83df0fbacf9d84fb215422",
+              "containerName": "blue-amr-pub_scheduler.1.4cti29hs54c4yk544psunkhq9",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_redis-queue",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed, 1 rejected"
+          ],
+          "tasks": [
+            {
+              "taskId": "7en37cnvq0u1t0y6o7c31bdth",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "8a7htw2w0zqo3fpihxg7ztgw5",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "ch2kti6lmsgwxekn9wc3o2ers",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "qfftt6ewq8ta4alv21s9rya0q",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "rh3sul14fhyswz2ckzvyemn6v",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "f3ee1cea0f2eadc972fd5c2ef5470bb736b30cfd664daa5be58dbc05455fd505",
+              "containerName": "blue-amr-pub_redis-queue.1.ch2kti6lmsgwxekn9wc3o2ers",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "c08ad291f2a6c96d77bcaa57539b545d3c3b1accd8f2f632b5b819961d19184f",
+              "containerName": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_queue-default",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 1 rejected, 2 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "kfmlxbzsy2n53nvf80nlfi4oi",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "kxs4lxwv5mtmlgmuyfeqwokev",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "oa6tcilsqm09tvozqtdkv0giv",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "pgacfi7wxolux0g2kw4g2g28f",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "yvqxjlprg9oz5fmh8xr1mdm1s",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "c1ae76fb2b8e326be513f836f245330a970cb7de63d595ffb9a8d74f69d2a569",
+              "containerName": "blue-amr-pub_queue-default.1.oa6tcilsqm09tvozqtdkv0giv",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "a0030f6e50c7de536446f42fe040b3fe6926cfc141a063895c7380f7e87e09e1",
+              "containerName": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_migration",
+          "desiredReplicas": 1,
+          "runningReplicas": 0,
+          "status": "complete",
+          "migrationStatus": "complete",
+          "notes": [
+            "migration check: blue-amr-pub_migration is complete"
+          ],
+          "tasks": [
+            {
+              "taskId": "tmicitlt33qgupps4w9z6cxyn",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            }
+          ],
+          "containers": []
+        },
+        {
+          "serviceName": "blue-amr-pub_queue-long",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "08afwtj4vstdy8nx4cxg3a4sf",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "4iy75vkgmws4exfyfltnxivrn",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "crkaccd53xg1vg7s7jicyuesb",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "ofyotgy6qfzmgucz6hhzcflsb",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            },
+            {
+              "taskId": "xt1qujtktvwldv4vaolzokqhp",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "e66c16f72f779d52f3258fd4b88186714e21b6d2559784e94b3f554af9288d7b",
+              "containerName": "blue-amr-pub_queue-long.1.08afwtj4vstdy8nx4cxg3a4sf",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "6c766539c4ea72a1bb962f9bc6f1e28578cc0b1104b3303b9a154184e9fd9a81",
+              "containerName": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_queue-short",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "bgogq1rkyztn63ayj7bemxt73",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "mz1zgav3ub1utdw550to72kxl",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "n7wk6r94yc27um9nu1e24lxf7",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "v1thg88xkejpef975f0vaatyu",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "xm48d5r3dffjhz2p17s28116m",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "5e6339c3f7bcf48f42022caf910924f196b9df6ac0fcd54fcb765208b2be3080",
+              "containerName": "blue-amr-pub_queue-short.1.xm48d5r3dffjhz2p17s28116m",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            },
+            {
+              "containerId": "1d86b609337da898f33f31ffddc04f86d20aef05fb2407aa32eb9fa57a4dbdea",
+              "containerName": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73",
+              "state": "exited",
+              "status": "Exited (255) 3 hours ago",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_redis-socketio",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed, 1 rejected"
+          ],
+          "tasks": [
+            {
+              "taskId": "l5t23hc725nqun385dch5tyhk",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "r6aagvdci3q83i7zh5xgvw1df",
+              "desiredState": "shutdown",
+              "currentState": "rejected",
+              "error": "Canceled: context canceled",
+              "message": "preparing"
+            },
+            {
+              "taskId": "ul8r1p11kaebjyqqvth92lawg",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "vjdquo5g5aneq75mgis9gukmg",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "zr0qts3bs7cmdzmiys2sar4i0",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "715264bca7697dc5d2ea5b9bfa0e746b6c0731668424b1e10675f83f854e8520",
+              "containerName": "blue-amr-pub_redis-socketio.1.zr0qts3bs7cmdzmiys2sar4i0",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_websocket",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 3 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "79bc9u4gdlyvbzh235ryjwtw8",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "em8bmpu8v2f7etmjenu49fnxl",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "id2jfkrt2i34cb1wvcw99alch",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            },
+            {
+              "taskId": "ufo6o1z8n7iaqn8t61kd42q0k",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "z2comk9z2qtgoeusyx6hr3k4f",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "f49c26a926af44888660e6a666f153ecef648dd20675d476e397e48eebe8cedc",
+              "containerName": "blue-amr-pub_websocket.1.79bc9u4gdlyvbzh235ryjwtw8",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        },
+        {
+          "serviceName": "blue-amr-pub_redis-cache",
+          "desiredReplicas": 1,
+          "runningReplicas": 1,
+          "status": "running",
+          "migrationStatus": "not-migration",
+          "notes": [
+            "task history only, current service is OK: 4 failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "k0z8vsdw50wv28qm8lv49d2ew",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "qnd1nsbk6azexjscdxira18gf",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "w7ccvvrvazxfzrfhkwt0kg02e",
+              "desiredState": "running",
+              "currentState": "running",
+              "error": "",
+              "message": "started"
+            },
+            {
+              "taskId": "x2hi9vb8yhuo4eiya9bxz0fwt",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            },
+            {
+              "taskId": "x5nqzhmmhqtlp7e8rih84gu6h",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (255)",
+              "message": "started"
+            }
+          ],
+          "containers": [
+            {
+              "containerId": "14eec38e5a3d14c29bf7c5494114ac8e3270b856e8a4e5251f26a576e81fb149",
+              "containerName": "blue-amr-pub_redis-cache.1.w7ccvvrvazxfzrfhkwt0kg02e",
+              "state": "running",
+              "status": "Up 3 hours",
+              "health": "unknown",
+              "reason": "no health check or health data unavailable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stackName": "blue-amr-pub-config",
+      "status": "healthy",
+      "services": [
+        {
+          "serviceName": "blue-amr-pub-config_configurator",
+          "desiredReplicas": 1,
+          "runningReplicas": 0,
+          "status": "complete",
+          "migrationStatus": "complete",
+          "notes": [
+            "migration check: blue-amr-pub-config_configurator is complete"
+          ],
+          "tasks": [
+            {
+              "taskId": "av6tp5otpugicho54ccioil3u",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            },
+            {
+              "taskId": "i5nzfuc6xayfo7sprbpp1jrzg",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            },
+            {
+              "taskId": "lagufmfsly98dbiu05n7hmnkp",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            },
+            {
+              "taskId": "ljqmzkw6i0g54qh7ufljcaruj",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            },
+            {
+              "taskId": "p8avrfvjbweau4jy43fiyx6yx",
+              "desiredState": "shutdown",
+              "currentState": "complete",
+              "error": "",
+              "message": "finished"
+            }
+          ],
+          "containers": []
+        }
+      ]
+    },
+    {
+      "stackName": "blue-amr-pub-site",
+      "status": "critical",
+      "services": [
+        {
+          "serviceName": "blue-amr-pub-site_configurator",
+          "desiredReplicas": 1,
+          "runningReplicas": 0,
+          "status": "failed",
+          "migrationStatus": "failed",
+          "notes": [
+            "0/1 replicas running",
+            "task history only, current service is OK: 4 failed",
+            "migration check: blue-amr-pub-site_configurator is failed"
+          ],
+          "tasks": [
+            {
+              "taskId": "i6ckd3srls5q4n7j69nprdm7c",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "kbcoeyc0bf4zv1j1y8whz0urr",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "llyt26n61r6mrg5wp9aunzr6a",
+              "desiredState": "shutdown",
+              "currentState": "shutdown",
+              "error": "",
+              "message": "shutdown"
+            },
+            {
+              "taskId": "qlnocbpk1zerda5j1e6bgy37q",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            },
+            {
+              "taskId": "t74h6jnjqko7j5fztxhp3koxh",
+              "desiredState": "shutdown",
+              "currentState": "failed",
+              "error": "task: non-zero exit (1)",
+              "message": "started"
+            }
+          ],
+          "containers": []
+        }
+      ]
+    }
+  ]
+}

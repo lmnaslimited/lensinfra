@@ -1,0 +1,1545 @@
+{
+  "startedAt": "2026-06-10T06:22:32.832Z",
+  "finishedAt": "2026-06-10T06:27:27.596Z",
+  "endpointId": "1",
+  "dryRun": false,
+  "summary": {
+    "deleted": 7,
+    "candidates": 107,
+    "skipped": 12,
+    "failed": 1
+  },
+  "containers": {
+    "candidates": [
+      {
+        "id": "a32234d7b0af",
+        "name": "qsgbin-amr-pub_frontend.1.jcpxr6gecchk4usi33a96knzh",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (1) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ybdrl9kgkl5gfyp7b3yyzjyxh",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_frontend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "jcpxr6gecchk4usi33a96knzh",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_frontend.1.jcpxr6gecchk4usi33a96knzh"
+        },
+        "serviceName": "qsgbin-amr-pub_frontend",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_frontend.1.jcpxr6gecchk4usi33a96knzh"
+      },
+      {
+        "id": "de3c0e5b7b85",
+        "name": "qsgbin-amr-pub_frontend.1.c4trct95gg6y2duh5prp6iboa",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ybdrl9kgkl5gfyp7b3yyzjyxh",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_frontend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "c4trct95gg6y2duh5prp6iboa",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_frontend.1.c4trct95gg6y2duh5prp6iboa"
+        },
+        "serviceName": "qsgbin-amr-pub_frontend",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_frontend.1.c4trct95gg6y2duh5prp6iboa"
+      },
+      {
+        "id": "04e6dafb53a7",
+        "name": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "vh2gpivwrfrzmflm731jkdx4p",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_redis-queue",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "m3g90d536j0pwgmwqffp4vr0w",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w"
+        },
+        "serviceName": "qsgbin-amr-pub_redis-queue",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w"
+      },
+      {
+        "id": "9e54637fa4c9",
+        "name": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8",
+        "image": "mariadb:10.6@sha256:4c3275637f1327ca41c54dff174e5430ec825a92ccb60dc11feecaa5f7d1bfd0",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub-db",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub-db",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ukp41ri8tctuyrvbwt6mpawlk",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub-db_db",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "v7cc5e4ig1c40bcqfufs5p2x8",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8",
+          "org.opencontainers.image.authors": "MariaDB Community",
+          "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+          "org.opencontainers.image.description": "MariaDB Database for relational SQL",
+          "org.opencontainers.image.documentation": "https://hub.docker.com/_/mariadb/",
+          "org.opencontainers.image.licenses": "GPL-2.0",
+          "org.opencontainers.image.ref.name": "ubuntu",
+          "org.opencontainers.image.source": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.title": "MariaDB Database",
+          "org.opencontainers.image.url": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.vendor": "MariaDB Community",
+          "org.opencontainers.image.version": "10.6.25"
+        },
+        "serviceName": "qsgbin-amr-pub-db_db",
+        "stackNamespace": "qsgbin-amr-pub-db",
+        "taskName": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8"
+      },
+      {
+        "id": "25673afa10c8",
+        "name": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "33hq1dmgzrqqqu73yc1o7rdqz",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_queue-long",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "8hn3e7nm7xf4496rnzm5cdwqm",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm"
+        },
+        "serviceName": "qsgbin-amr-pub_queue-long",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm"
+      },
+      {
+        "id": "e92c5125b293",
+        "name": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "gkljamkhdhkshzudu22gvbnud",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_queue-short",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "etk9nwi1ehybay4jrmys20xe7",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7"
+        },
+        "serviceName": "qsgbin-amr-pub_queue-short",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7"
+      },
+      {
+        "id": "fa987d5e264f",
+        "name": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "0kac5ee4ljyyakzqeaxlnzyi7",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_backend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "uzrjjhqzrhzn3yfq1nun9u5ka",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka"
+        },
+        "serviceName": "qsgbin-amr-pub_backend",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka"
+      },
+      {
+        "id": "bec58f5b2051",
+        "name": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "tyvc0l3rl3v9n0yla8ld5hzn9",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_scheduler",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "qotalakmui1ippeq3mab0twae",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae"
+        },
+        "serviceName": "qsgbin-amr-pub_scheduler",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae"
+      },
+      {
+        "id": "e58924228d5b",
+        "name": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "xclew8cngb823xpzh5hd6j3rj",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_queue-default",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "b6ylwk3mdsi0pcg3ftty8kb5l",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l"
+        },
+        "serviceName": "qsgbin-amr-pub_queue-default",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l"
+      },
+      {
+        "id": "d9cd85f99d83",
+        "name": "blue-amr-pub-db_db.1.lsaqtxseuvwt0b48baatwcqe7",
+        "image": "mariadb:10.6@sha256:16092512d3b105aca86586a12c704a89e8f33e369cfc164f00d11baa923504e9",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub-db",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub-db",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "nfnnjyp0ldf62saoaoiro0q3w",
+          "com.docker.swarm.service.name": "blue-amr-pub-db_db",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "lsaqtxseuvwt0b48baatwcqe7",
+          "com.docker.swarm.task.name": "blue-amr-pub-db_db.1.lsaqtxseuvwt0b48baatwcqe7",
+          "org.opencontainers.image.authors": "MariaDB Community",
+          "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+          "org.opencontainers.image.description": "MariaDB Database for relational SQL",
+          "org.opencontainers.image.documentation": "https://hub.docker.com/_/mariadb/",
+          "org.opencontainers.image.licenses": "GPL-2.0",
+          "org.opencontainers.image.source": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.title": "MariaDB Database",
+          "org.opencontainers.image.url": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.vendor": "MariaDB Community",
+          "org.opencontainers.image.version": "10.6.25"
+        },
+        "serviceName": "blue-amr-pub-db_db",
+        "stackNamespace": "blue-amr-pub-db",
+        "taskName": "blue-amr-pub-db_db.1.lsaqtxseuvwt0b48baatwcqe7"
+      },
+      {
+        "id": "58a6196dce24",
+        "name": "blue-amr-pub_scheduler.1.etn85dqrp8y40kzo2h9d1ly0f",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "d2wiozo6wu5nnk8rt9duvfd7e",
+          "com.docker.swarm.service.name": "blue-amr-pub_scheduler",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "etn85dqrp8y40kzo2h9d1ly0f",
+          "com.docker.swarm.task.name": "blue-amr-pub_scheduler.1.etn85dqrp8y40kzo2h9d1ly0f"
+        },
+        "serviceName": "blue-amr-pub_scheduler",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_scheduler.1.etn85dqrp8y40kzo2h9d1ly0f"
+      },
+      {
+        "id": "91b907b67167",
+        "name": "blue-amr-pub_backend.1.ugasklkf67mreocxnz6wfhsu9",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "2l4t5vi82mqi8izscwwljk5ef",
+          "com.docker.swarm.service.name": "blue-amr-pub_backend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "ugasklkf67mreocxnz6wfhsu9",
+          "com.docker.swarm.task.name": "blue-amr-pub_backend.1.ugasklkf67mreocxnz6wfhsu9"
+        },
+        "serviceName": "blue-amr-pub_backend",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_backend.1.ugasklkf67mreocxnz6wfhsu9"
+      },
+      {
+        "id": "a0030f6e50c7",
+        "name": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "j5q70cdr7ooohib9h1tvw1kfe",
+          "com.docker.swarm.service.name": "blue-amr-pub_queue-default",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "kxs4lxwv5mtmlgmuyfeqwokev",
+          "com.docker.swarm.task.name": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev"
+        },
+        "serviceName": "blue-amr-pub_queue-default",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev"
+      },
+      {
+        "id": "1d86b609337d",
+        "name": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "on1lcxjghzqntlr85r6rxkoi6",
+          "com.docker.swarm.service.name": "blue-amr-pub_queue-short",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "bgogq1rkyztn63ayj7bemxt73",
+          "com.docker.swarm.task.name": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73"
+        },
+        "serviceName": "blue-amr-pub_queue-short",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73"
+      },
+      {
+        "id": "6c766539c4ea",
+        "name": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "kjk2e8rqf8kgh9ga0uuagnse1",
+          "com.docker.swarm.service.name": "blue-amr-pub_queue-long",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "4iy75vkgmws4exfyfltnxivrn",
+          "com.docker.swarm.task.name": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn"
+        },
+        "serviceName": "blue-amr-pub_queue-long",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn"
+      },
+      {
+        "id": "58c7cacd0729",
+        "name": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "d0wzzfa463mxf9gwmsul03i99",
+          "com.docker.swarm.service.name": "blue-amr-pub_frontend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "no3601o8ob5dn8hg6g6au2rxs",
+          "com.docker.swarm.task.name": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs"
+        },
+        "serviceName": "blue-amr-pub_frontend",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs"
+      },
+      {
+        "id": "c08ad291f2a6",
+        "name": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ivh2o7wcgg80lx80jo58786l6",
+          "com.docker.swarm.service.name": "blue-amr-pub_redis-queue",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "rh3sul14fhyswz2ckzvyemn6v",
+          "com.docker.swarm.task.name": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v"
+        },
+        "serviceName": "blue-amr-pub_redis-queue",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v"
+      },
+      {
+        "id": "e46fee0edc5b",
+        "name": "blue-amr-pub_redis-socketio.1.vjdquo5g5aneq75mgis9gukmg",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "rfm9rbqcskzvev8dt961tww52",
+          "com.docker.swarm.service.name": "blue-amr-pub_redis-socketio",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "vjdquo5g5aneq75mgis9gukmg",
+          "com.docker.swarm.task.name": "blue-amr-pub_redis-socketio.1.vjdquo5g5aneq75mgis9gukmg"
+        },
+        "serviceName": "blue-amr-pub_redis-socketio",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_redis-socketio.1.vjdquo5g5aneq75mgis9gukmg"
+      },
+      {
+        "id": "d051ad2108e8",
+        "name": "blue-amr-pub_redis-cache.1.x5nqzhmmhqtlp7e8rih84gu6h",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "zpn1wiam55nck6jw1eu2s8sxc",
+          "com.docker.swarm.service.name": "blue-amr-pub_redis-cache",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "x5nqzhmmhqtlp7e8rih84gu6h",
+          "com.docker.swarm.task.name": "blue-amr-pub_redis-cache.1.x5nqzhmmhqtlp7e8rih84gu6h"
+        },
+        "serviceName": "blue-amr-pub_redis-cache",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_redis-cache.1.x5nqzhmmhqtlp7e8rih84gu6h"
+      }
+    ],
+    "deleted": [
+      {
+        "id": "a32234d7b0af",
+        "name": "qsgbin-amr-pub_frontend.1.jcpxr6gecchk4usi33a96knzh",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (1) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ybdrl9kgkl5gfyp7b3yyzjyxh",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_frontend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "jcpxr6gecchk4usi33a96knzh",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_frontend.1.jcpxr6gecchk4usi33a96knzh"
+        },
+        "serviceName": "qsgbin-amr-pub_frontend",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_frontend.1.jcpxr6gecchk4usi33a96knzh"
+      },
+      {
+        "id": "de3c0e5b7b85",
+        "name": "qsgbin-amr-pub_frontend.1.c4trct95gg6y2duh5prp6iboa",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: qsgbin-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ybdrl9kgkl5gfyp7b3yyzjyxh",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_frontend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "c4trct95gg6y2duh5prp6iboa",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_frontend.1.c4trct95gg6y2duh5prp6iboa"
+        },
+        "serviceName": "qsgbin-amr-pub_frontend",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_frontend.1.c4trct95gg6y2duh5prp6iboa"
+      },
+      {
+        "id": "d9cd85f99d83",
+        "name": "blue-amr-pub-db_db.1.lsaqtxseuvwt0b48baatwcqe7",
+        "image": "mariadb:10.6@sha256:16092512d3b105aca86586a12c704a89e8f33e369cfc164f00d11baa923504e9",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub-db",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub-db",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "nfnnjyp0ldf62saoaoiro0q3w",
+          "com.docker.swarm.service.name": "blue-amr-pub-db_db",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "lsaqtxseuvwt0b48baatwcqe7",
+          "com.docker.swarm.task.name": "blue-amr-pub-db_db.1.lsaqtxseuvwt0b48baatwcqe7",
+          "org.opencontainers.image.authors": "MariaDB Community",
+          "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+          "org.opencontainers.image.description": "MariaDB Database for relational SQL",
+          "org.opencontainers.image.documentation": "https://hub.docker.com/_/mariadb/",
+          "org.opencontainers.image.licenses": "GPL-2.0",
+          "org.opencontainers.image.source": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.title": "MariaDB Database",
+          "org.opencontainers.image.url": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.vendor": "MariaDB Community",
+          "org.opencontainers.image.version": "10.6.25"
+        },
+        "serviceName": "blue-amr-pub-db_db",
+        "stackNamespace": "blue-amr-pub-db",
+        "taskName": "blue-amr-pub-db_db.1.lsaqtxseuvwt0b48baatwcqe7"
+      },
+      {
+        "id": "58a6196dce24",
+        "name": "blue-amr-pub_scheduler.1.etn85dqrp8y40kzo2h9d1ly0f",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "d2wiozo6wu5nnk8rt9duvfd7e",
+          "com.docker.swarm.service.name": "blue-amr-pub_scheduler",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "etn85dqrp8y40kzo2h9d1ly0f",
+          "com.docker.swarm.task.name": "blue-amr-pub_scheduler.1.etn85dqrp8y40kzo2h9d1ly0f"
+        },
+        "serviceName": "blue-amr-pub_scheduler",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_scheduler.1.etn85dqrp8y40kzo2h9d1ly0f"
+      },
+      {
+        "id": "91b907b67167",
+        "name": "blue-amr-pub_backend.1.ugasklkf67mreocxnz6wfhsu9",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "2l4t5vi82mqi8izscwwljk5ef",
+          "com.docker.swarm.service.name": "blue-amr-pub_backend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "ugasklkf67mreocxnz6wfhsu9",
+          "com.docker.swarm.task.name": "blue-amr-pub_backend.1.ugasklkf67mreocxnz6wfhsu9"
+        },
+        "serviceName": "blue-amr-pub_backend",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_backend.1.ugasklkf67mreocxnz6wfhsu9"
+      },
+      {
+        "id": "e46fee0edc5b",
+        "name": "blue-amr-pub_redis-socketio.1.vjdquo5g5aneq75mgis9gukmg",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "rfm9rbqcskzvev8dt961tww52",
+          "com.docker.swarm.service.name": "blue-amr-pub_redis-socketio",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "vjdquo5g5aneq75mgis9gukmg",
+          "com.docker.swarm.task.name": "blue-amr-pub_redis-socketio.1.vjdquo5g5aneq75mgis9gukmg"
+        },
+        "serviceName": "blue-amr-pub_redis-socketio",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_redis-socketio.1.vjdquo5g5aneq75mgis9gukmg"
+      },
+      {
+        "id": "d051ad2108e8",
+        "name": "blue-amr-pub_redis-cache.1.x5nqzhmmhqtlp7e8rih84gu6h",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "exited/dead container from active stack: blue-amr-pub",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "zpn1wiam55nck6jw1eu2s8sxc",
+          "com.docker.swarm.service.name": "blue-amr-pub_redis-cache",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "x5nqzhmmhqtlp7e8rih84gu6h",
+          "com.docker.swarm.task.name": "blue-amr-pub_redis-cache.1.x5nqzhmmhqtlp7e8rih84gu6h"
+        },
+        "serviceName": "blue-amr-pub_redis-cache",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_redis-cache.1.x5nqzhmmhqtlp7e8rih84gu6h"
+      }
+    ],
+    "skipped": [
+      {
+        "id": "04e6dafb53a7",
+        "name": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "vh2gpivwrfrzmflm731jkdx4p",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_redis-queue",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "m3g90d536j0pwgmwqffp4vr0w",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w"
+        },
+        "serviceName": "qsgbin-amr-pub_redis-queue",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_redis-queue.1.m3g90d536j0pwgmwqffp4vr0w"
+      },
+      {
+        "id": "9e54637fa4c9",
+        "name": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8",
+        "image": "mariadb:10.6@sha256:4c3275637f1327ca41c54dff174e5430ec825a92ccb60dc11feecaa5f7d1bfd0",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub-db",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ukp41ri8tctuyrvbwt6mpawlk",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub-db_db",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "v7cc5e4ig1c40bcqfufs5p2x8",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8",
+          "org.opencontainers.image.authors": "MariaDB Community",
+          "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+          "org.opencontainers.image.description": "MariaDB Database for relational SQL",
+          "org.opencontainers.image.documentation": "https://hub.docker.com/_/mariadb/",
+          "org.opencontainers.image.licenses": "GPL-2.0",
+          "org.opencontainers.image.ref.name": "ubuntu",
+          "org.opencontainers.image.source": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.title": "MariaDB Database",
+          "org.opencontainers.image.url": "https://github.com/MariaDB/mariadb-docker",
+          "org.opencontainers.image.vendor": "MariaDB Community",
+          "org.opencontainers.image.version": "10.6.25"
+        },
+        "serviceName": "qsgbin-amr-pub-db_db",
+        "stackNamespace": "qsgbin-amr-pub-db",
+        "taskName": "qsgbin-amr-pub-db_db.1.v7cc5e4ig1c40bcqfufs5p2x8"
+      },
+      {
+        "id": "25673afa10c8",
+        "name": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "33hq1dmgzrqqqu73yc1o7rdqz",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_queue-long",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "8hn3e7nm7xf4496rnzm5cdwqm",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm"
+        },
+        "serviceName": "qsgbin-amr-pub_queue-long",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_queue-long.1.8hn3e7nm7xf4496rnzm5cdwqm"
+      },
+      {
+        "id": "e92c5125b293",
+        "name": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "gkljamkhdhkshzudu22gvbnud",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_queue-short",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "etk9nwi1ehybay4jrmys20xe7",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7"
+        },
+        "serviceName": "qsgbin-amr-pub_queue-short",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_queue-short.1.etk9nwi1ehybay4jrmys20xe7"
+      },
+      {
+        "id": "fa987d5e264f",
+        "name": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "0kac5ee4ljyyakzqeaxlnzyi7",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_backend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "uzrjjhqzrhzn3yfq1nun9u5ka",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka"
+        },
+        "serviceName": "qsgbin-amr-pub_backend",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_backend.1.uzrjjhqzrhzn3yfq1nun9u5ka"
+      },
+      {
+        "id": "bec58f5b2051",
+        "name": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "tyvc0l3rl3v9n0yla8ld5hzn9",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_scheduler",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "qotalakmui1ippeq3mab0twae",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae"
+        },
+        "serviceName": "qsgbin-amr-pub_scheduler",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_scheduler.1.qotalakmui1ippeq3mab0twae"
+      },
+      {
+        "id": "e58924228d5b",
+        "name": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l",
+        "image": "ghcr.io/fathima14irfana/ferp-docker/ferp:v15.91.7@sha256:7ece6bcddf1a803772c5895854d660e87f18e311d23cebc483201ea58bd406a5",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "qsgbin-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "xclew8cngb823xpzh5hd6j3rj",
+          "com.docker.swarm.service.name": "qsgbin-amr-pub_queue-default",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "b6ylwk3mdsi0pcg3ftty8kb5l",
+          "com.docker.swarm.task.name": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l"
+        },
+        "serviceName": "qsgbin-amr-pub_queue-default",
+        "stackNamespace": "qsgbin-amr-pub",
+        "taskName": "qsgbin-amr-pub_queue-default.1.b6ylwk3mdsi0pcg3ftty8kb5l"
+      },
+      {
+        "id": "a0030f6e50c7",
+        "name": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "j5q70cdr7ooohib9h1tvw1kfe",
+          "com.docker.swarm.service.name": "blue-amr-pub_queue-default",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "kxs4lxwv5mtmlgmuyfeqwokev",
+          "com.docker.swarm.task.name": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev"
+        },
+        "serviceName": "blue-amr-pub_queue-default",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_queue-default.1.kxs4lxwv5mtmlgmuyfeqwokev"
+      },
+      {
+        "id": "1d86b609337d",
+        "name": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "on1lcxjghzqntlr85r6rxkoi6",
+          "com.docker.swarm.service.name": "blue-amr-pub_queue-short",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "bgogq1rkyztn63ayj7bemxt73",
+          "com.docker.swarm.task.name": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73"
+        },
+        "serviceName": "blue-amr-pub_queue-short",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_queue-short.1.bgogq1rkyztn63ayj7bemxt73"
+      },
+      {
+        "id": "6c766539c4ea",
+        "name": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "kjk2e8rqf8kgh9ga0uuagnse1",
+          "com.docker.swarm.service.name": "blue-amr-pub_queue-long",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "4iy75vkgmws4exfyfltnxivrn",
+          "com.docker.swarm.task.name": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn"
+        },
+        "serviceName": "blue-amr-pub_queue-long",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_queue-long.1.4iy75vkgmws4exfyfltnxivrn"
+      },
+      {
+        "id": "58c7cacd0729",
+        "name": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs",
+        "image": "ghcr.io/lmnaslimited/lensdocker/lenshxm-ind:v15.91.1@sha256:1d60892884f2e6ad387f3d52ad744a1f8cb59bc6a60da9c46f2394b31d86c42c",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "d0wzzfa463mxf9gwmsul03i99",
+          "com.docker.swarm.service.name": "blue-amr-pub_frontend",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "no3601o8ob5dn8hg6g6au2rxs",
+          "com.docker.swarm.task.name": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs"
+        },
+        "serviceName": "blue-amr-pub_frontend",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_frontend.1.no3601o8ob5dn8hg6g6au2rxs"
+      },
+      {
+        "id": "c08ad291f2a6",
+        "name": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v",
+        "image": "redis:6.2-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460",
+        "state": "exited",
+        "status": "Exited (255) 6 minutes ago",
+        "reason": "user skipped deletion",
+        "labels": {
+          "com.docker.stack.namespace": "blue-amr-pub",
+          "com.docker.swarm.node.id": "0ejb5sta368su1arfgczlgtcs",
+          "com.docker.swarm.service.id": "ivh2o7wcgg80lx80jo58786l6",
+          "com.docker.swarm.service.name": "blue-amr-pub_redis-queue",
+          "com.docker.swarm.task": "",
+          "com.docker.swarm.task.id": "rh3sul14fhyswz2ckzvyemn6v",
+          "com.docker.swarm.task.name": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v"
+        },
+        "serviceName": "blue-amr-pub_redis-queue",
+        "stackNamespace": "blue-amr-pub",
+        "taskName": "blue-amr-pub_redis-queue.1.rh3sul14fhyswz2ckzvyemn6v"
+      }
+    ],
+    "failed": [
+      {
+        "id": "startup",
+        "error": "Refusing to delete 61 resources because MAX_DELETE_COUNT is 50"
+      }
+    ]
+  },
+  "volumes": {
+    "candidates": [
+      {
+        "id": "d3e45cea43a6038d588f36cb0c31637cf91631b10a6dc5d9ad4def825b5fbb2c",
+        "name": "d3e45cea43a6038d588f36cb0c31637cf91631b10a6dc5d9ad4def825b5fbb2c",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "914163cc6d521cb34c691bd4042fde5626cd77477bb2353ae8e2efe4583724d4",
+        "name": "914163cc6d521cb34c691bd4042fde5626cd77477bb2353ae8e2efe4583724d4",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "2c556d173ce17ec04f22d95e130e8d7bc718c78557888dd9a3f6c3d65c93cab0",
+        "name": "2c556d173ce17ec04f22d95e130e8d7bc718c78557888dd9a3f6c3d65c93cab0",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "4af26ab878ef78316f4cfd0073483901d6cac15f7021d22cf8bb1a38fe9e4195",
+        "name": "4af26ab878ef78316f4cfd0073483901d6cac15f7021d22cf8bb1a38fe9e4195",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "5d5ddfc2466c11ba0381b3c91646bf4903de45f018358a6fb737756ddd423f6e",
+        "name": "5d5ddfc2466c11ba0381b3c91646bf4903de45f018358a6fb737756ddd423f6e",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1d6af87ec40c7b821f3a18b564ccab151a5e4314797518c83b74530d6d19e37d",
+        "name": "1d6af87ec40c7b821f3a18b564ccab151a5e4314797518c83b74530d6d19e37d",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "289c31c3bba3d6dc7389e4d9916f9eafd41e1c07afea2a23a97fc24340ff3ae3",
+        "name": "289c31c3bba3d6dc7389e4d9916f9eafd41e1c07afea2a23a97fc24340ff3ae3",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "ca9e695a297b46a8f54576c2648af67d463c52328608fc61ea751b556dacfbf1",
+        "name": "ca9e695a297b46a8f54576c2648af67d463c52328608fc61ea751b556dacfbf1",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "68fcbdd5bb13621be60826401cb673139fca05935ed83e4674781188299f445b",
+        "name": "68fcbdd5bb13621be60826401cb673139fca05935ed83e4674781188299f445b",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "a06d7c295aed431643cd6109e59cf152f89a3d14ff9166f5edff10a8f9ee2b47",
+        "name": "a06d7c295aed431643cd6109e59cf152f89a3d14ff9166f5edff10a8f9ee2b47",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "380bed9fa476546a03f4c2d486f71aad1ebc34f0be04951a6d9e96a2d9d87dfd",
+        "name": "380bed9fa476546a03f4c2d486f71aad1ebc34f0be04951a6d9e96a2d9d87dfd",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "7eb5313b72bf1237f8444eecefa424c3345240143ffe2256902018a8c1476d0a",
+        "name": "7eb5313b72bf1237f8444eecefa424c3345240143ffe2256902018a8c1476d0a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "0a2f3049b9c49f35ddd38745bfc294dd3c8e7533f7c5abdd5cb80369dc469671",
+        "name": "0a2f3049b9c49f35ddd38745bfc294dd3c8e7533f7c5abdd5cb80369dc469671",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "0b3b10e8308b731955c79f520ac1cea0f7d010d634b3d73ba68354faad58e27a",
+        "name": "0b3b10e8308b731955c79f520ac1cea0f7d010d634b3d73ba68354faad58e27a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "0d940c88ca6e6cb0babe0f22eda9414e2d368aa4b83dd7378b3fd7999337976e",
+        "name": "0d940c88ca6e6cb0babe0f22eda9414e2d368aa4b83dd7378b3fd7999337976e",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "3fc33e095e2a0e476f7acbc433ffadac8b7fce7cd1eb4005c3bbe9b7c6c39dd3",
+        "name": "3fc33e095e2a0e476f7acbc433ffadac8b7fce7cd1eb4005c3bbe9b7c6c39dd3",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "cbcd19cef30fe0f3ba7be94795042c760a95509f1aec10e2528f8fdfc4893102",
+        "name": "cbcd19cef30fe0f3ba7be94795042c760a95509f1aec10e2528f8fdfc4893102",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1ac1b43a8946bd5ec51eb16a35016de11b66d8fc8ebd414033ab6e93627554f4",
+        "name": "1ac1b43a8946bd5ec51eb16a35016de11b66d8fc8ebd414033ab6e93627554f4",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "8e1afa30c91b3f43f76df0dc5fd3462e67708b63430e432c76b501e27d3a8d99",
+        "name": "8e1afa30c91b3f43f76df0dc5fd3462e67708b63430e432c76b501e27d3a8d99",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "8ff26ccc27f2c34952f3bc8b1cfaf719b6e7a1d95ca1bcbc56be9c7f905864ff",
+        "name": "8ff26ccc27f2c34952f3bc8b1cfaf719b6e7a1d95ca1bcbc56be9c7f905864ff",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "0c2894c98387561330dd35e26d02febd627fe640e68a12fc321ce56e3116f999",
+        "name": "0c2894c98387561330dd35e26d02febd627fe640e68a12fc321ce56e3116f999",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1902428c428e77e760bce4aaa229539a3354cb21598c77dd0571ab4447f036ba",
+        "name": "1902428c428e77e760bce4aaa229539a3354cb21598c77dd0571ab4447f036ba",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "22a043d1165e246f36d03977ae08ddf5e428435afa6c91cae8aa17f947670e6c",
+        "name": "22a043d1165e246f36d03977ae08ddf5e428435afa6c91cae8aa17f947670e6c",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "480373791ca9e917a8cfa90cb006aecbab2dc0d09e955bfd4bd0c5b08f716a62",
+        "name": "480373791ca9e917a8cfa90cb006aecbab2dc0d09e955bfd4bd0c5b08f716a62",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "b9592f82333abb10e0963e7fa05a971603254440f205eb5dc3896e4d37cbfde3",
+        "name": "b9592f82333abb10e0963e7fa05a971603254440f205eb5dc3896e4d37cbfde3",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "fe4033eb5b5af8f512d5beed3bad9542d236015c1826e83139ab448bba29add7",
+        "name": "fe4033eb5b5af8f512d5beed3bad9542d236015c1826e83139ab448bba29add7",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "49c47187baf811713e9d80d77780589f082acbcf2b390264207c3ccdc4056f4b",
+        "name": "49c47187baf811713e9d80d77780589f082acbcf2b390264207c3ccdc4056f4b",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "13c71f831b1b5d975f52058c7b20ee4b787dde2a6bc2a5845802c1d66c842ab7",
+        "name": "13c71f831b1b5d975f52058c7b20ee4b787dde2a6bc2a5845802c1d66c842ab7",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "8bb1f5e45e4cb312709c469821067c3a128e1ff22d74d177463d0c9716de066d",
+        "name": "8bb1f5e45e4cb312709c469821067c3a128e1ff22d74d177463d0c9716de066d",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "f0def8e1e96be98127e62e26cec45f811e0e9eba43167e46b909d212248094f5",
+        "name": "f0def8e1e96be98127e62e26cec45f811e0e9eba43167e46b909d212248094f5",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "186de1fc6ea2553422d841af9f0f3b9557238ead79bd0caf921f11b9de6b291c",
+        "name": "186de1fc6ea2553422d841af9f0f3b9557238ead79bd0caf921f11b9de6b291c",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "bf27a94c04d38f0d4ba227ead695f9dd414d7ad5ecb3462dc7275335f4c5a599",
+        "name": "bf27a94c04d38f0d4ba227ead695f9dd414d7ad5ecb3462dc7275335f4c5a599",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "79c5d155986164eab7f0a1710eb760a7497816ee1241815becaf761ea9b70c8f",
+        "name": "79c5d155986164eab7f0a1710eb760a7497816ee1241815becaf761ea9b70c8f",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1aaca1f4051ec5313f785b099b63813e247c19a12ae4ea9ddfb33137c510147b",
+        "name": "1aaca1f4051ec5313f785b099b63813e247c19a12ae4ea9ddfb33137c510147b",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "3dc941eac37fe22aa764c7f6d464822005c06001858c92f0f3062ac86e3260cb",
+        "name": "3dc941eac37fe22aa764c7f6d464822005c06001858c92f0f3062ac86e3260cb",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "ee406c3d510d8695c06b4f4218e9b7712da844d8066b8110ad7b65619d180047",
+        "name": "ee406c3d510d8695c06b4f4218e9b7712da844d8066b8110ad7b65619d180047",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "bb504619dfb9ec0c64aeb54474e944428d2d284553a4eccdfcfb3e2b3561791a",
+        "name": "bb504619dfb9ec0c64aeb54474e944428d2d284553a4eccdfcfb3e2b3561791a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "c01362d4eb0903ebfd3d836c4746185f5c0d049ccef04128c257e71f41428690",
+        "name": "c01362d4eb0903ebfd3d836c4746185f5c0d049ccef04128c257e71f41428690",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "4a283cf47a3c8a10cb369384cbc1288f846713026ed1d1e3a9b04f792177fa7b",
+        "name": "4a283cf47a3c8a10cb369384cbc1288f846713026ed1d1e3a9b04f792177fa7b",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "5173aaa44cc25b966272265977954e07577c5cfc14460f9d863ca752a28a68c7",
+        "name": "5173aaa44cc25b966272265977954e07577c5cfc14460f9d863ca752a28a68c7",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "7270990341f6a1c8a9abd111c801d462c327a3bc48b4713373334c4c8ac2d07b",
+        "name": "7270990341f6a1c8a9abd111c801d462c327a3bc48b4713373334c4c8ac2d07b",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "031c434fb3d5f1ab1636b4b6de5ea3fb594fe60df7a431383a412c1f59fea5c3",
+        "name": "031c434fb3d5f1ab1636b4b6de5ea3fb594fe60df7a431383a412c1f59fea5c3",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "640b4e8a681932e39a2c5f21ee9faccb48f4c1aaeb885926fd4ca97b89315950",
+        "name": "640b4e8a681932e39a2c5f21ee9faccb48f4c1aaeb885926fd4ca97b89315950",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "799d7b2f804470bfe2ec6f12b91a97f3c1946c6f8e73ea8a98cad8454ffc3144",
+        "name": "799d7b2f804470bfe2ec6f12b91a97f3c1946c6f8e73ea8a98cad8454ffc3144",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "8d0ce750a44f771d4e292524ca4f427c749939253d6b7e0fe7874302b93409e8",
+        "name": "8d0ce750a44f771d4e292524ca4f427c749939253d6b7e0fe7874302b93409e8",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "a727de80741aecd1a81cf5d7d6aff925bd489824c6fa29ed1fa890e413b94aa1",
+        "name": "a727de80741aecd1a81cf5d7d6aff925bd489824c6fa29ed1fa890e413b94aa1",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "bb8203c2c0f0150babfc07488230bb3d2d7c4dfb8bd3b00cc784c50753c1d703",
+        "name": "bb8203c2c0f0150babfc07488230bb3d2d7c4dfb8bd3b00cc784c50753c1d703",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "c0c61132a63def2ded46dc1c777045291988abec69fd299b3696a4d695a3b52f",
+        "name": "c0c61132a63def2ded46dc1c777045291988abec69fd299b3696a4d695a3b52f",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "cc39648cde82c2806e57d8eaa86a098944ca63c113603bfb1a3c08b3eab66a76",
+        "name": "cc39648cde82c2806e57d8eaa86a098944ca63c113603bfb1a3c08b3eab66a76",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1e72f3317be2315d830581bedf35773be3fb6b2f50e1f2fbeb69681d0aecda49",
+        "name": "1e72f3317be2315d830581bedf35773be3fb6b2f50e1f2fbeb69681d0aecda49",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "67189e9324e3a89064e2c8455b0816c37d39f6f1ba9ae6e28d1e7358bcd2a093",
+        "name": "67189e9324e3a89064e2c8455b0816c37d39f6f1ba9ae6e28d1e7358bcd2a093",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "ba895d3835790859fd9a41da8f6bc52ebd8100a4a6cbfaa72c4413fb2968a3f5",
+        "name": "ba895d3835790859fd9a41da8f6bc52ebd8100a4a6cbfaa72c4413fb2968a3f5",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "e7b09b7040b7052ef26ade2d67a52ecf1cd1d9c55bcda3a9a0a40795e73eace9",
+        "name": "e7b09b7040b7052ef26ade2d67a52ecf1cd1d9c55bcda3a9a0a40795e73eace9",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "f214cb1290d0f217430276415ceeb84d063d391f95005d26ba673513c988fad6",
+        "name": "f214cb1290d0f217430276415ceeb84d063d391f95005d26ba673513c988fad6",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "3d604b04f50467e93b10bcd7cc177963b4dd8fa19121a1bc0c434966bcee07e6",
+        "name": "3d604b04f50467e93b10bcd7cc177963b4dd8fa19121a1bc0c434966bcee07e6",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "beb05851d1fc7eac0a16228e51c943937a6c2d0026d31de68430ebd46a6df35a",
+        "name": "beb05851d1fc7eac0a16228e51c943937a6c2d0026d31de68430ebd46a6df35a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "70cbea93cfac079ee9e2f37c2b66f165f2b770a6e35c561635510af4ddc35bd8",
+        "name": "70cbea93cfac079ee9e2f37c2b66f165f2b770a6e35c561635510af4ddc35bd8",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "4059b4312d84a4f0a9a7101dc589038c407c1dd9d068310482dd59fa8bac6881",
+        "name": "4059b4312d84a4f0a9a7101dc589038c407c1dd9d068310482dd59fa8bac6881",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "68cedf5d19632c9f3b317dc0eabe65417ee0256c19b1cef53321a35e5c3de4a6",
+        "name": "68cedf5d19632c9f3b317dc0eabe65417ee0256c19b1cef53321a35e5c3de4a6",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "8dd8a6ab50355f9f3bb6ab0bcd26291a633d29fdc988c627009f3bde2bf13977",
+        "name": "8dd8a6ab50355f9f3bb6ab0bcd26291a633d29fdc988c627009f3bde2bf13977",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "d9665fa0b275ec0d6b11b30f17a780bb8e3386e3d452c8e48dccc690cc4cd4ea",
+        "name": "d9665fa0b275ec0d6b11b30f17a780bb8e3386e3d452c8e48dccc690cc4cd4ea",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "65f972947c4eeeb9e21cfdda64caf498b157d0c3183218c98d76beb17b3eeb30",
+        "name": "65f972947c4eeeb9e21cfdda64caf498b157d0c3183218c98d76beb17b3eeb30",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "cefa6efd7765e6950e46c3ab8f7b59ec2c79e3ce26df6082406a1bbc426ff749",
+        "name": "cefa6efd7765e6950e46c3ab8f7b59ec2c79e3ce26df6082406a1bbc426ff749",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "eb10d874fee219406d0e06f8547161a68203e220decd72fee16abb2ffa2bbf67",
+        "name": "eb10d874fee219406d0e06f8547161a68203e220decd72fee16abb2ffa2bbf67",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "4609c560e61b2aa9232fedc27c97f0cb4decc4721d32a582e5056c597a98982b",
+        "name": "4609c560e61b2aa9232fedc27c97f0cb4decc4721d32a582e5056c597a98982b",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "8bf9d7398297b942a5a1b352d8dcaa0dc2b8ddf49746e32cc08dd29ba71ff7fc",
+        "name": "8bf9d7398297b942a5a1b352d8dcaa0dc2b8ddf49746e32cc08dd29ba71ff7fc",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "94f73682a90fac8f6c52b9d7122622f06eab393ab4e978f004309d627c5b4e41",
+        "name": "94f73682a90fac8f6c52b9d7122622f06eab393ab4e978f004309d627c5b4e41",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "23cdd98d8fe237f8bfa03d853150b73fe851d85d7762ee66ea8c48bfe1b4a52a",
+        "name": "23cdd98d8fe237f8bfa03d853150b73fe851d85d7762ee66ea8c48bfe1b4a52a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1f03b4d3556dabb3ae729a4df7149aa4a3a9bdea70965aa40d7cc05d637c4fe6",
+        "name": "1f03b4d3556dabb3ae729a4df7149aa4a3a9bdea70965aa40d7cc05d637c4fe6",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "ec97ff867674fab1f412abaa4c9503fa0cdab6b9eb01753acd44a35c2f4e466e",
+        "name": "ec97ff867674fab1f412abaa4c9503fa0cdab6b9eb01753acd44a35c2f4e466e",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "20332c7f9d4011aec6cff5578b24b725eb5a2f20f6e22bccce0fc69fc9ce5a53",
+        "name": "20332c7f9d4011aec6cff5578b24b725eb5a2f20f6e22bccce0fc69fc9ce5a53",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "6132a4c9727d81309d6669f764ac2c63a73282840b9e01ac53b91df619ff0710",
+        "name": "6132a4c9727d81309d6669f764ac2c63a73282840b9e01ac53b91df619ff0710",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "af35d74ff52b2e58340e9730efab75abc15bd9eb9d96f567ed208976bac95e22",
+        "name": "af35d74ff52b2e58340e9730efab75abc15bd9eb9d96f567ed208976bac95e22",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "af487c12f02b6011184b907149ac4d2b3011dac8852d9d9f16a5c13b7bc98c37",
+        "name": "af487c12f02b6011184b907149ac4d2b3011dac8852d9d9f16a5c13b7bc98c37",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "f23849da339faedacf08d44dd6e75e790df1e274afd879d8f2b0ca0fc1081014",
+        "name": "f23849da339faedacf08d44dd6e75e790df1e274afd879d8f2b0ca0fc1081014",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "076844664ee4170210508f3d6d9e04e84a4070f0cc378c1c933a04281c018e26",
+        "name": "076844664ee4170210508f3d6d9e04e84a4070f0cc378c1c933a04281c018e26",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "2389bf3161865aeb7a44ee8709c63bc1312b6f64e59f5c736f7a0f909b71e86a",
+        "name": "2389bf3161865aeb7a44ee8709c63bc1312b6f64e59f5c736f7a0f909b71e86a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "5338731ffd35772b7020ad1458a345880fa09ff8fb507a4a868ad52bf8ad36eb",
+        "name": "5338731ffd35772b7020ad1458a345880fa09ff8fb507a4a868ad52bf8ad36eb",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "7d9ffbd4c3000abeec2aacef3dafa1c1582cce8a51eef86c047e3a362e2eb406",
+        "name": "7d9ffbd4c3000abeec2aacef3dafa1c1582cce8a51eef86c047e3a362e2eb406",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "98f7965bb0bf1834dde668c10b546bc4913dce9bdff71ade9f3737033e6f83f3",
+        "name": "98f7965bb0bf1834dde668c10b546bc4913dce9bdff71ade9f3737033e6f83f3",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "ed4603cfe5a785a9ee76dc743aab0a47fa5cd30d9ba9aee6ca4b59473a578d3c",
+        "name": "ed4603cfe5a785a9ee76dc743aab0a47fa5cd30d9ba9aee6ca4b59473a578d3c",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "21b3167214b1eae7c2dcafe24ff7c242465a1358032ea358b217ffca07586a6a",
+        "name": "21b3167214b1eae7c2dcafe24ff7c242465a1358032ea358b217ffca07586a6a",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "21de9c9290646afccf541a3698f722f4d94698500008a8e5ef8c023c3212d16d",
+        "name": "21de9c9290646afccf541a3698f722f4d94698500008a8e5ef8c023c3212d16d",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "31c804fc757c82f71e2e37177892004168888eef279bb979e9ff61fdea98011f",
+        "name": "31c804fc757c82f71e2e37177892004168888eef279bb979e9ff61fdea98011f",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "1f7d58ccd72211a892d6c8523996835d8c1a19c44d40a9421d314bc604c064a9",
+        "name": "1f7d58ccd72211a892d6c8523996835d8c1a19c44d40a9421d314bc604c064a9",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "46c73a131b44e46bfcecb1e0f628de24b8075506f9529b9d8274176c21a53652",
+        "name": "46c73a131b44e46bfcecb1e0f628de24b8075506f9529b9d8274176c21a53652",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "785e1ceb2a71c8044d9938454ad3a789becb6a71a68720987b2c2f03dc53663e",
+        "name": "785e1ceb2a71c8044d9938454ad3a789becb6a71a68720987b2c2f03dc53663e",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      },
+      {
+        "id": "d648e08ab9aa0a7dfeb55ca0366f9e0f9cae41ff3ec29f204726adca7d945486",
+        "name": "d648e08ab9aa0a7dfeb55ca0366f9e0f9cae41ff3ec29f204726adca7d945486",
+        "reason": "unused volume",
+        "labels": {
+          "com.docker.volume.anonymous": ""
+        }
+      }
+    ],
+    "deleted": [],
+    "skipped": [],
+    "failed": []
+  },
+  "images": {
+    "candidates": [],
+    "deleted": [],
+    "skipped": [],
+    "failed": []
+  }
+}
