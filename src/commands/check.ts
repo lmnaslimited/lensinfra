@@ -23,6 +23,12 @@
 import {Command} from '@oclif/core'
 import {fnRunHealthCheck} from '../stack-health/index.js'
 
+let fnHealthCheckRunner = fnRunHealthCheck
+
+export function fnSetHealthCheckRunnerForTest(iRunner: typeof fnRunHealthCheck = fnRunHealthCheck): void {
+  fnHealthCheckRunner = iRunner
+}
+
 /**
  * oclif command class for the stack-health check workflow.
  */
@@ -30,6 +36,6 @@ export default class clHealthCheckCommand extends Command {
   static description = 'Validate active Bench stack service availability and container health'
 
   async run(): Promise<void> {
-    await fnRunHealthCheck()
+    await fnHealthCheckRunner()
   }
 }

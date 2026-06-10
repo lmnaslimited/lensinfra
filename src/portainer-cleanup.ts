@@ -511,3 +511,16 @@ function fnSummaryRow(iName: string, idSection: ICleanupReport["containers"]): R
     failed: idSection.failed.length
   };
 }
+
+/**
+ * Exposes pure cleanup helpers for unit tests without changing CLI behavior.
+ */
+export const GdPortainerCleanupTestApi = {
+  fnClip,
+  fnFormatBytes,
+  fnIsStackActive,
+  fnParseIndexList,
+  fnPlanLimitedDeletion,
+  fnSkipCandidates,
+  fnSummaryRow
+};
