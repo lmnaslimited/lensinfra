@@ -1,397 +1,186 @@
-lensinfra
-=================
+# LENSINFRA
 
-Command line tool for Infra
+LENSINFRA is an oclif-based infrastructure CLI for Portainer and Docker environments.
 
+It currently provides two main workflows:
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/lensinfra.svg)](https://npmjs.org/package/lensinfra)
-[![Downloads/week](https://img.shields.io/npm/dw/lensinfra.svg)](https://npmjs.org/package/lensinfra)
+- `lensinfra cleanup` - scans Portainer/Docker resources and optionally deletes safe cleanup candidates.
+- `lensinfra check` - performs a read-only Bench stack health check and writes a JSON report.
 
+## Requirements
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g lensinfra
-$ lensinfra COMMAND
-running command...
-$ lensinfra (--version)
-lensinfra/0.0.0 win32-x64 node-v20.20.2
-$ lensinfra --help [COMMAND]
-USAGE
-  $ lensinfra COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`lensinfra hello PERSON`](#lensinfra-hello-person)
-* [`lensinfra hello world`](#lensinfra-hello-world)
-* [`lensinfra help [COMMAND]`](#lensinfra-help-command)
-* [`lensinfra plugins`](#lensinfra-plugins)
-* [`lensinfra plugins add PLUGIN`](#lensinfra-plugins-add-plugin)
-* [`lensinfra plugins:inspect PLUGIN...`](#lensinfra-pluginsinspect-plugin)
-* [`lensinfra plugins install PLUGIN`](#lensinfra-plugins-install-plugin)
-* [`lensinfra plugins link PATH`](#lensinfra-plugins-link-path)
-* [`lensinfra plugins remove [PLUGIN]`](#lensinfra-plugins-remove-plugin)
-* [`lensinfra plugins reset`](#lensinfra-plugins-reset)
-* [`lensinfra plugins uninstall [PLUGIN]`](#lensinfra-plugins-uninstall-plugin)
-* [`lensinfra plugins unlink [PLUGIN]`](#lensinfra-plugins-unlink-plugin)
-* [`lensinfra plugins update`](#lensinfra-plugins-update)
+- Node.js 18 or newer
+- Access to a Portainer instance
+- A Portainer API token with permission to read endpoints, stacks, and Docker gateway data
 
-## `lensinfra hello PERSON`
+## Setup
 
-Say hello
+Install dependencies:
 
-```
-USAGE
-  $ lensinfra hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ lensinfra hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
+```bash
+npm install
 ```
 
-_See code: [src/commands/hello/index.ts](https://github.com/lensinfra/lensinfra/blob/v0.0.0/src/commands/hello/index.ts)_
+Build the CLI:
 
-## `lensinfra hello world`
-
-Say hello world
-
-```
-USAGE
-  $ lensinfra hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ lensinfra hello world
-  hello world! (./src/commands/hello/world.ts)
+```bash
+npm run build
 ```
 
-_See code: [src/commands/hello/world.ts](https://github.com/lensinfra/lensinfra/blob/v0.0.0/src/commands/hello/world.ts)_
+Run locally:
 
-## `lensinfra help [COMMAND]`
-
-Display help for lensinfra.
-
-```
-USAGE
-  $ lensinfra help [COMMAND...] [-n]
-
-ARGUMENTS
-  [COMMAND...]  Command to show help for.
-
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
-
-DESCRIPTION
-  Display help for lensinfra.
+```bash
+node bin/run.js --help
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.50/src/commands/help.ts)_
+## Environment
 
-## `lensinfra plugins`
+Create a `.env` file in the project root.
 
-List installed plugins.
+Required:
 
-```
-USAGE
-  $ lensinfra plugins [--json] [--core]
-
-FLAGS
-  --core  Show core plugins.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  List installed plugins.
-
-EXAMPLES
-  $ lensinfra plugins
+```env
+PORTAINER_URL=https://your-portainer-url
+PORTAINER_PAT_TOKEN=your-portainer-api-token
+PORTAINER_ENDPOINT_ID=auto
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/index.ts)_
+Optional:
 
-## `lensinfra plugins add PLUGIN`
-
-Installs a plugin into lensinfra.
-
-```
-USAGE
-  $ lensinfra plugins add PLUGIN... [--json] [-f] [-h] [-s | -v]
-
-ARGUMENTS
-  PLUGIN...  Plugin to install.
-
-FLAGS
-  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
-  -h, --help     Show CLI help.
-  -s, --silent   Silences npm output.
-  -v, --verbose  Show verbose npm output.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Installs a plugin into lensinfra.
-
-  Uses npm to install plugins.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  Use the LENSINFRA_NPM_LOG_LEVEL environment variable to set the npm loglevel.
-  Use the LENSINFRA_NPM_REGISTRY environment variable to set the npm registry.
-
-ALIASES
-  $ lensinfra plugins add
-
-EXAMPLES
-  Install a plugin from npm registry.
-
-    $ lensinfra plugins add myplugin
-
-  Install a plugin from a github url.
-
-    $ lensinfra plugins add https://github.com/someuser/someplugin
-
-  Install a plugin from a github slug.
-
-    $ lensinfra plugins add someuser/someplugin
+```env
+PORTAINER_AUTH_MODE=api-key
+ALLOW_SELF_SIGNED_CERT=false
+PORTAINER_TLS_VERIFY=true
+MAX_DELETE_COUNT=100
+STACK_NAME_FILTER=
+STACK_LABEL_FILTER=
+REPORT_DIR=reports
+LOG_DIR=logs
 ```
 
-## `lensinfra plugins:inspect PLUGIN...`
+Notes:
 
-Displays installation properties of a plugin.
+- Use `PORTAINER_ENDPOINT_ID=auto` only when one active Docker endpoint is available.
+- Set `ALLOW_SELF_SIGNED_CERT=true` for local self-signed Portainer certificates.
+- `MAX_DELETE_COUNT` protects cleanup runs from deleting more resources than expected.
 
-```
-USAGE
-  $ lensinfra plugins inspect PLUGIN...
+## Commands
 
-ARGUMENTS
-  PLUGIN...  [default: .] Plugin to inspect.
+### Cleanup dry run
 
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
+Preview cleanup candidates without deleting anything:
 
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Displays installation properties of a plugin.
-
-EXAMPLES
-  $ lensinfra plugins inspect myplugin
+```bash
+node bin/run.js cleanup --dryRun
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/inspect.ts)_
+The cleanup command scans:
 
-## `lensinfra plugins install PLUGIN`
+- exited/dead containers from active stacks
+- unused volumes
+- unused images
 
-Installs a plugin into lensinfra.
+Dry-run mode writes reports and logs, but does not delete resources.
 
-```
-USAGE
-  $ lensinfra plugins install PLUGIN... [--json] [-f] [-h] [-s | -v]
+### Cleanup
 
-ARGUMENTS
-  PLUGIN...  Plugin to install.
+Run cleanup with confirmation prompts:
 
-FLAGS
-  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
-  -h, --help     Show CLI help.
-  -s, --silent   Silences npm output.
-  -v, --verbose  Show verbose npm output.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Installs a plugin into lensinfra.
-
-  Uses npm to install plugins.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  Use the LENSINFRA_NPM_LOG_LEVEL environment variable to set the npm loglevel.
-  Use the LENSINFRA_NPM_REGISTRY environment variable to set the npm registry.
-
-ALIASES
-  $ lensinfra plugins add
-
-EXAMPLES
-  Install a plugin from npm registry.
-
-    $ lensinfra plugins install myplugin
-
-  Install a plugin from a github url.
-
-    $ lensinfra plugins install https://github.com/someuser/someplugin
-
-  Install a plugin from a github slug.
-
-    $ lensinfra plugins install someuser/someplugin
+```bash
+node bin/run.js cleanup
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/install.ts)_
+Safety behavior:
 
-## `lensinfra plugins link PATH`
+- running containers are not deleted
+- mounted volumes are not deleted
+- protected/data-like volumes are skipped
+- images used by containers are skipped
+- selected resources require confirmation before deletion
+- `MAX_DELETE_COUNT` prevents unexpectedly large delete operations
 
-Links a plugin into the CLI for development.
+### Stack health check
 
-```
-USAGE
-  $ lensinfra plugins link PATH [-h] [--install] [-v]
+Run the read-only Bench stack health check:
 
-ARGUMENTS
-  PATH  [default: .] path to plugin
-
-FLAGS
-  -h, --help          Show CLI help.
-  -v, --verbose
-      --[no-]install  Install dependencies after linking the plugin.
-
-DESCRIPTION
-  Links a plugin into the CLI for development.
-
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
-  command will override the user-installed or core plugin implementation. This is useful for development work.
-
-
-EXAMPLES
-  $ lensinfra plugins link myplugin
+```bash
+node bin/run.js check
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/link.ts)_
+The check command validates:
 
-## `lensinfra plugins remove [PLUGIN]`
+- active Portainer endpoint access
+- Docker gateway access
+- stack service state
+- replica counts
+- migration-like services
+- container health where Docker health data is available
 
-Removes a plugin from the CLI.
+This command does not modify Portainer or Docker resources.
 
-```
-USAGE
-  $ lensinfra plugins remove [PLUGIN...] [-h] [-v]
+## Outputs
 
-ARGUMENTS
-  [PLUGIN...]  plugin to uninstall
+Runtime logs are written to:
 
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ lensinfra plugins unlink
-  $ lensinfra plugins remove
-
-EXAMPLES
-  $ lensinfra plugins remove myplugin
+```text
+logs/
 ```
 
-## `lensinfra plugins reset`
+JSON reports are written to:
 
-Remove all user-installed and linked plugins.
-
-```
-USAGE
-  $ lensinfra plugins reset [--hard] [--reinstall]
-
-FLAGS
-  --hard       Delete node_modules and package manager related files in addition to uninstalling plugins.
-  --reinstall  Reinstall all plugins after uninstalling.
+```text
+reports/
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/reset.ts)_
+Cleanup reports use this format:
 
-## `lensinfra plugins uninstall [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ lensinfra plugins uninstall [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  [PLUGIN...]  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ lensinfra plugins unlink
-  $ lensinfra plugins remove
-
-EXAMPLES
-  $ lensinfra plugins uninstall myplugin
+```text
+cleanup-report-YYYY-MM-DDTHH-MM-SS.json
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/uninstall.ts)_
+Health reports use this format:
 
-## `lensinfra plugins unlink [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ lensinfra plugins unlink [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  [PLUGIN...]  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ lensinfra plugins unlink
-  $ lensinfra plugins remove
-
-EXAMPLES
-  $ lensinfra plugins unlink myplugin
+```text
+bench-health-report-YYYY-MM-DD-HH-mm-ss.json
 ```
 
-## `lensinfra plugins update`
+## Development
 
-Update installed plugins.
+Build TypeScript:
 
-```
-USAGE
-  $ lensinfra plugins update [-h] [-v]
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Update installed plugins.
+```bash
+npm run build
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.73/src/commands/plugins/update.ts)_
-<!-- commandsstop -->
+Run tests:
+
+```bash
+npm test
+```
+
+Run lint:
+
+```bash
+npm run lint
+```
+
+## Project Structure
+
+```text
+src/
+  commands/              oclif command entrypoints
+  cleanup/               cleanup scanners and delete handlers
+  reports/               cleanup report writer
+  safety/                cleanup safety checks
+  stack-health/          read-only stack health module
+```
+
+## Safety Summary
+
+LENSINFRA is designed to be conservative:
+
+- use dry-run before cleanup
+- review generated reports
+- confirm deletion prompts carefully
+- keep stack-health read-only
+- avoid changing cleanup and health-check logic without testing against a safe environment
