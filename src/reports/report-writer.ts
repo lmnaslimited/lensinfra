@@ -12,12 +12,12 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { CleanupReport, ResourceReport } from "../types.js";
+import { ICleanupReport, IResourceReport } from "../types.js";
 
 /**
  * Creates the repeated report section structure used by each cleanup stage.
  */
-function fnEmptyResourceReport(): ResourceReport {
+function fnEmptyResourceReport(): IResourceReport {
   return {
     candidates: [],
     deleted: [],
@@ -29,12 +29,12 @@ function fnEmptyResourceReport(): ResourceReport {
 /**
  * Starts a report before scanning so failures can still be written.
  */
-export function fnCreateInitialReport(iLsEndpointId: string, iLbIsDryRun: boolean): CleanupReport {
+export function fnCreateInitialReport(iEndpointId: string, iIsDryRun: boolean): ICleanupReport {
   return {
     startedAt: new Date().toISOString(),
     finishedAt: "",
-    endpointId: iLsEndpointId,
-    dryRun: iLbIsDryRun,
+    endpointId: iEndpointId,
+    dryRun: iIsDryRun,
     summary: {
       deleted: 0,
       candidates: 0,
@@ -50,28 +50,28 @@ export function fnCreateInitialReport(iLsEndpointId: string, iLbIsDryRun: boolea
 /**
  * Recalculates summary totals after all stages finish.
  */
-export function fnFinalizeReport(iLdReport: CleanupReport): CleanupReport {
-  iLdReport.finishedAt = new Date().toISOString();
-  iLdReport.summary.candidates =
-    iLdReport.containers.candidates.length + iLdReport.volumes.candidates.length + iLdReport.images.candidates.length;
-  iLdReport.summary.deleted =
-    iLdReport.containers.deleted.length + iLdReport.volumes.deleted.length + iLdReport.images.deleted.length;
-  iLdReport.summary.skipped =
-    iLdReport.containers.skipped.length + iLdReport.volumes.skipped.length + iLdReport.images.skipped.length;
-  iLdReport.summary.failed =
-    iLdReport.containers.failed.length + iLdReport.volumes.failed.length + iLdReport.images.failed.length;
-  return iLdReport;
+export function fnFinalizeReport(idReport: ICleanupReport): ICleanupReport {
+  idReport.finishedAt = new Date().toISOString();
+  idReport.summary.candidates =
+    idReport.containers.candidates.length + idReport.volumes.candidates.length + idReport.images.candidates.length;
+  idReport.summary.deleted =
+    idReport.containers.deleted.length + idReport.volumes.deleted.length + idReport.images.deleted.length;
+  idReport.summary.skipped =
+    idReport.containers.skipped.length + idReport.volumes.skipped.length + idReport.images.skipped.length;
+  idReport.summary.failed =
+    idReport.containers.failed.length + idReport.volumes.failed.length + idReport.images.failed.length;
+  return idReport;
 }
 
 /**
  * Persists the report to disk using the existing timestamped filename format.
  */
-export function fnWriteReport(iLdReport: CleanupReport): string {
-  const LsReportsDir = path.resolve(process.cwd(), "reports");
-  fs.mkdirSync(LsReportsDir, { recursive: true });
+export function fnWriteReport(idReport: ICleanupReport): string {
+  const LReportsDir = path.resolve(process.cwd(), "reports");
+  fs.mkdirSync(LReportsDir, { recursive: true });
 
-  const LsStamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-  const LsReportPath = path.join(LsReportsDir, `cleanup-report-${LsStamp}.json`);
-  fs.writeFileSync(LsReportPath, `${JSON.stringify(iLdReport, null, 2)}\n`, "utf8");
-  return LsReportPath;
+  const LStamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+  const LReportPath = path.join(LReportsDir, `cleanup-report-${LStamp}.json`);
+  fs.writeFileSync(LReportPath, `${JSON.stringify(idReport, null, 2)}\n`, "utf8");
+  return LReportPath;
 }

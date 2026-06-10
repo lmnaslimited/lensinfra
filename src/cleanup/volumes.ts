@@ -13,7 +13,7 @@
 import { Logger } from "winston"
 import { clDockerGatewayClient } from "../docker-gateway-client.js"
 import { fnFormatAxiosError } from "../portainer-client.js"
-import { AppConfig, Candidate, CleanupReport, DockerVolume, ResourceRecord } from "../types.js"
+import { IAppConfig, ICandidate, ICleanupReport, IDockerVolume, IResourceRecord } from "../types.js"
 import { fnHasProtectedLabels, fnIsVolumeSafeToDelete, fnMatchesProtectedName } from "../safety/validator.js"
 
 // ===================================================
@@ -23,24 +23,24 @@ import { fnHasProtectedLabels, fnIsVolumeSafeToDelete, fnMatchesProtectedName } 
 // ---------------------------------------------------
 // fnToRecord
 // Converts a raw Docker volume metadata object into the
-// shared ResourceRecord shape used across all cleanup
-// reports and candidate lists in the system.
+// shared IResourceRecord shape used across all cleanup
+// reports and ICandidate lists in the system.
 // Volumes do not have a separate ID field - their Name
 // is used as both the id and name fields in the record.
 // Parameters:
 //   iVolume        - the raw Docker volume metadata object
-//   iLsStackName   - optional stack name this volume belongs to,
+//   iStackName   - optional stack name this volume belongs to,
 //                    resolved by fnGetVolumeStackName before calling
-//   iLsReason      - optional human-readable explanation of why
+//   iReason      - optional human-readable explanation of why
 //                    this volume was flagged or skipped
-// Returns: ResourceRecord - normalised report row object
+// Returns: IResourceRecord - normalised report row object
 // ---------------------------------------------------
 
 function fnToRecord(
-  iVolume: DockerVolume,
-  iLsStackName?: string,
-  iLsReason?: string
-): ResourceRecord {
+  iVolume: IDockerVolume,
+  iStackName?: string,
+  iReason?: string
+): IResourceRecord {
 
   // Assemble and return the normalised record object
   // Docker volumes use Name as their unique identifier
@@ -48,8 +48,8 @@ function fnToRecord(
   return {
     id: iVolume.Name,
     name: iVolume.Name,
-    reason: iLsReason,
-    stackNamespace: iLsStackName,
+    reason: iReason,
+    stackNamespace: iStackName,
     labels: iVolume.Labels,
   }
 }
@@ -71,14 +71,14 @@ function fnToRecord(
 //      preventing a short name from partially matching a longer one.
 // Parameters:
 //   iVolume              - the raw Docker volume metadata object
-//   iLaActiveStackNames  - set of currently active stack names
+//   iaActiveStackNames  - set of currently active stack names
 // Returns: string | undefined - the resolved stack name,
 //          or undefined if the volume has no stack identity
 // ---------------------------------------------------
 
 function fnGetVolumeStackName(
-  iVolume: DockerVolume,
-  iLaActiveStackNames: Set<string>
+  iVolume: IDockerVolume,
+  iaActiveStackNames: Set<string>
 ): string | undefined {
 
   // Extract the full labels map from the volume metadata
@@ -92,15 +92,15 @@ function fnGetVolumeStackName(
   // Return immediately if any label key is present.
   // ---------------------------------------------------
 
-  const LsLabelStackName =
+  const LLabelStackName =
     LdLabels["com.docker.stack.namespace"] ??
     LdLabels["com.docker.compose.project"] ??
     LdLabels["io.portainer.stack.name"]
 
   // If a label-based stack name was found, return it immediately
   // without needing to fall back to name prefix matching
-  if (LsLabelStackName) {
-    return LsLabelStackName
+  if (LLabelStackName) {
+    return LLabelStackName
   }
 
   // ---------------------------------------------------
@@ -113,15 +113,15 @@ function fnGetVolumeStackName(
   // or if it starts with "{stackName}_" as a prefix.
   // ---------------------------------------------------
 
-  return [...iLaActiveStackNames]
+  return [...iaActiveStackNames]
     .sort(
-      (LsLeftStackName, LsRightStackName) =>
-        LsRightStackName.length - LsLeftStackName.length
+      (LLeftStackName, LRightStackName) =>
+        LRightStackName.length - LLeftStackName.length
     )
     .find(
-      (LsStackName) =>
-        iVolume.Name === LsStackName ||
-        iVolume.Name.startsWith(`${LsStackName}_`)
+      (LStackName) =>
+        iVolume.Name === LStackName ||
+        iVolume.Name.startsWith(`${LStackName}_`)
     )
 }
 
@@ -194,7 +194,7 @@ export async function fnGetUsedVolumeNames(
 // Returns: boolean - true if the volume is protected, false if safe to evaluate
 // ---------------------------------------------------
 
-export function fnIsProtectedVolume(iVolume: DockerVolume): boolean {
+export function fnIsProtectedVolume(iVolume: IDockerVolume): boolean {
 
   // Return true if the volume has protected labels OR a protected name
   // Both checks are delegated to the shared safety validator module
@@ -221,26 +221,26 @@ export function fnIsProtectedVolume(iVolume: DockerVolume): boolean {
 //   2. Safety evaluation - the safety validator checks
 //      whether the volume is currently mounted, protected,
 //      or excluded by the configured cleanup mode rules.
-// Volumes that pass both layers are added to the candidate
+// Volumes that pass both layers are added to the ICandidate
 // list and the shared cleanup report for user confirmation.
 // Volumes that fail either layer are skipped with a log message.
 // Parameters:
 //   clDockerGatewayClient - client used to query Docker API
 //   iConfig               - application config with cleanup mode setting
-//   iLaActiveStackNames   - set of currently active stack names
-//   iLdReport             - shared report object to populate with candidates
+//   iaActiveStackNames   - set of currently active stack names
+//   idReport             - shared report object to populate with candidates
 //   clLogger              - winston logger for structured terminal output
-// Returns: Promise<Candidate<DockerVolume>[]> - list of volumes
+// Returns: Promise<ICandidate<IDockerVolume>[]> - list of volumes
 //          confirmed as eligible for deletion
 // ---------------------------------------------------
 
 export async function fnScanVolumes(
   clDockerGatewayClient: clDockerGatewayClient,
-  iConfig: AppConfig,
-  iLaActiveStackNames: Set<string>,
-  iLdReport: CleanupReport,
+  iConfig: IAppConfig,
+  iaActiveStackNames: Set<string>,
+  idReport: ICleanupReport,
   clLogger: Logger
-): Promise<Candidate<DockerVolume>[]> {
+): Promise<ICandidate<IDockerVolume>[]> {
 
   // Log the start of the volume scan for visibility in output
   clLogger.info("Scanning volumes")
@@ -253,7 +253,7 @@ export async function fnScanVolumes(
   ])
 
   // Initialise the empty array that will hold confirmed candidates
-  const LaCandidates: Candidate<DockerVolume>[] = []
+  const LaCandidates: ICandidate<IDockerVolume>[] = []
 
   // Iterate over every volume in the list returned by the Docker API
   // Fall back to an empty array if the Volumes field is undefined
@@ -261,7 +261,7 @@ export async function fnScanVolumes(
 
     // Attempt to resolve which stack this volume belongs to
     // using both label-based and name prefix-based resolution
-    const LsStackName = fnGetVolumeStackName(LdVolume, iLaActiveStackNames)
+    const LStackName = fnGetVolumeStackName(LdVolume, iaActiveStackNames)
 
     // ---------------------------------------------------
     // FILTER 1: Inactive stack membership check
@@ -273,7 +273,7 @@ export async function fnScanVolumes(
     // and proceed to safety evaluation in the next step.
     // ---------------------------------------------------
 
-    if (LsStackName && !iLaActiveStackNames.has(LsStackName)) {
+    if (LStackName && !iaActiveStackNames.has(LStackName)) {
       continue
     }
 
@@ -296,27 +296,27 @@ export async function fnScanVolumes(
 
     // Convert the raw volume metadata to a normalised report record
     // Attach the resolved stack name and reason string from the safety result
-    const LdRecord = fnToRecord(LdVolume, LsStackName, LdSafety.reason)
+    const LdRecord = fnToRecord(LdVolume, LStackName, LdSafety.reason)
 
     // ---------------------------------------------------
-    // CANDIDATE DECISION
+    // ICandidate DECISION
     // If the safety validator marked this volume as safe to delete,
-    // add it to the candidate list and the shared cleanup report.
+    // add it to the ICandidate list and the shared cleanup report.
     // If not safe, log the reason and skip without further action.
     // ---------------------------------------------------
 
     if (LdSafety.safe) {
 
-      // Add the confirmed candidate to the working candidates array
+      // Add the confirmed ICandidate to the working candidates array
       LaCandidates.push({ resource: LdVolume, record: LdRecord })
 
-      // Also record the candidate in the shared cleanup report
+      // Also record the ICandidate in the shared cleanup report
       // so it appears in the final summary output shown to the user
-      iLdReport.volumes.candidates.push(LdRecord)
+      idReport.volumes.candidates.push(LdRecord)
 
-      // Log the candidate details for traceability during the scan run
+      // Log the ICandidate details for traceability during the scan run
       clLogger.info(
-        `Volume candidate: ${LdVolume.Name} ${LdRecord.reason}`
+        `Volume ICandidate: ${LdVolume.Name} ${LdRecord.reason}`
       )
 
     } else {
@@ -339,7 +339,7 @@ export async function fnScanVolumes(
 
 // ---------------------------------------------------
 // fnDeleteVolumeCandidates
-// Iterates through the confirmed volume candidate list and
+// Iterates through the confirmed volume ICandidate list and
 // attempts to delete each volume via the Docker API.
 // Each deletion is attempted individually so that a failure
 // on one volume does not block the remaining volumes from
@@ -350,21 +350,21 @@ export async function fnScanVolumes(
 // so the user can investigate the cause after the run ends.
 // Parameters:
 //   clDockerGatewayClient - client used to call Docker API
-//   iLaCandidates         - list of confirmed candidate volumes
-//   iLdReport             - shared report object to populate
+//   iaCandidates         - list of confirmed ICandidate volumes
+//   idReport             - shared report object to populate
 //   clLogger              - winston logger for structured output
 // Returns: Promise<void>
 // ---------------------------------------------------
 
 export async function fnDeleteVolumeCandidates(
   clDockerGatewayClient: clDockerGatewayClient,
-  iLaCandidates: Candidate<DockerVolume>[],
-  iLdReport: CleanupReport,
+  iaCandidates: ICandidate<IDockerVolume>[],
+  idReport: ICleanupReport,
   clLogger: Logger
 ): Promise<void> {
 
-  // Process each confirmed candidate volume one at a time
-  for (const LdCandidate of iLaCandidates) {
+  // Process each confirmed ICandidate volume one at a time
+  for (const LdCandidate of iaCandidates) {
 
     try {
 
@@ -374,19 +374,19 @@ export async function fnDeleteVolumeCandidates(
       await clDockerGatewayClient.fnRemoveVolume(LdCandidate.resource.Name)
 
       // Record the successfully deleted volume in the report
-      iLdReport.volumes.deleted.push(LdCandidate.record)
+      idReport.volumes.deleted.push(LdCandidate.record)
 
       // Log confirmation that this specific volume was removed
       clLogger.info(`Deleted volume ${LdCandidate.resource.Name}`)
 
-    } catch (iLdError) {
+    } catch (idError) {
 
       // ---------------------------------------------------
       // DELETION FAILURE HANDLING
       // If the Docker API call throws for any reason, capture
       // the error and attach it to the existing volume record.
       // Add the failed record to the report's failed list.
-      // Execution continues to the next candidate regardless
+      // Execution continues to the next ICandidate regardless
       // so one failure does not abort the entire deletion run.
       // ---------------------------------------------------
 
@@ -394,11 +394,11 @@ export async function fnDeleteVolumeCandidates(
       // and attaching the formatted Axios error message string
       const LdFailed = {
         ...LdCandidate.record,
-        error: fnFormatAxiosError(iLdError),
+        error: fnFormatAxiosError(idError),
       }
 
       // Add the failed record to the report for user visibility
-      iLdReport.volumes.failed.push(LdFailed)
+      idReport.volumes.failed.push(LdFailed)
 
       // Log the failure with the volume name and the error detail
       clLogger.error(

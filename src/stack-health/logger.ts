@@ -13,7 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import pino, { Logger } from "pino";
-import { AppConfig } from "./types.js";
+import { IAppConfig } from "./types.js";
 
 /**
  * Produces YYYY-MM-DD for the daily log filename.
@@ -26,15 +26,15 @@ function fnDateStamp(iDate = new Date()): string {
 /**
  * Builds a pino logger that writes to logs/bench-health-YYYY-MM-DD.log.
  */
-export function fnCreateLogger(iConfig: AppConfig): Logger {
+export function fnCreateLogger(iConfig: IAppConfig): Logger {
   // Action: Ensure the log directory exists before pino opens the destination file.
   fs.mkdirSync(iConfig.logDir, { recursive: true });
 
   // Local path: Full daily log file path.
-  const LsPath = path.join(iConfig.logDir, `bench-health-${fnDateStamp()}.log`);
+  const LPath = path.join(iConfig.logDir, `bench-health-${fnDateStamp()}.log`);
 
   // Class instance: Pino file destination for structured JSON logs.
-  const clLoggerDestination = pino.destination({ dest: LsPath, sync: false, mkdir: true });
+  const clLoggerDestination = pino.destination({ dest: LPath, sync: false, mkdir: true });
 
   // Output: Configured logger with token redaction enabled.
   return pino(

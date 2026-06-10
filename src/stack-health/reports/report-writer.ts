@@ -12,7 +12,7 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { HealthReport } from "../types.js";
+import { IHealthReport } from "../types.js";
 
 /**
  * Produces YYYY-MM-DD-HH-mm-ss for report filenames.
@@ -32,16 +32,16 @@ function fnTimestampForFile(iDate = new Date()): string {
 /**
  * Writes the health report JSON to disk.
  */
-export async function fnWriteHealthReport(iReportDir: string, iReport: HealthReport): Promise<string> {
+export async function fnWriteHealthReport(iReportDir: string, iReport: IHealthReport): Promise<string> {
   // Action: Ensure report directory exists before writing the JSON file.
   await fs.mkdir(iReportDir, { recursive: true });
 
   // String path: Full report path with sortable timestamp.
-  const LsPath = path.join(iReportDir, `bench-health-report-${fnTimestampForFile()}.json`);
+  const LPath = path.join(iReportDir, `bench-health-report-${fnTimestampForFile()}.json`);
 
   // Action: Write pretty JSON so users can open reports directly.
-  await fs.writeFile(LsPath, `${JSON.stringify(iReport, null, 2)}\n`, "utf8");
+  await fs.writeFile(LPath, `${JSON.stringify(iReport, null, 2)}\n`, "utf8");
 
   // Output: Return the path for console ACK output.
-  return LsPath;
+  return LPath;
 }

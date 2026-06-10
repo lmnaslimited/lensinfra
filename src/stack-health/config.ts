@@ -11,7 +11,7 @@
  */
 
 import dotenv from "dotenv";
-import { AppConfig } from "./types.js";
+import { IAppConfig } from "./types.js";
 
 // Action: Load .env values into process.env before any command reads configuration.
 dotenv.config();
@@ -41,15 +41,15 @@ function fnNormalizeUrl(iValue: string): string {
 /**
  * Reads all supported environment settings into one typed config object.
  */
-export function fnLoadConfig(): AppConfig {
+export function fnLoadConfig(): IAppConfig {
   // Local string: Normalize auth mode so users can type API-KEY, api-key, or bearer.
-  const LsAuthMode = (process.env.PORTAINER_AUTH_MODE ?? "api-key").trim().toLowerCase();
+  const LAuthMode = (process.env.PORTAINER_AUTH_MODE ?? "api-key").trim().toLowerCase();
 
   // Output object: Central app configuration used by every command.
   return {
     portainerUrl: fnNormalizeUrl(process.env.PORTAINER_URL ?? "https://portainer.docker.localhost"),
     portainerPatToken: process.env.PORTAINER_PAT_TOKEN ?? "",
-    portainerAuthMode: LsAuthMode === "bearer" ? "bearer" : "api-key",
+    portainerAuthMode: LAuthMode === "bearer" ? "bearer" : "api-key",
     portainerEndpointId: process.env.PORTAINER_ENDPOINT_ID ?? "auto",
     allowSelfSignedCert: fnReadBoolean(process.env.ALLOW_SELF_SIGNED_CERT, false),
     stackNameFilter: process.env.STACK_NAME_FILTER?.trim() || undefined,
@@ -62,7 +62,7 @@ export function fnLoadConfig(): AppConfig {
 /**
  * Validates configuration before any network call is attempted.
  */
-export function fnValidateConfig(iConfig: AppConfig): string[] {
+export function fnValidateConfig(iConfig: IAppConfig): string[] {
   // Local array: Collect all validation messages so the user sees every .env issue at once.
   const LaFailed: string[] = [];
 
@@ -131,9 +131,9 @@ export function fnMaskSecret(iValue: string): string {
 /**
  * Removes known secrets from any error or status message before display.
  */
-export function fnMaskKnownSecrets(iMessage: unknown, iConfig: AppConfig): string {
+export function fnMaskKnownSecrets(iMessage: unknown, iConfig: IAppConfig): string {
   // Local string: Convert unknown thrown values into readable text.
-  const LsMessage = iMessage instanceof Error ? iMessage.message : String(iMessage);
+  const LMessage = iMessage instanceof Error ? iMessage.message : String(iMessage);
   // Output: Replace the PAT if it ever appears in an error string.
-  return iConfig.portainerPatToken ? LsMessage.replaceAll(iConfig.portainerPatToken, fnMaskSecret(iConfig.portainerPatToken)) : LsMessage;
+  return iConfig.portainerPatToken ? LMessage.replaceAll(iConfig.portainerPatToken, fnMaskSecret(iConfig.portainerPatToken)) : LMessage;
 }

@@ -16,17 +16,17 @@ import {clDockerGatewayClient} from './docker-gateway-client.js'
 import {fnCreateLogger} from './logger.js'
 import {clPortainerClient} from './portainer-client.js'
 import {fnWriteHealthReport} from './reports/report-writer.js'
-import {AppConfig, HealthReport, ReportService, ReportStack} from './types.js'
-import {fnResolveEndpoint, ResolvedEndpoint} from './validation/endpoint-validator.js'
+import {IAppConfig, IHealthReport, IReportService, IReportStack} from './types.js'
+import {fnResolveEndpoint, IResolvedEndpoint} from './validation/endpoint-validator.js'
 import {fnFilterBenchStacks} from './validation/stack-validator.js'
 import {fnValidateServicesForStack} from './validation/service-validator.js'
 
-const GsColorReset = '\u001b[0m'
-const GsColorGreen = '\u001b[32m'
-const GsColorYellow = '\u001b[33m'
-const GsColorRed = '\u001b[31m'
-const GsColorCyan = '\u001b[36m'
-const GsColorBold = '\u001b[1m'
+const GColorReset = '\u001b[0m'
+const GColorGreen = '\u001b[32m'
+const GColorYellow = '\u001b[33m'
+const GColorRed = '\u001b[31m'
+const GColorCyan = '\u001b[36m'
+const GColorBold = '\u001b[1m'
 
 
 /**
@@ -39,7 +39,7 @@ export async function fnRunHealthCheck(): Promise<void> {
 /**
  * Runs a stack-health action with config validation, logging, and safe error masking.
  */
-async function fnRunSafely(iAction: (iConfig: AppConfig, clLogger: Logger) => Promise<void>): Promise<void> {
+async function fnRunSafely(iAction: (iConfig: IAppConfig, clLogger: Logger) => Promise<void>): Promise<void> {
   const LdConfig = fnLoadConfig()
   const clLogger = fnCreateLogger(LdConfig)
 
@@ -47,8 +47,8 @@ async function fnRunSafely(iAction: (iConfig: AppConfig, clLogger: Logger) => Pr
     const LaFailed = fnValidateConfig(LdConfig)
 
     if (LaFailed.length > 0) {
-      for (const LsMessage of LaFailed) {
-        clLogger.error({error: LsMessage}, 'config validation failed')
+      for (const LMessage of LaFailed) {
+        clLogger.error({error: LMessage}, 'config validation failed')
       }
 
       throw new Error(`Configuration validation failed:\n- ${LaFailed.join('\n- ')}`)
@@ -72,10 +72,10 @@ async function fnRunSafely(iAction: (iConfig: AppConfig, clLogger: Logger) => Pr
 
     await iAction(LdConfig, clLogger)
   } catch (iError) {
-    const LsMessage = fnMaskKnownSecrets(iError, LdConfig)
+    const LMessage = fnMaskKnownSecrets(iError, LdConfig)
 
-    clLogger.error({error: LsMessage}, 'command failed')
-    console.error(LsMessage)
+    clLogger.error({error: LMessage}, 'command failed')
+    console.error(LMessage)
 
     process.exitCode = 1
   } finally {
@@ -85,8 +85,8 @@ async function fnRunSafely(iAction: (iConfig: AppConfig, clLogger: Logger) => Pr
 /**
  * Runs the stack-health validation workflow after configuration has passed.
  */
-async function fnRunHealthCheckCore(iConfig: AppConfig, clLogger: Logger): Promise<void> {
-  const LsStartedAt = new Date().toISOString()
+async function fnRunHealthCheckCore(iConfig: IAppConfig, clLogger: Logger): Promise<void> {
+  const LStartedAt = new Date().toISOString()
 
   fnPrintStep('Loading configuration', 'OK')
 
@@ -132,7 +132,7 @@ async function fnRunHealthCheckCore(iConfig: AppConfig, clLogger: Logger): Promi
 
   fnPrintStep(`Stacks selected for validation: ${LaCandidates.length}`, 'OK')
 
-  const LaResults: ReportStack[] = []
+  const LaResults: IReportStack[] = []
 
   for (const LdStack of LaCandidates) {
     const LaItems = await fnValidateServicesForStack(
@@ -144,12 +144,12 @@ async function fnRunHealthCheckCore(iConfig: AppConfig, clLogger: Logger): Promi
       clLogger,
     )
 
-    const LsStatus = fnClassifyStack(LaItems)
+    const LStatus = fnClassifyStack(LaItems)
 
     clLogger.info(
       {
         stackName: LdStack.Name,
-        stackStatus: LsStatus,
+        stackStatus: LStatus,
         serviceCount: LaItems.length,
       },
       'stack scan complete',
@@ -157,20 +157,20 @@ async function fnRunHealthCheckCore(iConfig: AppConfig, clLogger: Logger): Promi
 
     LaResults.push({
       stackName: LdStack.Name,
-      status: LsStatus,
+      status: LStatus,
       services: LaItems,
     })
   }
 
-  const LdReport = fnBuildReport(LsStartedAt, LdEndpoint, LaResults)
-  const LsPath = await fnWriteHealthReport(iConfig.reportDir, LdReport)
+  const LdReport = fnBuildReport(LStartedAt, LdEndpoint, LaResults)
+  const LPath = await fnWriteHealthReport(iConfig.reportDir, LdReport)
 
-  clLogger.info({summary: LdReport.summary, reportPath: LsPath}, 'health check complete')
+  clLogger.info({summary: LdReport.summary, reportPath: LPath}, 'health check complete')
 
-  fnPrintHealthSummary(LdReport, LsPath)
+  fnPrintHealthSummary(LdReport, LPath)
 }
 
-function fnClassifyStack(iServices: ReportService[]): ReportStack['status'] {
+function fnClassifyStack(iServices: IReportService[]): IReportStack['status'] {
   if (iServices.some((iService) => fnIsCriticalService(iService))) {
     return 'critical'
   }
@@ -182,7 +182,7 @@ function fnClassifyStack(iServices: ReportService[]): ReportStack['status'] {
   return 'healthy'
 }
 
-function fnIsCriticalService(iService: ReportService): boolean {
+function fnIsCriticalService(iService: IReportService): boolean {
   return (
     ['failed', 'unavailable', 'stopped'].includes(iService.status) ||
     iService.migrationStatus === 'failed' ||
@@ -196,7 +196,7 @@ function fnIsCriticalService(iService: ReportService): boolean {
   )
 }
 
-function fnIsWarningService(iService: ReportService): boolean {
+function fnIsWarningService(iService: IReportService): boolean {
   return (
     ['partial', 'ready', 'preparing', 'restarting', 'unknown'].includes(iService.status) ||
     ['running', 'pending', 'unknown'].includes(iService.migrationStatus) ||
@@ -204,7 +204,7 @@ function fnIsWarningService(iService: ReportService): boolean {
   )
 }
 
-function fnBuildReport(iStartedAt: string, iEndpoint: ResolvedEndpoint, iStacks: ReportStack[]): HealthReport {
+function fnBuildReport(iStartedAt: string, iEndpoint: IResolvedEndpoint, iStacks: IReportStack[]): IHealthReport {
   const LaItems = iStacks.flatMap((iStack) => iStack.services)
   const LaContainers = LaItems.flatMap((iService) => iService.containers)
 
@@ -241,9 +241,9 @@ function fnBuildReport(iStartedAt: string, iEndpoint: ResolvedEndpoint, iStacks:
   }
 }
 
-function fnPrintHealthSummary(iReport: HealthReport, iReportPath: string): void {
+function fnPrintHealthSummary(iReport: IHealthReport, iReportPath: string): void {
   const LaFailed = fnCollectIssues(iReport)
-  const LbSuccess = LaFailed.length === 0 && iReport.summary.criticalStacks === 0 && iReport.summary.warningStacks === 0
+  const LSuccess = LaFailed.length === 0 && iReport.summary.criticalStacks === 0 && iReport.summary.warningStacks === 0
 
   console.log('')
   console.log(fnColor('Bench Stack Health ACK', 'cyan'))
@@ -252,7 +252,7 @@ function fnPrintHealthSummary(iReport: HealthReport, iReportPath: string): void 
   console.log(`Endpoint: ${iReport.endpoint.name} (ID: ${iReport.endpoint.id})`)
   console.log(
     `Result: ${
-      LbSuccess
+      LSuccess
         ? fnColor('ALL GOOD - all selected stack services are running and migrations are complete', 'green')
         : fnColor('ATTENTION REQUIRED', 'red')
     }`,
@@ -305,19 +305,19 @@ function fnPrintHealthSummary(iReport: HealthReport, iReportPath: string): void 
   if (LaFailed.length === 0) {
     console.log(`${fnBadge('healthy')} No failed, unavailable, ready, preparing, unhealthy, or incomplete migration items found.`)
   } else {
-    for (const LsMessage of LaFailed) {
-      console.log(fnColorIssueLine(LsMessage))
+    for (const LMessage of LaFailed) {
+      console.log(fnColorIssueLine(LMessage))
     }
   }
 
-  fnPrintFinalSummary(iReport, LaFailed, LbSuccess)
+  fnPrintFinalSummary(iReport, LaFailed, LSuccess)
 
   console.log('')
   console.log(fnColor('Report:', 'cyan'))
   console.log(fnColor(iReportPath, 'cyan'))
 }
 
-function fnCollectIssues(iReport: HealthReport): string[] {
+function fnCollectIssues(iReport: IHealthReport): string[] {
   const LaFailed: string[] = []
 
   for (const LdStack of iReport.stacks) {
@@ -342,12 +342,12 @@ function fnCollectIssues(iReport: HealthReport): string[] {
           ['dead', 'restarting', 'missing'].includes(LdContainer.state) ||
           (LdContainer.state === 'exited' && LdService.status !== 'running' && LdService.status !== 'complete')
         ) {
-          const LsMessage = LdContainer.health === 'unhealthy' || ['exited', 'dead'].includes(LdContainer.state)
+          const LMessage = LdContainer.health === 'unhealthy' || ['exited', 'dead'].includes(LdContainer.state)
             ? 'FAIL'
             : 'WARN'
 
           LaFailed.push(
-            `[${LsMessage}] ${LdStack.stackName} / ${LdContainer.containerName}: ${LdContainer.state}${
+            `[${LMessage}] ${LdStack.stackName} / ${LdContainer.containerName}: ${LdContainer.state}${
               LdContainer.health !== 'unknown' ? `, ${LdContainer.health}` : ''
             }`,
           )
@@ -359,7 +359,7 @@ function fnCollectIssues(iReport: HealthReport): string[] {
   return LaFailed
 }
 
-function fnPrintStackDetails(iReport: HealthReport): void {
+function fnPrintStackDetails(iReport: IHealthReport): void {
   console.log('')
   fnPrintSectionTitle('Stack Results')
 
@@ -375,11 +375,11 @@ function fnPrintStackDetails(iReport: HealthReport): void {
       fnBadge(iStack.status),
       iStack.stackName,
       String(iStack.services.length),
-      String(LdResult.LnRunning),
-      String(LdResult.LnComplete),
-      String(LdResult.LnWarning),
-      String(LdResult.LnFailed),
-      `${LdResult.LnMigrationComplete}/${LdResult.LnMigrationTotal}`,
+      String(LdResult.LRunning),
+      String(LdResult.LComplete),
+      String(LdResult.LWarning),
+      String(LdResult.LFailed),
+      `${LdResult.LMigrationComplete}/${LdResult.LMigrationTotal}`,
     ]
   })
 
@@ -410,29 +410,29 @@ function fnPrintStackDetails(iReport: HealthReport): void {
   }
 }
 
-function fnStackServiceCounts(iStack: ReportStack): {
-  LnRunning: number
-  LnComplete: number
-  LnWarning: number
-  LnFailed: number
-  LnMigrationComplete: number
-  LnMigrationTotal: number
+function fnStackServiceCounts(iStack: IReportStack): {
+  LRunning: number
+  LComplete: number
+  LWarning: number
+  LFailed: number
+  LMigrationComplete: number
+  LMigrationTotal: number
 } {
-  const LnRunning = iStack.services.filter((iService) => iService.status === 'running').length
-  const LnComplete = iStack.services.filter((iService) => iService.status === 'complete').length
-  const LnWarning = iStack.services.filter((iService) =>
+  const LRunning = iStack.services.filter((iService) => iService.status === 'running').length
+  const LComplete = iStack.services.filter((iService) => iService.status === 'complete').length
+  const LWarning = iStack.services.filter((iService) =>
     ['partial', 'ready', 'preparing', 'restarting', 'unknown'].includes(iService.status),
   ).length
-  const LnFailed = iStack.services.filter((iService) =>
+  const LFailed = iStack.services.filter((iService) =>
     ['failed', 'unavailable', 'stopped'].includes(iService.status),
   ).length
-  const LnMigrationComplete = iStack.services.filter((iService) => iService.migrationStatus === 'complete').length
-  const LnMigrationTotal = iStack.services.filter((iService) => iService.migrationStatus !== 'not-migration').length
+  const LMigrationComplete = iStack.services.filter((iService) => iService.migrationStatus === 'complete').length
+  const LMigrationTotal = iStack.services.filter((iService) => iService.migrationStatus !== 'not-migration').length
 
-  return {LnRunning, LnComplete, LnWarning, LnFailed, LnMigrationComplete, LnMigrationTotal}
+  return {LRunning, LComplete, LWarning, LFailed, LMigrationComplete, LMigrationTotal}
 }
 
-function fnStatusText(iService: ReportService): string {
+function fnStatusText(iService: IReportService): string {
   if (iService.status === 'complete') return fnColor('complete', 'green')
   if (iService.status === 'running') return fnColor('running', 'green')
   if (['failed', 'unavailable', 'stopped'].includes(iService.status)) return fnColor(iService.status, 'red')
@@ -440,7 +440,7 @@ function fnStatusText(iService: ReportService): string {
   return fnColor(iService.status, 'yellow')
 }
 
-function fnMigrationText(iService: ReportService): string {
+function fnMigrationText(iService: IReportService): string {
   if (iService.migrationStatus === 'not-migration') return '-'
   if (iService.migrationStatus === 'complete') return fnColor('complete', 'green')
   if (iService.migrationStatus === 'failed') return fnColor('failed', 'red')
@@ -448,7 +448,7 @@ function fnMigrationText(iService: ReportService): string {
   return fnColor(iService.migrationStatus, 'yellow')
 }
 
-function fnServiceNotesText(iService: ReportService): string {
+function fnServiceNotesText(iService: IReportService): string {
   if (iService.status === 'running') return fnColor('current OK', 'green')
   if (iService.status === 'complete') return fnColor('completed', 'green')
   if (iService.notes.length === 0) return '-'
@@ -462,7 +462,7 @@ function fnServiceNotesText(iService: ReportService): string {
     .join('; ')
 }
 
-function fnPrintFinalSummary(iReport: HealthReport, iIssues: string[], iSuccess: boolean): void {
+function fnPrintFinalSummary(iReport: IHealthReport, iIssues: string[], iSuccess: boolean): void {
   console.log('')
   fnPrintSectionTitle('Final Summary')
 
@@ -499,11 +499,11 @@ function fnPrintTable(iHeaders: string[], iRows: string[][]): void {
   const fnFormatRow = (iRow: string[]): string =>
     `| ${iRow.map((iCell, iIndex) => fnPadRight(iCell, LaResults[iIndex])).join(' | ')} |`
 
-  const LsName = fnFormatRow(iHeaders)
-  const LsMessage = `| ${LaResults.map((iWidth) => '-'.repeat(iWidth)).join(' | ')} |`
+  const LName = fnFormatRow(iHeaders)
+  const LMessage = `| ${LaResults.map((iWidth) => '-'.repeat(iWidth)).join(' | ')} |`
 
-  console.log(LsName)
-  console.log(LsMessage)
+  console.log(LName)
+  console.log(LMessage)
 
   for (const LaCandidates of iRows) {
     console.log(fnFormatRow(LaCandidates))
@@ -511,9 +511,9 @@ function fnPrintTable(iHeaders: string[], iRows: string[][]): void {
 }
 
 function fnPadRight(iMessage: string, iWidth: number): string {
-  const LnCount = fnVisibleLength(iMessage)
+  const LCount = fnVisibleLength(iMessage)
 
-  return iMessage + ' '.repeat(Math.max(0, iWidth - LnCount))
+  return iMessage + ' '.repeat(Math.max(0, iWidth - LCount))
 }
 
 function fnPrintSectionTitle(iMessage: string): void {
@@ -521,7 +521,7 @@ function fnPrintSectionTitle(iMessage: string): void {
   console.log(fnColor('-'.repeat(fnVisibleLength(iMessage)), 'cyan'))
 }
 
-function fnColorByStackStatus(iMessage: string, iStatus: ReportStack['status']): string {
+function fnColorByStackStatus(iMessage: string, iStatus: IReportStack['status']): string {
   if (iStatus === 'healthy') return fnColor(iMessage, 'green')
   if (iStatus === 'critical') return fnColor(iMessage, 'red')
 
@@ -540,24 +540,24 @@ function fnColorIssueLine(iMessage: string): string {
 }
 
 function fnColor(iMessage: string, iColor: 'green' | 'yellow' | 'red' | 'cyan', iBold = false): string {
-  const LsColor = iColor === 'green'
-    ? GsColorGreen
+  const LColor = iColor === 'green'
+    ? GColorGreen
     : iColor === 'yellow'
-      ? GsColorYellow
+      ? GColorYellow
       : iColor === 'red'
-        ? GsColorRed
-        : GsColorCyan
+        ? GColorRed
+        : GColorCyan
 
-  const LsMessage = iBold ? GsColorBold : ''
+  const LMessage = iBold ? GColorBold : ''
 
-  return `${LsMessage}${LsColor}${iMessage}${GsColorReset}`
+  return `${LMessage}${LColor}${iMessage}${GColorReset}`
 }
 
 function fnVisibleLength(iMessage: string): number {
   return iMessage.replace(/\u001b\[[0-9;]*m/g, '').length
 }
 
-function fnBadge(iStatus: ReportStack['status'] | ReportService['status']): string {
+function fnBadge(iStatus: IReportStack['status'] | IReportService['status']): string {
   if (iStatus === 'healthy' || iStatus === 'running' || iStatus === 'complete') return fnColor('[OK]', 'green')
 
   if (iStatus === 'critical' || iStatus === 'failed' || iStatus === 'unavailable' || iStatus === 'stopped') {
@@ -567,12 +567,12 @@ function fnBadge(iStatus: ReportStack['status'] | ReportService['status']): stri
   return fnColor('[WARN]', 'yellow')
 }
 
-function fnIssueLevel(iService: ReportService): 'FAIL' | 'WARN' {
+function fnIssueLevel(iService: IReportService): 'FAIL' | 'WARN' {
   return ['failed', 'unavailable', 'stopped'].includes(iService.status) ? 'FAIL' : 'WARN'
 }
 
 function fnPrintStep(iMessage: string, iStatus: 'OK' | '...' | 'WARN'): void {
-  const LsStatus = iStatus === 'OK' ? fnColor('[OK]', 'green') : iStatus === 'WARN' ? fnColor('[WARN]', 'yellow') : fnColor('[...]', 'yellow')
+  const LStatus = iStatus === 'OK' ? fnColor('[OK]', 'green') : iStatus === 'WARN' ? fnColor('[WARN]', 'yellow') : fnColor('[...]', 'yellow')
 
-  console.log(`${LsStatus} ${iMessage}`)
+  console.log(`${LStatus} ${iMessage}`)
 }

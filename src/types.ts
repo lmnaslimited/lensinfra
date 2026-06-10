@@ -10,23 +10,23 @@
  * - Do not change runtime behavior.
  */
 
-export type CleanupScope = "containers" | "volumes" | "images" | "all";
-export type ImageCleanupMode = "dangling" | "unused";
-export type VolumeCleanupMode = "anonymous" | "all-unused";
+export type TCleanupScope = "containers" | "volumes" | "images" | "all";
+export type TImageCleanupMode = "dangling" | "unused";
+export type TVolumeCleanupMode = "anonymous" | "all-unused";
 
-export interface AppConfig {
+export interface IAppConfig {
   portainerUrl: string;
   patToken: string;
   endpointId?: string;
   tlsVerify: boolean;
-  imageCleanupMode: ImageCleanupMode;
-  volumeCleanupMode: VolumeCleanupMode;
+  imageCleanupMode: TImageCleanupMode;
+  volumeCleanupMode: TVolumeCleanupMode;
   maxDeleteCount: number;
 }
 
-export type AuthHeaders = Record<"X-API-Key", string>;
+export type TAuthHeaders = Record<"X-API-Key", string>;
 
-export interface PortainerEndpoint {
+export interface IPortainerEndpoint {
   Id: number;
   Name: string;
   Type?: number;
@@ -34,14 +34,14 @@ export interface PortainerEndpoint {
   URL?: string;
 }
 
-export interface PortainerStack {
+export interface IPortainerStack {
   Id: number;
   Name: string;
   EndpointId?: number;
   Status?: number | string;
 }
 
-export interface DockerContainer {
+export interface IDockerContainer {
   Id: string;
   Names?: string[];
   Image?: string;
@@ -57,14 +57,14 @@ export interface DockerContainer {
   }>;
 }
 
-export interface DockerVersion {
+export interface IDockerVersion {
   Version?: string;
   ApiVersion?: string;
   Os?: string;
   Arch?: string;
 }
 
-export interface DockerVolume {
+export interface IDockerVolume {
   Name: string;
   Driver?: string;
   Mountpoint?: string;
@@ -73,12 +73,12 @@ export interface DockerVolume {
   Scope?: string;
 }
 
-export interface DockerVolumeList {
-  Volumes?: DockerVolume[];
+export interface IDockerVolumeList {
+  Volumes?: IDockerVolume[];
   Warnings?: string[];
 }
 
-export interface DockerImage {
+export interface IDockerImage {
   Id: string;
   RepoTags?: string[];
   RepoDigests?: string[];
@@ -89,7 +89,7 @@ export interface DockerImage {
   Labels?: Record<string, string>;
 }
 
-export interface ResourceRecord {
+export interface IResourceRecord {
   id?: string;
   name?: string;
   image?: string;
@@ -107,14 +107,14 @@ export interface ResourceRecord {
   desiredState?: string;
 }
 
-export interface ResourceReport {
-  candidates: ResourceRecord[];
-  deleted: ResourceRecord[];
-  skipped: ResourceRecord[];
-  failed: ResourceRecord[];
+export interface IResourceReport {
+  candidates: IResourceRecord[];
+  deleted: IResourceRecord[];
+  skipped: IResourceRecord[];
+  failed: IResourceRecord[];
 }
 
-export interface CleanupReport {
+export interface ICleanupReport {
   startedAt: string;
   finishedAt: string;
   endpointId: string;
@@ -125,12 +125,12 @@ export interface CleanupReport {
     skipped: number;
     failed: number;
   };
-  containers: ResourceReport;
-  volumes: ResourceReport;
-  images: ResourceReport;
+  containers: IResourceReport;
+  volumes: IResourceReport;
+  images: IResourceReport;
 }
 
-export interface Candidate<T> {
+export interface ICandidate<T> {
   resource: T;
-  record: ResourceRecord;
+  record: IResourceRecord;
 }
