@@ -13,7 +13,7 @@
 import { Logger } from "winston"
 import { clDockerGatewayClient } from "../docker-gateway-client.js"
 import { fnFormatAxiosError } from "../portainer-client.js"
-import { AppConfig, Candidate, CleanupReport, DockerImage, ResourceRecord } from "../types.js"
+import { IAppConfig, ICandidate, ICleanupReport, IDockerImage, IResourceRecord } from "../types.js"
 import { fnIsDanglingImage, fnIsImageSafeToDelete, fnNormalizeImageId } from "../safety/validator.js"
 
 // ===================================================
@@ -26,32 +26,32 @@ import { fnIsDanglingImage, fnIsImageSafeToDelete, fnNormalizeImageId } from "..
 // down to 12 characters for readable log output and
 // report tables. Full Docker IDs are too long to display
 // cleanly in tabular or terminal output formats.
-// Parameters: iLsId - optional full Docker ID or sha256 digest string
+// Parameters: iId - optional full Docker ID or sha256 digest string
 // Returns: string - 12-character shortened ID, or empty string if undefined
 // ---------------------------------------------------
 
-function fnShortId(iLsId?: string): string {
+function fnShortId(iId?: string): string {
 
   // Strip the "sha256:" prefix if present, then slice to 12 characters
   // This matches the short ID format the Docker CLI uses natively
-  return iLsId?.replace(/^sha256:/, "").slice(0, 12) ?? ""
+  return iId?.replace(/^sha256:/, "").slice(0, 12) ?? ""
 }
 
 // ---------------------------------------------------
 // fnToRecord
 // Converts a raw Docker image metadata object into the
-// shared ResourceRecord shape used across all cleanup
-// reports and candidate lists in the system.
+// shared IResourceRecord shape used across all cleanup
+// reports and ICandidate lists in the system.
 // Normalises the varying Docker image fields into one
 // consistent flat structure for display and reporting.
 // Parameters:
 //   iImage      - the raw Docker image metadata object
-//   iLsReason   - optional human-readable explanation of
+//   iReason   - optional human-readable explanation of
 //                 why this image was flagged or ignored
-// Returns: ResourceRecord - normalised report row object
+// Returns: IResourceRecord - normalised report row object
 // ---------------------------------------------------
 
-function fnToRecord(iImage: DockerImage, iLsReason?: string): ResourceRecord {
+function fnToRecord(iImage: IDockerImage, iReason?: string): IResourceRecord {
 
   // Assemble and return the normalised record object
   // RepoTags is joined as a comma-separated string for display
@@ -62,7 +62,7 @@ function fnToRecord(iImage: DockerImage, iLsReason?: string): ResourceRecord {
     repoTags: iImage.RepoTags?.join(", ") || "<none>",
     size: iImage.Size,
     created: iImage.Created,
-    reason: iLsReason,
+    reason: iReason,
     labels: iImage.Labels,
   }
 }
@@ -132,23 +132,23 @@ export { fnIsDanglingImage }
 // For each image the safety validator returns a result
 // indicating whether the image is safe to delete and
 // a reason string explaining the decision either way.
-// Safe images are added to the candidate list and report.
+// Safe images are added to the ICandidate list and report.
 // Unsafe images are skipped with a log message explaining why.
 // Parameters:
 //   clDockerGatewayClient - client used to query Docker API
 //   iConfig               - application config containing cleanup mode setting
-//   iLdReport             - shared report object to populate with candidates
+//   idReport             - shared report object to populate with candidates
 //   clLogger              - winston logger for structured terminal output
-// Returns: Promise<Candidate<DockerImage>[]> - list of images
+// Returns: Promise<ICandidate<IDockerImage>[]> - list of images
 //          confirmed as eligible for deletion
 // ---------------------------------------------------
 
 export async function fnScanImages(
   clDockerGatewayClient: clDockerGatewayClient,
-  iConfig: AppConfig,
-  iLdReport: CleanupReport,
+  iConfig: IAppConfig,
+  idReport: ICleanupReport,
   clLogger: Logger
-): Promise<Candidate<DockerImage>[]> {
+): Promise<ICandidate<IDockerImage>[]> {
 
   // Log the start of the image scan for visibility in output
   clLogger.info("Scanning images")
@@ -161,7 +161,7 @@ export async function fnScanImages(
   ])
 
   // Initialise the empty array that will hold confirmed candidates
-  const LaCandidates: Candidate<DockerImage>[] = []
+  const LaCandidates: ICandidate<IDockerImage>[] = []
 
   // Iterate over every image returned by the Docker API
   for (const LdImage of LaImages) {
@@ -188,24 +188,24 @@ export async function fnScanImages(
     const LdRecord = fnToRecord(LdImage, LdSafety.reason)
 
     // ---------------------------------------------------
-    // CANDIDATE DECISION
+    // ICandidate DECISION
     // If the safety validator marked this image as safe to delete,
-    // add it to the candidate list and the shared cleanup report.
+    // add it to the ICandidate list and the shared cleanup report.
     // If not safe, log the reason and skip it without further action.
     // ---------------------------------------------------
 
     if (LdSafety.safe) {
 
-      // Add the confirmed candidate to the working candidates array
+      // Add the confirmed ICandidate to the working candidates array
       LaCandidates.push({ resource: LdImage, record: LdRecord })
 
-      // Also record the candidate in the shared cleanup report
+      // Also record the ICandidate in the shared cleanup report
       // so it appears in the final summary output shown to the user
-      iLdReport.images.candidates.push(LdRecord)
+      idReport.images.candidates.push(LdRecord)
 
-      // Log the candidate details for traceability during the scan run
+      // Log the ICandidate details for traceability during the scan run
       clLogger.info(
-        `Image candidate: ${LdRecord.id} ${LdRecord.name} ${LdRecord.reason}`
+        `Image ICandidate: ${LdRecord.id} ${LdRecord.name} ${LdRecord.reason}`
       )
 
     } else {
@@ -228,7 +228,7 @@ export async function fnScanImages(
 
 // ---------------------------------------------------
 // fnDeleteImageCandidates
-// Iterates through the confirmed image candidate list and
+// Iterates through the confirmed image ICandidate list and
 // attempts to delete each image via the Docker API.
 // Each deletion is attempted individually so that a failure
 // on one image does not block the remaining images from
@@ -239,21 +239,21 @@ export async function fnScanImages(
 // so the user can investigate the cause after the run ends.
 // Parameters:
 //   clDockerGatewayClient - client used to call Docker API
-//   iLaCandidates         - list of confirmed candidate images
-//   iLdReport             - shared report object to populate
+//   iaCandidates         - list of confirmed ICandidate images
+//   idReport             - shared report object to populate
 //   clLogger              - winston logger for structured output
 // Returns: Promise<void>
 // ---------------------------------------------------
 
 export async function fnDeleteImageCandidates(
   clDockerGatewayClient: clDockerGatewayClient,
-  iLaCandidates: Candidate<DockerImage>[],
-  iLdReport: CleanupReport,
+  iaCandidates: ICandidate<IDockerImage>[],
+  idReport: ICleanupReport,
   clLogger: Logger
 ): Promise<void> {
 
-  // Process each confirmed candidate image one at a time
-  for (const LdCandidate of iLaCandidates) {
+  // Process each confirmed ICandidate image one at a time
+  for (const LdCandidate of iaCandidates) {
 
     try {
 
@@ -262,19 +262,19 @@ export async function fnDeleteImageCandidates(
       await clDockerGatewayClient.fnRemoveImage(LdCandidate.resource.Id)
 
       // Record the successfully deleted image in the report
-      iLdReport.images.deleted.push(LdCandidate.record)
+      idReport.images.deleted.push(LdCandidate.record)
 
       // Log confirmation that this specific image was removed
       clLogger.info(`Deleted image ${LdCandidate.resource.Id}`)
 
-    } catch (iLdError) {
+    } catch (idError) {
 
       // ---------------------------------------------------
       // DELETION FAILURE HANDLING
       // If the Docker API call throws for any reason, capture
       // the error and attach it to the existing image record.
       // Add the failed record to the report's failed list.
-      // Execution continues to the next candidate regardless
+      // Execution continues to the next ICandidate regardless
       // so one failure does not abort the entire deletion run.
       // ---------------------------------------------------
 
@@ -282,11 +282,11 @@ export async function fnDeleteImageCandidates(
       // and attaching the formatted Axios error message string
       const LdFailed = {
         ...LdCandidate.record,
-        error: fnFormatAxiosError(iLdError),
+        error: fnFormatAxiosError(idError),
       }
 
       // Add the failed record to the report for user visibility
-      iLdReport.images.failed.push(LdFailed)
+      idReport.images.failed.push(LdFailed)
 
       // Log the failure with the image ID and the error detail
       clLogger.error(

@@ -13,7 +13,7 @@
 import https from "node:https";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { fnPortainerAuthHeaders } from "./auth.js";
-import { AppConfig, PortainerEndpoint, PortainerStack } from "./types.js";
+import { IAppConfig, IPortainerEndpoint, IPortainerStack } from "./types.js";
 
 /**
  * Read-only Portainer API client for stack-health checks.
@@ -23,12 +23,12 @@ export class clPortainerClient {
   private readonly clHttp: AxiosInstance;
 
   // Object: App config held for TLS and error details.
-  private readonly LdConfig: AppConfig;
+  private readonly LdConfig: IAppConfig;
 
   /**
    * Configures Axios once so every request uses the same auth and TLS behavior.
    */
-  constructor(iConfig: AppConfig) {
+  constructor(iConfig: IAppConfig) {
     // Assignment: Store config for later error handling.
     this.LdConfig = iConfig;
 
@@ -55,17 +55,17 @@ export class clPortainerClient {
   /**
    * Reads all Portainer endpoints/environments.
    */
-  async fnGetEndpoints(): Promise<PortainerEndpoint[]> {
+  async fnGetEndpoints(): Promise<IPortainerEndpoint[]> {
     // Output: Authenticated endpoint list.
-    return this.fnRequest<PortainerEndpoint[]>("/api/endpoints", "Portainer API access failed");
+    return this.fnRequest<IPortainerEndpoint[]>("/api/endpoints", "Portainer API access failed");
   }
 
   /**
    * Reads all Portainer stacks.
    */
-  async fnGetStacks(): Promise<PortainerStack[]> {
+  async fnGetStacks(): Promise<IPortainerStack[]> {
     // Output: Authenticated stack list.
-    return this.fnRequest<PortainerStack[]>("/api/stacks", "Portainer stack listing failed");
+    return this.fnRequest<IPortainerStack[]>("/api/stacks", "Portainer stack listing failed");
   }
 
   /**

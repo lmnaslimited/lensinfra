@@ -13,7 +13,7 @@
 import https from "node:https";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { fnPortainerAuthHeaders } from "./auth.js";
-import { AppConfig, DockerContainerInspect, DockerContainerSummary, DockerService, DockerTask } from "./types.js";
+import { IAppConfig, IDockerContainerInspect, IDockerContainerSummary, IDockerService, IDockerTask } from "./types.js";
 
 /**
  * Read-only Docker gateway client scoped to one Portainer endpoint.
@@ -23,20 +23,20 @@ export class clDockerGatewayClient {
   private readonly clHttp: AxiosInstance;
 
   // Object: App config used for auth, TLS, and error messaging.
-  private readonly LdConfig: AppConfig;
+  private readonly LdConfig: IAppConfig;
 
   // Number: Portainer endpoint ID used by all Docker gateway requests.
-  private readonly LnEndpointId: number;
+  private readonly LEndpointId: number;
 
   /**
    * Builds a gateway client for one resolved Portainer endpoint.
    */
-  constructor(iConfig: AppConfig, iEndpointId: number) {
+  constructor(iConfig: IAppConfig, iEndpointId: number) {
     // Assignment: Store config for diagnostics and future request behavior.
     this.LdConfig = iConfig;
 
     // Assignment: Store endpoint ID for request paths and error messages.
-    this.LnEndpointId = iEndpointId;
+    this.LEndpointId = iEndpointId;
 
     // Assignment: Create Axios client with proxy bypass so local Portainer is reached directly.
     this.clHttp = axios.create({
@@ -61,33 +61,33 @@ export class clDockerGatewayClient {
   /**
    * Reads Docker Swarm services.
    */
-  async fnGetServices(): Promise<DockerService[]> {
+  async fnGetServices(): Promise<IDockerService[]> {
     // Output: Service list from Docker gateway.
-    return this.fnRequest<DockerService[]>("/services", "Docker service listing failed");
+    return this.fnRequest<IDockerService[]>("/services", "Docker service listing failed");
   }
 
   /**
    * Reads Docker Swarm tasks.
    */
-  async fnGetTasks(): Promise<DockerTask[]> {
+  async fnGetTasks(): Promise<IDockerTask[]> {
     // Output: Task list from Docker gateway.
-    return this.fnRequest<DockerTask[]>("/tasks", "Docker task listing failed");
+    return this.fnRequest<IDockerTask[]>("/tasks", "Docker task listing failed");
   }
 
   /**
    * Reads all containers, including stopped containers.
    */
-  async fnGetContainers(): Promise<DockerContainerSummary[]> {
+  async fnGetContainers(): Promise<IDockerContainerSummary[]> {
     // Output: Container summaries with all=true.
-    return this.fnRequest<DockerContainerSummary[]>("/containers/json?all=true", "Docker container listing failed");
+    return this.fnRequest<IDockerContainerSummary[]>("/containers/json?all=true", "Docker container listing failed");
   }
 
   /**
    * Inspects one container for health-check details.
    */
-  async fnInspectContainer(iContainerId: string): Promise<DockerContainerInspect> {
+  async fnInspectContainer(iContainerId: string): Promise<IDockerContainerInspect> {
     // Output: Full container inspect payload.
-    return this.fnRequest<DockerContainerInspect>(`/containers/${iContainerId}/json`, `Docker container inspect failed for ${iContainerId}`);
+    return this.fnRequest<IDockerContainerInspect>(`/containers/${iContainerId}/json`, `Docker container inspect failed for ${iContainerId}`);
   }
 
   /**
@@ -128,7 +128,7 @@ export class clDockerGatewayClient {
     // Guard: 404 usually means the endpoint ID is wrong or the gateway route is unavailable.
     if (LdError.response?.status === 404) {
       // Output: Include endpoint ID so the user can fix .env.
-      return `HTTP 404. Check PORTAINER_ENDPOINT_ID (${this.LnEndpointId}).`;
+      return `HTTP 404. Check PORTAINER_ENDPOINT_ID (${this.LEndpointId}).`;
     }
 
     // Guard: Any other HTTP response should still be shown clearly.

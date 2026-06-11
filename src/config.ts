@@ -11,7 +11,7 @@
  */
 
 import dotenv from "dotenv";
-import { AppConfig } from "./types.js";
+import { IAppConfig } from "./types.js";
 
 // Load local environment values before any command reads configuration.
 dotenv.config();
@@ -19,65 +19,65 @@ dotenv.config();
 /**
  * Parses optional boolean environment flags in a CLI-friendly way.
  */
-function fnEnvBoolean(iLsName: string, iLbFallback: boolean): boolean {
-  const LsValue = process.env[iLsName];
-  if (LsValue === undefined || LsValue === "") {
-    return iLbFallback;
+function fnEnvBoolean(iName: string, iFallback: boolean): boolean {
+  const LValue = process.env[iName];
+  if (LValue === undefined || LValue === "") {
+    return iFallback;
   }
 
-  return ["1", "true", "yes", "y"].includes(LsValue.toLowerCase());
+  return ["1", "true", "yes", "y"].includes(LValue.toLowerCase());
 }
 
 /**
  * Reads a required string value and fails early with a clear message.
  */
-function fnEnvString(iLsName: string, iLsFallback?: string): string {
-  const LsValue = process.env[iLsName] ?? iLsFallback;
-  if (!LsValue) {
-    throw new Error(`Missing required environment variable: ${iLsName}`);
+function fnEnvString(iName: string, iFallback?: string): string {
+  const LValue = process.env[iName] ?? iFallback;
+  if (!LValue) {
+    throw new Error(`Missing required environment variable: ${iName}`);
   }
 
-  return LsValue;
+  return LValue;
 }
 
 /**
  * Reads an optional string only when it has meaningful content.
  */
-function fnOptionalEnvString(iLsName: string): string | undefined {
-  const LsValue = process.env[iLsName];
-  return LsValue && LsValue.trim() !== "" ? LsValue : undefined;
+function fnOptionalEnvString(iName: string): string | undefined {
+  const LValue = process.env[iName];
+  return LValue && LValue.trim() !== "" ? LValue : undefined;
 }
 
 /**
  * Parses positive integer values for deletion safety limits.
  */
-function fnEnvNumber(iLsName: string, iLnFallback: number): number {
-  const LsRaw = process.env[iLsName];
-  if (!LsRaw) {
-    return iLnFallback;
+function fnEnvNumber(iName: string, iFallback: number): number {
+  const LRaw = process.env[iName];
+  if (!LRaw) {
+    return iFallback;
   }
 
-  const LnParsed = Number.parseInt(LsRaw, 10);
-  if (!Number.isFinite(LnParsed) || LnParsed < 1) {
-    throw new Error(`${iLsName} must be a positive integer`);
+  const LParsed = Number.parseInt(LRaw, 10);
+  if (!Number.isFinite(LParsed) || LParsed < 1) {
+    throw new Error(`${iName} must be a positive integer`);
   }
 
-  return LnParsed;
+  return LParsed;
 }
 
 /**
- * Builds the runtime configuration used by every cleanup stage.
+ * Builds the IRuntime configuration used by every cleanup stage.
  */
-export function fnLoadConfig(): AppConfig {
-  const LsPatToken = fnEnvString("PORTAINER_PAT_TOKEN");
+export function fnLoadConfig(): IAppConfig {
+  const LPatToken = fnEnvString("PORTAINER_PAT_TOKEN");
 
   return {
     portainerUrl: fnEnvString("PORTAINER_URL").replace(/\/+$/, ""),
-    patToken: LsPatToken,
+    patToken: LPatToken,
     endpointId: fnOptionalEnvString("PORTAINER_ENDPOINT_ID"),
     tlsVerify: !fnEnvBoolean("ALLOW_SELF_SIGNED_CERT", false) && fnEnvBoolean("PORTAINER_TLS_VERIFY", true),
     imageCleanupMode: "unused",
     volumeCleanupMode: "all-unused",
-    maxDeleteCount: fnEnvNumber("MAX_DELETE_COUNT", 100)
+    maxDeleteCount: fnEnvNumber("MAX_DELETE_COUNT", 50)
   };
 }

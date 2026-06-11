@@ -13,20 +13,20 @@
 import { Logger } from "pino";
 import { clDockerGatewayClient } from "../docker-gateway-client.js";
 import { clPortainerClient } from "../portainer-client.js";
-import { AppConfig, PortainerEndpoint } from "../types.js";
+import { IAppConfig, IPortainerEndpoint } from "../types.js";
 
 // Type: Resolved endpoint shape used by reports and console output.
-export interface ResolvedEndpoint {
+export interface IResolvedEndpoint {
   id: number;
   name: string;
 }
 
 // Function: Resolve a configured endpoint ID or auto-select exactly one working endpoint.
 export async function fnResolveEndpoint(
-  iConfig: AppConfig,
+  iConfig: IAppConfig,
   clPortainerClient: clPortainerClient,
   clLogger: Logger
-): Promise<ResolvedEndpoint> {
+): Promise<IResolvedEndpoint> {
   // Array: All endpoints returned by Portainer.
   const LaEndpoints = await clPortainerClient.fnGetEndpoints();
 
@@ -39,21 +39,21 @@ export async function fnResolveEndpoint(
   // Branch: Manual endpoint ID should be validated directly.
   if (iConfig.portainerEndpointId.toLowerCase() !== "auto") {
     // Number: Parse the configured endpoint ID.
-    const LnEndpointId = Number(iConfig.portainerEndpointId);
+    const LEndpointId = Number(iConfig.portainerEndpointId);
 
     // Guard: Manual endpoint must be a positive integer.
-    if (!Number.isInteger(LnEndpointId) || LnEndpointId <= 0) {
+    if (!Number.isInteger(LEndpointId) || LEndpointId <= 0) {
       // Error: Tell the user how to fix the endpoint setting.
       throw new Error("PORTAINER_ENDPOINT_ID must be auto or a positive numeric endpoint ID.");
     }
 
     // Object: Matching Portainer endpoint for the configured ID.
-    const LdEndpoint = LaEndpoints.find((iEndpoint) => iEndpoint.Id === LnEndpointId);
+    const LdEndpoint = LaEndpoints.find((iEndpoint) => iEndpoint.Id === LEndpointId);
 
     // Guard: Stop if the configured endpoint does not exist.
     if (!LdEndpoint) {
       // Error: Include the endpoint ID that failed.
-      throw new Error(`Endpoint ID ${LnEndpointId} was not found in Portainer.`);
+      throw new Error(`Endpoint ID ${LEndpointId} was not found in Portainer.`);
     }
 
     // Action: Confirm Docker gateway works before accepting manual endpoint.
@@ -64,16 +64,16 @@ export async function fnResolveEndpoint(
   }
 
   // Array: Active endpoints that pass the Docker gateway version check.
-  const LaCandidates: PortainerEndpoint[] = [];
+  const LaCandidates: IPortainerEndpoint[] = [];
 
   // Loop: Test each active endpoint because Type can vary across Portainer versions.
   for (const LdEndpoint of LaActiveEndpoints) {
     // Boolean: Whether this endpoint has a reachable Docker gateway.
-    const LbSuccess = await fnCanUseDockerGateway(iConfig, LdEndpoint, clLogger);
+    const LSuccess = await fnCanUseDockerGateway(iConfig, LdEndpoint, clLogger);
 
     // Branch: Keep only endpoints with a working Docker gateway.
-    if (LbSuccess) {
-      // Action: Add the endpoint as an auto-selection candidate.
+    if (LSuccess) {
+      // Action: Add the endpoint as an auto-selection ICandidate.
       LaCandidates.push(LdEndpoint);
     }
   }
@@ -93,10 +93,10 @@ export async function fnResolveEndpoint(
   // Branch: Multiple working endpoints require explicit user choice.
   if (LaCandidates.length > 1) {
     // String: User-readable endpoint list.
-    const LsMessage = LaCandidates.map((iEndpoint) => `${iEndpoint.Name} (ID: ${iEndpoint.Id})`).join(", ");
+    const LMessage = LaCandidates.map((iEndpoint) => `${iEndpoint.Name} (ID: ${iEndpoint.Id})`).join(", ");
 
     // Error: Stop rather than guessing the wrong Docker environment.
-    throw new Error(`Multiple active Docker gateways are available: ${LsMessage}. Set PORTAINER_ENDPOINT_ID manually.`);
+    throw new Error(`Multiple active Docker gateways are available: ${LMessage}. Set PORTAINER_ENDPOINT_ID manually.`);
   }
 
   // Error: No active endpoint could be validated through the Docker gateway.
@@ -104,7 +104,7 @@ export async function fnResolveEndpoint(
 }
 
 // Function: Validate one endpoint by calling Docker gateway GET /version.
-async function fnValidateEndpointGateway(iConfig: AppConfig, iEndpoint: PortainerEndpoint, clLogger: Logger): Promise<void> {
+async function fnValidateEndpointGateway(iConfig: IAppConfig, iEndpoint: IPortainerEndpoint, clLogger: Logger): Promise<void> {
   // Class instance: Docker gateway client scoped to this endpoint.
   const clDockerGatewayApiClient = new clDockerGatewayClient(iConfig, iEndpoint.Id);
 
@@ -116,7 +116,7 @@ async function fnValidateEndpointGateway(iConfig: AppConfig, iEndpoint: Portaine
 }
 
 // Function: Test one endpoint and return true instead of throwing.
-async function fnCanUseDockerGateway(iConfig: AppConfig, iEndpoint: PortainerEndpoint, clLogger: Logger): Promise<boolean> {
+async function fnCanUseDockerGateway(iConfig: IAppConfig, iEndpoint: IPortainerEndpoint, clLogger: Logger): Promise<boolean> {
   // Guard: Endpoint probing should continue even if one endpoint fails.
   try {
     // Action: Validate gateway for this endpoint.
@@ -126,11 +126,11 @@ async function fnCanUseDockerGateway(iConfig: AppConfig, iEndpoint: PortainerEnd
     return true;
   } catch (iError) {
     // String: Safe error message for logs.
-    const LsMessage = iError instanceof Error ? iError.message : String(iError);
+    const LMessage = iError instanceof Error ? iError.message : String(iError);
 
     // Log: Endpoint failed gateway validation.
     clLogger.warn(
-      { endpointId: iEndpoint.Id, endpointName: iEndpoint.Name, error: LsMessage },
+      { endpointId: iEndpoint.Id, endpointName: iEndpoint.Name, error: LMessage },
       "endpoint validation: Docker gateway unavailable"
     );
 

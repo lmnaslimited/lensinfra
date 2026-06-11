@@ -23,6 +23,12 @@
 import {Command, Flags} from '@oclif/core'
 import {fnRunCleanup} from '../portainer-cleanup.js'
 
+let fnCleanupRunner = fnRunCleanup
+
+export function fnSetCleanupRunnerForTest(iRunner: typeof fnRunCleanup = fnRunCleanup): void {
+  fnCleanupRunner = iRunner
+}
+
 /**
  * oclif command class for the cleanup workflow.
  */
@@ -39,7 +45,7 @@ export default class clCleanupCommand extends Command {
   async run(): Promise<void> {
     const {flags} = await this.parse(clCleanupCommand)
 
-    await fnRunCleanup({
+    await fnCleanupRunner({
       dryRun: flags.dryRun,
     })
   }

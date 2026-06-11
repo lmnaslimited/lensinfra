@@ -11,7 +11,7 @@
  */
 
 // Type: App configuration loaded from .env.
-export interface AppConfig {
+export interface IAppConfig {
   portainerUrl: string;
   portainerPatToken: string;
   portainerAuthMode: "api-key" | "bearer";
@@ -24,7 +24,7 @@ export interface AppConfig {
 }
 
 // Type: Minimal Portainer endpoint payload used by endpoint auto-selection.
-export interface PortainerEndpoint {
+export interface IPortainerEndpoint {
   Id: number;
   Name: string;
   Status?: number;
@@ -32,7 +32,7 @@ export interface PortainerEndpoint {
 }
 
 // Type: Minimal Portainer stack payload used by stack filtering.
-export interface PortainerStack {
+export interface IPortainerStack {
   Id: number;
   Name: string;
   Status?: number | string;
@@ -41,7 +41,7 @@ export interface PortainerStack {
 }
 
 // Type: Minimal Docker service payload read through the Portainer Docker gateway.
-export interface DockerService {
+export interface IDockerService {
   ID: string;
   Spec?: {
     Name?: string;
@@ -60,7 +60,7 @@ export interface DockerService {
 }
 
 // Type: Minimal Docker task payload used to classify service state.
-export interface DockerTask {
+export interface IDockerTask {
   ID: string;
   ServiceID?: string;
   DesiredState?: string;
@@ -76,7 +76,7 @@ export interface DockerTask {
 }
 
 // Type: Docker container summary returned by /containers/json?all=true.
-export interface DockerContainerSummary {
+export interface IDockerContainerSummary {
   Id: string;
   Names?: string[];
   Image?: string;
@@ -86,7 +86,7 @@ export interface DockerContainerSummary {
 }
 
 // Type: Docker container inspect payload fields needed for health checks.
-export interface DockerContainerInspect {
+export interface IDockerContainerInspect {
   Id: string;
   Name?: string;
   State?: {
@@ -102,7 +102,7 @@ export interface DockerContainerInspect {
 }
 
 // Type: Service statuses printed in the ACK and written to reports.
-export type ServiceHealthStatus =
+export type TServiceHealthStatus =
   | "running"
   | "partial"
   | "ready"
@@ -115,16 +115,16 @@ export type ServiceHealthStatus =
   | "unknown";
 
 // Type: Migration statuses for migration-like Bench services.
-export type MigrationStatus = "complete" | "running" | "failed" | "pending" | "unknown" | "not-migration";
+export type TMigrationStatus = "complete" | "running" | "failed" | "pending" | "unknown" | "not-migration";
 
 // Type: Docker container health states.
-export type ContainerHealthStatus = "healthy" | "unhealthy" | "starting" | "unknown";
+export type TContainerHealthStatus = "healthy" | "unhealthy" | "starting" | "unknown";
 
 // Type: Stack rollup health states.
-export type StackHealthStatus = "healthy" | "warning" | "critical";
+export type TStackHealthStatus = "healthy" | "warning" | "critical";
 
 // Type: Report row for one Docker task.
-export interface ReportTask {
+export interface IReportTask {
   taskId: string;
   desiredState: string;
   currentState: string;
@@ -133,36 +133,36 @@ export interface ReportTask {
 }
 
 // Type: Report row for one Docker container.
-export interface ReportContainer {
+export interface IReportContainer {
   containerId: string;
   containerName: string;
   state: string;
   status: string;
-  health: ContainerHealthStatus;
+  health: TContainerHealthStatus;
   reason: string;
 }
 
 // Type: Report row for one Docker service.
-export interface ReportService {
+export interface IReportService {
   serviceName: string;
   desiredReplicas: number;
   runningReplicas: number;
-  status: ServiceHealthStatus;
-  migrationStatus: MigrationStatus;
+  status: TServiceHealthStatus;
+  migrationStatus: TMigrationStatus;
   notes: string[];
-  tasks: ReportTask[];
-  containers: ReportContainer[];
+  tasks: IReportTask[];
+  containers: IReportContainer[];
 }
 
 // Type: Report row for one Portainer stack.
-export interface ReportStack {
+export interface IReportStack {
   stackName: string;
-  status: StackHealthStatus;
-  services: ReportService[];
+  status: TStackHealthStatus;
+  services: IReportService[];
 }
 
 // Type: Full health report written to reports/bench-health-report-*.json.
-export interface HealthReport {
+export interface IHealthReport {
   startedAt: string;
   finishedAt: string;
   endpoint: {
@@ -191,5 +191,5 @@ export interface HealthReport {
     unhealthyContainers: number;
     unknownHealthContainers: number;
   };
-  stacks: ReportStack[];
+  stacks: IReportStack[];
 }

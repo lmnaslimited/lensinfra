@@ -11,12 +11,12 @@
  */
 
 import {
-  Candidate,
-  DockerContainer,
-  DockerImage,
-  DockerVolume,
-  ImageCleanupMode,
-  VolumeCleanupMode
+  ICandidate,
+  IDockerContainer,
+  IDockerImage,
+  IDockerVolume,
+  TImageCleanupMode,
+  TVolumeCleanupMode
 } from "../types.js";
 
 const GaSafeContainerStates = new Set(["exited", "created", "dead"]);
@@ -45,7 +45,7 @@ const GaProtectedNamePatterns = [
   "production"
 ];
 
-export interface SafetyResult {
+export interface ISafetyResult {
   safe: boolean;
   reason: string;
 }
@@ -53,32 +53,32 @@ export interface SafetyResult {
 /**
  * Keeps the older container safety helper available for future cleanup stages.
  */
-export function fnIsContainerSafeToDelete(iContainer: DockerContainer): SafetyResult {
-  const LsState = (iContainer.State ?? "").toLowerCase();
-  if (iContainer.Labels?.["com.docker.swarm.service.name"] && LsState === "running") {
+export function fnIsContainerSafeToDelete(iContainer: IDockerContainer): ISafetyResult {
+  const LState = (iContainer.State ?? "").toLowerCase();
+  if (iContainer.Labels?.["com.docker.swarm.service.name"] && LState === "running") {
     return { safe: false, reason: "running Swarm task container" };
   }
 
-  if (GaUnsafeContainerStates.has(LsState)) {
-    return { safe: false, reason: `container state is unsafe: ${LsState}` };
+  if (GaUnsafeContainerStates.has(LState)) {
+    return { safe: false, reason: `container state is unsafe: ${LState}` };
   }
 
-  if (!GaSafeContainerStates.has(LsState)) {
-    return { safe: false, reason: `container state is not explicitly safe: ${LsState || "unknown"}` };
+  if (!GaSafeContainerStates.has(LState)) {
+    return { safe: false, reason: `container state is not explicitly safe: ${LState || "unknown"}` };
   }
 
-  return { safe: true, reason: `container state is safe: ${LsState}` };
+  return { safe: true, reason: `container state is safe: ${LState}` };
 }
 
 /**
  * Confirms a volume is unused and does not look like protected data.
  */
 export function fnIsVolumeSafeToDelete(
-  iVolume: DockerVolume,
-  iLaUsedVolumeNames: Set<string>,
-  iLsMode: VolumeCleanupMode
-): SafetyResult {
-  if (iLaUsedVolumeNames.has(iVolume.Name)) {
+  iVolume: IDockerVolume,
+  iaUsedVolumeNames: Set<string>,
+  iMode: TVolumeCleanupMode
+): ISafetyResult {
+  if (iaUsedVolumeNames.has(iVolume.Name)) {
     return { safe: false, reason: "volume is mounted by at least one container" };
   }
 
@@ -90,13 +90,13 @@ export function fnIsVolumeSafeToDelete(
     return { safe: false, reason: "volume name matches protected data pattern" };
   }
 
-  if (iLsMode === "anonymous" && !fnLooksAnonymousVolume(iVolume)) {
+  if (iMode === "anonymous" && !fnLooksAnonymousVolume(iVolume)) {
     return { safe: false, reason: "volume is unused but does not look anonymous" };
   }
 
   return {
     safe: true,
-    reason: iLsMode === "anonymous" ? "unused anonymous-looking volume" : "unused volume"
+    reason: iMode === "anonymous" ? "unused anonymous-looking volume" : "unused volume"
   };
 }
 
@@ -104,11 +104,11 @@ export function fnIsVolumeSafeToDelete(
  * Confirms an image is unused and not protected by labels.
  */
 export function fnIsImageSafeToDelete(
-  iImage: DockerImage,
-  iLaUsedImageIds: Set<string>,
-  iLsMode: ImageCleanupMode
-): SafetyResult {
-  if (iLaUsedImageIds.has(fnNormalizeImageId(iImage.Id))) {
+  iImage: IDockerImage,
+  iaUsedImageIds: Set<string>,
+  iMode: TImageCleanupMode
+): ISafetyResult {
+  if (iaUsedImageIds.has(fnNormalizeImageId(iImage.Id))) {
     return { safe: false, reason: "image is used by at least one container" };
   }
 
@@ -116,33 +116,33 @@ export function fnIsImageSafeToDelete(
     return { safe: false, reason: "image has protected labels" };
   }
 
-  if (iLsMode === "dangling" && !fnIsDanglingImage(iImage)) {
+  if (iMode === "dangling" && !fnIsDanglingImage(iImage)) {
     return { safe: false, reason: "image is not dangling" };
   }
 
   return {
     safe: true,
-    reason: iLsMode === "dangling" ? "dangling image not used by any container" : "unused image"
+    reason: iMode === "dangling" ? "dangling image not used by any container" : "unused image"
   };
 }
 
 /**
  * Detects explicit labels that should keep resources out of deletion candidates.
  */
-export function fnHasProtectedLabels(iLdLabels?: Record<string, string>): boolean {
-  if (!iLdLabels) {
+export function fnHasProtectedLabels(idLabels?: Record<string, string>): boolean {
+  if (!idLabels) {
     return false;
   }
 
-  return Object.entries(iLdLabels).some(([LsKey, LsValue]) => {
-    const LsNormalizedKey = LsKey.toLowerCase();
-    const LsNormalizedValue = String(LsValue).toLowerCase();
-    if ((LsNormalizedKey === "keep" || LsNormalizedKey === "protected") && LsNormalizedValue === "true") {
+  return Object.entries(idLabels).some(([LKey, LValue]) => {
+    const LormalizedKey = LKey.toLowerCase();
+    const LormalizedValue = String(LValue).toLowerCase();
+    if ((LormalizedKey === "keep" || LormalizedKey === "protected") && LormalizedValue === "true") {
       return true;
     }
 
     return GaProtectedLabelKeys.some(
-      (LsFragment) => LsNormalizedKey.includes(LsFragment) || LsNormalizedValue.includes(LsFragment)
+      (LFragment) => LormalizedKey.includes(LFragment) || LormalizedValue.includes(LFragment)
     );
   });
 }
@@ -150,18 +150,18 @@ export function fnHasProtectedLabels(iLdLabels?: Record<string, string>): boolea
 /**
  * Detects data-like volume names that should be protected.
  */
-export function fnMatchesProtectedName(iLsName: string): boolean {
-  const LsNormalized = iLsName.toLowerCase();
-  return GaProtectedNamePatterns.some((LsFragment) => LsNormalized.includes(LsFragment));
+export function fnMatchesProtectedName(iName: string): boolean {
+  const Lormalized = iName.toLowerCase();
+  return GaProtectedNamePatterns.some((LFragment) => Lormalized.includes(LFragment));
 }
 
 /**
  * Keeps max-delete enforcement available for future stages.
  */
-export function fnEnforceMaxDeleteCount<T>(iLaCandidates: Candidate<T>[], iLnMax: number): void {
-  if (iLaCandidates.length > iLnMax) {
+export function fnEnforceMaxDeleteCount<T>(iaCandidates: ICandidate<T>[], iMax: number): void {
+  if (iaCandidates.length > iMax) {
     throw new Error(
-      `Refusing to delete ${iLaCandidates.length} resources because MAX_DELETE_COUNT is ${iLnMax}. Increase MAX_DELETE_COUNT after reviewing the preview.`
+      `Refusing to delete ${iaCandidates.length} resources because MAX_DELETE_COUNT is ${iMax}. Increase MAX_DELETE_COUNT after reviewing the preview.`
     );
   }
 }
@@ -169,14 +169,14 @@ export function fnEnforceMaxDeleteCount<T>(iLaCandidates: Candidate<T>[], iLnMax
 /**
  * Normalizes Docker image IDs before comparing them.
  */
-export function fnNormalizeImageId(iLsImageId?: string): string {
-  return (iLsImageId ?? "").replace(/^sha256:/, "");
+export function fnNormalizeImageId(iImageId?: string): string {
+  return (iImageId ?? "").replace(/^sha256:/, "");
 }
 
 /**
  * Detects dangling images reported with no repo tags or <none>:<none>.
  */
-export function fnIsDanglingImage(iImage: DockerImage): boolean {
+export function fnIsDanglingImage(iImage: IDockerImage): boolean {
   if (!iImage.RepoTags || iImage.RepoTags.length === 0) {
     return true;
   }
@@ -187,9 +187,9 @@ export function fnIsDanglingImage(iImage: DockerImage): boolean {
 /**
  * Decides whether a volume name/labels look anonymous.
  */
-function fnLooksAnonymousVolume(iVolume: DockerVolume): boolean {
-  const LsName = iVolume.Name;
-  const LbHashLike = /^[a-f0-9]{32,}$/i.test(LsName);
-  const LbHasMeaningfulLabels = iVolume.Labels && Object.keys(iVolume.Labels).length > 0;
-  return LbHashLike || !LbHasMeaningfulLabels;
+function fnLooksAnonymousVolume(iVolume: IDockerVolume): boolean {
+  const LName = iVolume.Name;
+  const LHashLike = /^[a-f0-9]{32,}$/i.test(LName);
+  const LHasMeaningfulLabels = iVolume.Labels && Object.keys(iVolume.Labels).length > 0;
+  return LHashLike || !LHasMeaningfulLabels;
 }

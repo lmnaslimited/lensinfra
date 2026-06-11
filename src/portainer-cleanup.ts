@@ -22,77 +22,83 @@ import { fnCreateLogger } from "./logger.js";
 import { clPortainerClient } from "./portainer-client.js";
 import { fnCreateInitialReport, fnFinalizeReport, fnWriteReport } from "./reports/report-writer.js";
 import {
-  Candidate,
-  CleanupReport,
-  DockerContainer,
-  DockerImage,
-  DockerVolume,
-  PortainerEndpoint,
-  PortainerStack,
-  ResourceRecord
+  ICandidate,
+  ICleanupReport,
+  IDockerContainer,
+  IDockerImage,
+  IDockerVolume,
+  IPortainerEndpoint,
+  IPortainerStack,
+  IResourceRecord
 } from "./types.js";
 
-interface CleanupOptions {
+interface ICleanupOptions {
   dryRun?: boolean;
 }
 
-interface Runtime {
+interface IRuntime {
   clLogger: Logger;
-  LdReport: CleanupReport;
+  LdReport: ICleanupReport;
   clDockerGatewayClient: clDockerGatewayClient;
-  LdEndpoint: PortainerEndpoint;
+  LdEndpoint: IPortainerEndpoint;
   LaActiveStackNames: Set<string>;
 }
 
-type CleanupKind = "containers" | "volumes" | "images";
-type CleanupResource = DockerContainer | DockerVolume | DockerImage;
+type TCleanupKind = "containers" | "volumes" | "images";
+type TCleanupResource = IDockerContainer | IDockerVolume | IDockerImage;
+
+interface ILimitedDeletionPlan<T> {
+  LaLimited: ICandidate<T>[];
+  LaOverflow: ICandidate<T>[];
+  LDeleteOverflow: boolean;
+}
 
 /**
  * Prints stage headings with spacing that keeps the CLI easy to scan.
  */
-function fnPrintHeader(iLsTitle: string): void {
-  console.log(`\n${iLsTitle}`);
+function fnPrintHeader(iTitle: string): void {
+  console.log(`\n${iTitle}`);
 }
 
 /**
  * Trims long table fields without hiding empty values.
  */
-function fnClip(iPayload: unknown, iLnLength: number): string {
-  const LsText = iPayload === undefined || iPayload === null || iPayload === "" ? "-" : String(iPayload);
-  return LsText.length <= iLnLength ? LsText : `${LsText.slice(0, iLnLength - 3)}...`;
+function fnClip(iPayload: unknown, iLength: number): string {
+  const LText = iPayload === undefined || iPayload === null || iPayload === "" ? "-" : String(iPayload);
+  return LText.length <= iLength ? LText : `${LText.slice(0, iLength - 3)}...`;
 }
 
 /**
  * Renders byte counts in a compact human-readable format.
  */
-function fnFormatBytes(iLnSize?: number): string {
-  if (!iLnSize) {
+function fnFormatBytes(iSize?: number): string {
+  if (!iSize) {
     return "-";
   }
 
   const LaUnits = ["B", "KB", "MB", "GB", "TB"];
-  let LnSize = iLnSize;
-  let LnUnitIndex = 0;
-  while (LnSize >= 1024 && LnUnitIndex < LaUnits.length - 1) {
-    LnSize /= 1024;
-    LnUnitIndex += 1;
+  let LSize = iSize;
+  let LUnitIndex = 0;
+  while (LSize >= 1024 && LUnitIndex < LaUnits.length - 1) {
+    LSize /= 1024;
+    LUnitIndex += 1;
   }
 
-  return `${LnSize.toFixed(LnSize >= 10 || LnUnitIndex === 0 ? 0 : 1)} ${LaUnits[LnUnitIndex]}`;
+  return `${LSize.toFixed(LSize >= 10 || LUnitIndex === 0 ? 0 : 1)} ${LaUnits[LUnitIndex]}`;
 }
 
 /**
  * Shows actionable container candidates with stable 1-based indexes.
  */
-function fnPrintContainerTable(iLaRecords: ResourceRecord[]): void {
-  if (iLaRecords.length === 0) {
+function fnPrintContainerTable(iaRecords: IResourceRecord[]): void {
+  if (iaRecords.length === 0) {
     console.log("No matching containers found.");
     return;
   }
 
   console.table(
-    iLaRecords.map((LdRecord, LnIndex) => ({
-      index: LnIndex + 1,
+    iaRecords.map((LdRecord, LIndex) => ({
+      index: LIndex + 1,
       id: LdRecord.id,
       name: fnClip(LdRecord.name, 34),
       image: fnClip(LdRecord.image, 36),
@@ -106,15 +112,15 @@ function fnPrintContainerTable(iLaRecords: ResourceRecord[]): void {
 /**
  * Shows actionable volume candidates with stack or "-" context.
  */
-function fnPrintVolumeTable(iLaRecords: ResourceRecord[]): void {
-  if (iLaRecords.length === 0) {
+function fnPrintVolumeTable(iaRecords: IResourceRecord[]): void {
+  if (iaRecords.length === 0) {
     console.log("No eligible unused volumes found.");
     return;
   }
 
   console.table(
-    iLaRecords.map((LdRecord, LnIndex) => ({
-      index: LnIndex + 1,
+    iaRecords.map((LdRecord, LIndex) => ({
+      index: LIndex + 1,
       name: fnClip(LdRecord.name, 42),
       stack: fnClip(LdRecord.stackNamespace, 24),
       reason: fnClip(LdRecord.reason, 44)
@@ -125,15 +131,15 @@ function fnPrintVolumeTable(iLaRecords: ResourceRecord[]): void {
 /**
  * Shows actionable image candidates with readable size information.
  */
-function fnPrintImageTable(iLaRecords: ResourceRecord[]): void {
-  if (iLaRecords.length === 0) {
+function fnPrintImageTable(iaRecords: IResourceRecord[]): void {
+  if (iaRecords.length === 0) {
     console.log("No unused images found.");
     return;
   }
 
   console.table(
-    iLaRecords.map((LdRecord, LnIndex) => ({
-      index: LnIndex + 1,
+    iaRecords.map((LdRecord, LIndex) => ({
+      index: LIndex + 1,
       id: LdRecord.id,
       image: fnClip(LdRecord.repoTags || LdRecord.name, 46),
       size: fnFormatBytes(LdRecord.size),
@@ -145,51 +151,42 @@ function fnPrintImageTable(iLaRecords: ResourceRecord[]): void {
 /**
  * Treats undefined stack status as active because older Portainer versions omit it.
  */
-function fnIsStackActive(iEndpoint: PortainerStack): boolean {
+function fnIsStackActive(iEndpoint: IPortainerStack): boolean {
   return iEndpoint.Status === undefined || iEndpoint.Status === 1 || String(iEndpoint.Status).toLowerCase() === "active";
 }
 
 /**
  * Records user-skipped or dry-run-skipped resources in the matching report section.
  */
-function fnSkipCandidates<T extends CleanupResource>(
-  iLdReport: CleanupReport,
-  iLsKind: CleanupKind,
-  iLaCandidates: Candidate<T>[],
-  iLsReason: string
+function fnSkipCandidates<T extends TCleanupResource>(
+  idReport: ICleanupReport,
+  iKind: TCleanupKind,
+  iaCandidates: ICandidate<T>[],
+  iReason: string
 ): void {
-  iLdReport[iLsKind].skipped.push(...iLaCandidates.map(({ record: LdRecord }) => ({ ...LdRecord, reason: iLsReason })));
-}
-
-/**
- * Stops a stage before deletion when the selected count exceeds the configured safety cap.
- */
-function fnEnforceMaxDeleteCount<T>(iLaCandidates: Candidate<T>[], iLnMaxDeleteCount: number): void {
-  if (iLaCandidates.length > iLnMaxDeleteCount) {
-    throw new Error(`Refusing to delete ${iLaCandidates.length} resources because MAX_DELETE_COUNT is ${iLnMaxDeleteCount}`);
-  }
+  idReport[iKind].skipped.push(...iaCandidates.map(({ record: LdRecord }) => ({ ...LdRecord, reason: iReason })));
 }
 
 /**
  * Parses comma-separated 1-based indexes from the skip prompt.
  */
-function fnParseIndexList(iLsValue: string, iLnMaxIndex: number): number[] {
-  if (iLsValue.trim() === "") {
+function fnParseIndexList(iValue: string, iMaxIndex: number): number[] {
+  if (iValue.trim() === "") {
     return [];
   }
 
   const LaSeenIndexes = new Set<number>();
   const LaIndexes: number[] = [];
 
-  for (const LsPart of iLsValue.split(",")) {
-    const LnParsed = Number.parseInt(LsPart.trim(), 10);
-    if (!Number.isInteger(LnParsed) || LnParsed < 1 || LnParsed > iLnMaxIndex) {
-      throw new Error(`Use comma-separated indexes between 1 and ${iLnMaxIndex}`);
+  for (const LPart of iValue.split(",")) {
+    const LParsed = Number.parseInt(LPart.trim(), 10);
+    if (!Number.isInteger(LParsed) || LParsed < 1 || LParsed > iMaxIndex) {
+      throw new Error(`Use comma-separated indexes between 1 and ${iMaxIndex}`);
     }
 
-    if (!LaSeenIndexes.has(LnParsed)) {
-      LaSeenIndexes.add(LnParsed);
-      LaIndexes.push(LnParsed);
+    if (!LaSeenIndexes.has(LParsed)) {
+      LaSeenIndexes.add(LParsed);
+      LaIndexes.push(LParsed);
     }
   }
 
@@ -199,82 +196,118 @@ function fnParseIndexList(iLsValue: string, iLnMaxIndex: number): number[] {
 /**
  * Asks skip indexes first, then requires DEL before returning selected resources.
  */
-async function fnAskResourcesToDelete<T extends CleanupResource>(
-  iLsLabel: string,
-  iLaCandidates: Candidate<T>[]
+async function fnAskResourcesToDelete<T extends TCleanupResource>(
+  iLabel: string,
+  iaCandidates: ICandidate<T>[]
 ): Promise<{
-  LaSelected: Candidate<T>[];
-  LaSkipped: Candidate<T>[];
-  LsSkippedReason: string;
+  LaSelected: ICandidate<T>[];
+  LaSkipped: ICandidate<T>[];
+  LSkippedReason: string;
 }> {
-  if (iLaCandidates.length === 0) {
-    return { LaSelected: [], LaSkipped: [], LsSkippedReason: "no candidates" };
+  if (iaCandidates.length === 0) {
+    return { LaSelected: [], LaSkipped: [], LSkippedReason: "no candidates" };
   }
 
-  const LdSkipAnswer = await inquirer.prompt<{ LbShouldSkip: boolean }>([
+  const LdSkipAnswer = await inquirer.prompt<{ LShouldSkip: boolean }>([
     {
       type: "confirm",
-      name: "LbShouldSkip",
-      message: `Do you want to skip any ${iLsLabel} for deletion?`,
+      name: "LShouldSkip",
+      message: `Do you want to skip any ${iLabel} for deletion?`,
       default: false
     }
   ]);
 
   const LaSkipIndexes = new Set<number>();
-  if (LdSkipAnswer.LbShouldSkip) {
-    const LdIndexAnswer = await inquirer.prompt<{ LsIndexes: string }>([
+  if (LdSkipAnswer.LShouldSkip) {
+    const LdIndexAnswer = await inquirer.prompt<{ LIndexes: string }>([
       {
         type: "input",
-        name: "LsIndexes",
-        message: `Enter ${iLsLabel} indexes to skip in comma format:`,
-        validate: (iLsValue: string) => {
+        name: "LIndexes",
+        message: `Enter ${iLabel} indexes to skip in comma format:`,
+        validate: (iValue: string) => {
           try {
-            fnParseIndexList(iLsValue, iLaCandidates.length);
+            fnParseIndexList(iValue, iaCandidates.length);
             return true;
-          } catch (iLdError) {
-            return iLdError instanceof Error ? iLdError.message : String(iLdError);
+          } catch (idError) {
+            return idError instanceof Error ? idError.message : String(idError);
           }
         }
       }
     ]);
 
-    for (const LnIndex of fnParseIndexList(LdIndexAnswer.LsIndexes, iLaCandidates.length)) {
-      LaSkipIndexes.add(LnIndex);
+    for (const LIndex of fnParseIndexList(LdIndexAnswer.LIndexes, iaCandidates.length)) {
+      LaSkipIndexes.add(LIndex);
     }
   }
 
-  const LaSelected = iLaCandidates.filter((LdCandidate, LnIndex) => !LaSkipIndexes.has(LnIndex + 1));
-  const LaSkipped = iLaCandidates.filter((LdCandidate, LnIndex) => LaSkipIndexes.has(LnIndex + 1));
+  const LaSelected = iaCandidates.filter((LdCandidate, LIndex) => !LaSkipIndexes.has(LIndex + 1));
+  const LaSkipped = iaCandidates.filter((LdCandidate, LIndex) => LaSkipIndexes.has(LIndex + 1));
 
   if (LaSelected.length === 0) {
-    return { LaSelected, LaSkipped, LsSkippedReason: "user skipped deletion" };
+    return { LaSelected, LaSkipped, LSkippedReason: "user skipped deletion" };
   }
 
-  console.log(`${iLsLabel} selected for deletion: ${LaSelected.length}`);
-  const LdDeleteAnswer = await inquirer.prompt<{ LsConfirmation: string }>([
+  console.log(`${iLabel} selected for deletion: ${LaSelected.length}`);
+  const LdDeleteAnswer = await inquirer.prompt<{ LConfirmation: string }>([
     {
       type: "input",
-      name: "LsConfirmation",
-      message: `Type DEL to delete selected ${iLsLabel}:`
+      name: "LConfirmation",
+      message: `Type DEL to delete selected ${iLabel}:`
     }
   ]);
 
-  if (LdDeleteAnswer.LsConfirmation !== "DEL") {
-    return { LaSelected: [], LaSkipped: iLaCandidates, LsSkippedReason: "DEL not confirmed" };
+  if (LdDeleteAnswer.LConfirmation !== "DEL") {
+    return { LaSelected: [], LaSkipped: iaCandidates, LSkippedReason: "DEL not confirmed" };
   }
 
-  return { LaSelected, LaSkipped, LsSkippedReason: "user skipped deletion" };
+  return { LaSelected, LaSkipped, LSkippedReason: "user skipped deletion" };
+}
+
+/**
+ * Splits confirmed candidates by MAX_DELETE_COUNT and gates overflow with DEL ALL.
+ */
+async function fnPlanLimitedDeletion<T extends TCleanupResource>(
+  iLabel: string,
+  iaCandidates: ICandidate<T>[],
+  iMaxDeleteCount: number
+): Promise<ILimitedDeletionPlan<T>> {
+  if (iaCandidates.length <= iMaxDeleteCount) {
+    return { LaLimited: iaCandidates, LaOverflow: [], LDeleteOverflow: false };
+  }
+
+  const LaLimited = iaCandidates.slice(0, iMaxDeleteCount);
+  const LaOverflow = iaCandidates.slice(iMaxDeleteCount);
+
+  console.log(
+    `${iLabel} selected for deletion exceeds MAX_DELETE_COUNT=${iMaxDeleteCount}. ` +
+      `Only the first ${LaLimited.length} ${iLabel} will be deleted now.`
+  );
+  console.log(`Remaining ${LaOverflow.length} ${iLabel} require DEL ALL confirmation.`);
+
+  const LdDeleteAllAnswer = await inquirer.prompt<{ LConfirmation: string }>([
+    {
+      type: "input",
+      name: "LConfirmation",
+      message: `Type DEL ALL to delete the remaining ${LaOverflow.length} ${iLabel}:`
+    }
+  ]);
+
+  return {
+    LaLimited,
+    LaOverflow,
+    LDeleteOverflow: LdDeleteAllAnswer.LConfirmation === "DEL ALL"
+  };
 }
 
 /**
  * Builds all clients and endpoint context needed by cleanup or validation.
  */
-async function fnCreateRuntime(iLbIsDryRun: boolean): Promise<Runtime> {
+async function fnCreateRuntime(iIsDryRun: boolean): Promise<IRuntime> {
   const clLogger = fnCreateLogger();
   const LdConfig = fnLoadConfig();
-  const LdReport = fnCreateInitialReport(LdConfig.endpointId ?? "auto", iLbIsDryRun);
+  const LdReport = fnCreateInitialReport(LdConfig.endpointId ?? "auto", iIsDryRun);
 
-  clLogger.info(`Starting cleanup endpoint=${LdConfig.endpointId ?? "auto"} dryRun=${iLbIsDryRun}`);
+  clLogger.info(`Starting cleanup endpoint=${LdConfig.endpointId ?? "auto"} dryRun=${iIsDryRun}`);
 
   if (!LdConfig.tlsVerify) {
     console.log("Warning: Self-signed certificates are allowed. Use only for local testing.");
@@ -283,15 +316,15 @@ async function fnCreateRuntime(iLbIsDryRun: boolean): Promise<Runtime> {
   const clPortainerApiClient = new clPortainerClient(LdConfig);
   await clPortainerApiClient.fnValidatePatToken();
 
-  const LsEndpointId = await clPortainerApiClient.fnResolveEndpointId();
-  LdConfig.endpointId = LsEndpointId;
-  LdReport.endpointId = LsEndpointId;
+  const LEndpointId = await clPortainerApiClient.fnResolveEndpointId();
+  LdConfig.endpointId = LEndpointId;
+  LdReport.endpointId = LEndpointId;
 
-  const LdEndpoint = await clPortainerApiClient.fnGetEndpoint(LsEndpointId);
+  const LdEndpoint = await clPortainerApiClient.fnGetEndpoint(LEndpointId);
   fnValidateEndpoint(LdEndpoint);
   console.log(`Using Portainer endpoint ${LdEndpoint.Id} (${LdEndpoint.Name})`);
 
-  const LaActiveStacks = (await clPortainerApiClient.fnListStacks(LsEndpointId)).filter(fnIsStackActive);
+  const LaActiveStacks = (await clPortainerApiClient.fnListStacks(LEndpointId)).filter(fnIsStackActive);
   const LaActiveStackNames = new Set(LaActiveStacks.map((LdStack) => LdStack.Name));
 
   const clDockerGatewayApiClient = new clDockerGatewayClient(LdConfig, clPortainerApiClient.fnAuthHeaders());
@@ -303,15 +336,15 @@ async function fnCreateRuntime(iLbIsDryRun: boolean): Promise<Runtime> {
 /**
  * Runs containers, volumes, and images in the requested single cleanup flow.
  */
-export async function fnRunCleanup(iOptions: CleanupOptions): Promise<void> {
-  const LbIsDryRun = Boolean(iOptions.dryRun);
-  let LdRuntime: Runtime | undefined;
-  let LdReport = fnCreateInitialReport("unknown", LbIsDryRun);
+export async function fnRunCleanup(iOptions: ICleanupOptions): Promise<void> {
+  const LIsDryRun = Boolean(iOptions.dryRun);
+  let LdRuntime: IRuntime | undefined;
+  let LdReport = fnCreateInitialReport("unknown", LIsDryRun);
   const clLogger = fnCreateLogger();
 
   try {
     fnPrintHeader("Portainer Stack Container Cleanup");
-    LdRuntime = await fnCreateRuntime(LbIsDryRun);
+    LdRuntime = await fnCreateRuntime(LIsDryRun);
     LdReport = LdRuntime.LdReport;
     const LdConfig = fnLoadConfig();
     LdConfig.endpointId = LdReport.endpointId;
@@ -330,14 +363,20 @@ export async function fnRunCleanup(iOptions: CleanupOptions): Promise<void> {
     console.log(`Found ${LaContainerCandidates.length} exited/dead containers from active stacks.`);
     fnPrintContainerTable(LdReport.containers.candidates);
 
-    if (LbIsDryRun) {
+    if (LIsDryRun) {
       console.log("Dry-run: container deletion skipped.");
       fnSkipCandidates(LdReport, "containers", LaContainerCandidates, "dry-run");
     } else {
-      const { LaSelected, LaSkipped, LsSkippedReason } = await fnAskResourcesToDelete("containers", LaContainerCandidates);
-      fnEnforceMaxDeleteCount(LaSelected, LdConfig.maxDeleteCount);
-      fnSkipCandidates(LdReport, "containers", LaSkipped, LsSkippedReason);
-      await fnDeleteContainerCandidates(LdRuntime.clDockerGatewayClient, LaSelected, LdReport, LdRuntime.clLogger);
+      const { LaSelected, LaSkipped, LSkippedReason } = await fnAskResourcesToDelete("containers", LaContainerCandidates);
+      const { LaLimited, LaOverflow, LDeleteOverflow } = await fnPlanLimitedDeletion("containers", LaSelected, LdConfig.maxDeleteCount);
+      fnSkipCandidates(LdReport, "containers", LaSkipped, LSkippedReason);
+      await fnDeleteContainerCandidates(LdRuntime.clDockerGatewayClient, LaLimited, LdReport, LdRuntime.clLogger);
+
+      if (LaOverflow.length > 0 && LDeleteOverflow) {
+        await fnDeleteContainerCandidates(LdRuntime.clDockerGatewayClient, LaOverflow, LdReport, LdRuntime.clLogger);
+      } else if (LaOverflow.length > 0) {
+        fnSkipCandidates(LdReport, "containers", LaOverflow, "MAX_DELETE_COUNT exceeded; DEL ALL not confirmed");
+      }
     }
 
     const LaVolumeCandidates = await fnScanVolumes(
@@ -351,14 +390,20 @@ export async function fnRunCleanup(iOptions: CleanupOptions): Promise<void> {
     console.log(`Found ${LaVolumeCandidates.length} unused volumes from active stacks or no stack.`);
     fnPrintVolumeTable(LdReport.volumes.candidates);
 
-    if (LbIsDryRun) {
+    if (LIsDryRun) {
       console.log("Dry-run: volume deletion skipped.");
       fnSkipCandidates(LdReport, "volumes", LaVolumeCandidates, "dry-run");
     } else {
-      const { LaSelected, LaSkipped, LsSkippedReason } = await fnAskResourcesToDelete("volumes", LaVolumeCandidates);
-      fnEnforceMaxDeleteCount(LaSelected, LdConfig.maxDeleteCount);
-      fnSkipCandidates(LdReport, "volumes", LaSkipped, LsSkippedReason);
-      await fnDeleteVolumeCandidates(LdRuntime.clDockerGatewayClient, LaSelected, LdReport, LdRuntime.clLogger);
+      const { LaSelected, LaSkipped, LSkippedReason } = await fnAskResourcesToDelete("volumes", LaVolumeCandidates);
+      const { LaLimited, LaOverflow, LDeleteOverflow } = await fnPlanLimitedDeletion("volumes", LaSelected, LdConfig.maxDeleteCount);
+      fnSkipCandidates(LdReport, "volumes", LaSkipped, LSkippedReason);
+      await fnDeleteVolumeCandidates(LdRuntime.clDockerGatewayClient, LaLimited, LdReport, LdRuntime.clLogger);
+
+      if (LaOverflow.length > 0 && LDeleteOverflow) {
+        await fnDeleteVolumeCandidates(LdRuntime.clDockerGatewayClient, LaOverflow, LdReport, LdRuntime.clLogger);
+      } else if (LaOverflow.length > 0) {
+        fnSkipCandidates(LdReport, "volumes", LaOverflow, "MAX_DELETE_COUNT exceeded; DEL ALL not confirmed");
+      }
     }
 
     const LaImageCandidates = await fnScanImages(LdRuntime.clDockerGatewayClient, LdConfig, LdReport, LdRuntime.clLogger);
@@ -366,25 +411,31 @@ export async function fnRunCleanup(iOptions: CleanupOptions): Promise<void> {
     console.log(`Found ${LaImageCandidates.length} unused images.`);
     fnPrintImageTable(LdReport.images.candidates);
 
-    if (LbIsDryRun) {
+    if (LIsDryRun) {
       console.log("Dry-run: image deletion skipped.");
       fnSkipCandidates(LdReport, "images", LaImageCandidates, "dry-run");
     } else {
-      const { LaSelected, LaSkipped, LsSkippedReason } = await fnAskResourcesToDelete("images", LaImageCandidates);
-      fnEnforceMaxDeleteCount(LaSelected, LdConfig.maxDeleteCount);
-      fnSkipCandidates(LdReport, "images", LaSkipped, LsSkippedReason);
-      await fnDeleteImageCandidates(LdRuntime.clDockerGatewayClient, LaSelected, LdReport, LdRuntime.clLogger);
+      const { LaSelected, LaSkipped, LSkippedReason } = await fnAskResourcesToDelete("images", LaImageCandidates);
+      const { LaLimited, LaOverflow, LDeleteOverflow } = await fnPlanLimitedDeletion("images", LaSelected, LdConfig.maxDeleteCount);
+      fnSkipCandidates(LdReport, "images", LaSkipped, LSkippedReason);
+      await fnDeleteImageCandidates(LdRuntime.clDockerGatewayClient, LaLimited, LdReport, LdRuntime.clLogger);
+
+      if (LaOverflow.length > 0 && LDeleteOverflow) {
+        await fnDeleteImageCandidates(LdRuntime.clDockerGatewayClient, LaOverflow, LdReport, LdRuntime.clLogger);
+      } else if (LaOverflow.length > 0) {
+        fnSkipCandidates(LdReport, "images", LaOverflow, "MAX_DELETE_COUNT exceeded; DEL ALL not confirmed");
+      }
     }
-  } catch (iLdError) {
-    const LsMessage = iLdError instanceof Error ? iLdError.message : String(iLdError);
-    LdReport.containers.failed.push({ id: "startup", error: LsMessage });
-    clLogger.error(LsMessage);
-    console.error(`Error: ${LsMessage}`);
+  } catch (idError) {
+    const LMessage = idError instanceof Error ? idError.message : String(idError);
+    LdReport.containers.failed.push({ id: "startup", error: LMessage });
+    clLogger.error(LMessage);
+    console.error(`Error: ${LMessage}`);
     process.exitCode = 1;
   } finally {
     const clActiveLogger = LdRuntime?.clLogger ?? clLogger;
-    const LsReportPath = await fnWriteFinalReport(LdReport, clActiveLogger);
-    fnPrintSummary(LdReport, LsReportPath);
+    const LReportPath = await fnWriteFinalReport(LdReport, clActiveLogger);
+    fnPrintSummary(LdReport, LReportPath);
   }
 }
 
@@ -404,32 +455,32 @@ export async function fnRunValidate(): Promise<void> {
     console.log("Docker gateway: OK");
     console.log(`Active stacks: ${LdRuntime.LaActiveStackNames.size}`);
     console.log("Validation complete. No resources were deleted.");
-  } catch (iLdError) {
-    const LsMessage = iLdError instanceof Error ? iLdError.message : String(iLdError);
-    LdReport.containers.failed.push({ id: "validate", error: LsMessage });
-    clLogger.error(LsMessage);
-    console.error(`Validation failed: ${LsMessage}`);
+  } catch (idError) {
+    const LMessage = idError instanceof Error ? idError.message : String(idError);
+    LdReport.containers.failed.push({ id: "validate", error: LMessage });
+    clLogger.error(LMessage);
+    console.error(`Validation failed: ${LMessage}`);
     process.exitCode = 1;
   } finally {
-    const LsReportPath = await fnWriteFinalReport(LdReport, clLogger);
-    console.log(`Report: ${LsReportPath}`);
+    const LReportPath = await fnWriteFinalReport(LdReport, clLogger);
+    console.log(`Report: ${LReportPath}`);
   }
 }
 
 /**
  * Finalizes and persists the report after every command path.
  */
-async function fnWriteFinalReport(iLdReport: CleanupReport, clLogger: Logger): Promise<string> {
-  fnFinalizeReport(iLdReport);
-  const LsReportPath = fnWriteReport(iLdReport);
-  clLogger.info(`Cleanup report written to ${LsReportPath}`);
-  return LsReportPath;
+async function fnWriteFinalReport(idReport: ICleanupReport, clLogger: Logger): Promise<string> {
+  fnFinalizeReport(idReport);
+  const LReportPath = fnWriteReport(idReport);
+  clLogger.info(`Cleanup report written to ${LReportPath}`);
+  return LReportPath;
 }
 
 /**
  * Validates only endpoint active status; Docker type is intentionally not trusted.
  */
-function fnValidateEndpoint(iEndpoint: PortainerEndpoint): void {
+function fnValidateEndpoint(iEndpoint: IPortainerEndpoint): void {
   if (iEndpoint.Status !== undefined && iEndpoint.Status !== 1) {
     throw new Error(`Selected endpoint ${iEndpoint.Name} (ID: ${iEndpoint.Id}) is not active. Status: ${iEndpoint.Status}`);
   }
@@ -438,25 +489,38 @@ function fnValidateEndpoint(iEndpoint: PortainerEndpoint): void {
 /**
  * Prints final per-resource counts after reports are finalized.
  */
-function fnPrintSummary(iLdReport: CleanupReport, iLsReportPath: string): void {
+function fnPrintSummary(idReport: ICleanupReport, iReportPath: string): void {
   fnPrintHeader("Final Summary");
   console.table([
-    fnSummaryRow("containers", iLdReport.containers),
-    fnSummaryRow("volumes", iLdReport.volumes),
-    fnSummaryRow("images", iLdReport.images)
+    fnSummaryRow("containers", idReport.containers),
+    fnSummaryRow("volumes", idReport.volumes),
+    fnSummaryRow("images", idReport.images)
   ]);
-  console.log(`Report: ${iLsReportPath}`);
+  console.log(`Report: ${iReportPath}`);
 }
 
 /**
  * Converts one report section into a summary table row.
  */
-function fnSummaryRow(iLsName: string, iLdSection: CleanupReport["containers"]): Record<string, number | string> {
+function fnSummaryRow(iName: string, idSection: ICleanupReport["containers"]): Record<string, number | string> {
   return {
-    resource: iLsName,
-    candidates: iLdSection.candidates.length,
-    deleted: iLdSection.deleted.length,
-    skipped: iLdSection.skipped.length,
-    failed: iLdSection.failed.length
+    resource: iName,
+    candidates: idSection.candidates.length,
+    deleted: idSection.deleted.length,
+    skipped: idSection.skipped.length,
+    failed: idSection.failed.length
   };
 }
+
+/**
+ * Exposes pure cleanup helpers for unit tests without changing CLI behavior.
+ */
+export const GdPortainerCleanupTestApi = {
+  fnClip,
+  fnFormatBytes,
+  fnIsStackActive,
+  fnParseIndexList,
+  fnPlanLimitedDeletion,
+  fnSkipCandidates,
+  fnSummaryRow
+};

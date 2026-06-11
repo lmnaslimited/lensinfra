@@ -12,7 +12,7 @@
 
 import axios, { AxiosError, AxiosInstance } from "axios";
 import https from "node:https";
-import { AppConfig, AuthHeaders, PortainerEndpoint, PortainerStack } from "./types.js";
+import { IAppConfig, TAuthHeaders, IPortainerEndpoint, IPortainerStack } from "./types.js";
 
 /**
  * Portainer API client used by the cleanup module.
@@ -23,7 +23,7 @@ export class clPortainerClient {
   /**
    * Creates a PAT-authenticated Portainer API client.
    */
-  constructor(private readonly iConfig: AppConfig) {
+  constructor(private readonly iConfig: IAppConfig) {
     this.clHttp = axios.create({
       baseURL: iConfig.portainerUrl,
       timeout: 30000,
@@ -50,46 +50,46 @@ export class clPortainerClient {
       await this.clHttp.get(`/api/endpoints/${this.iConfig.endpointId}`, {
         headers: this.fnAuthHeaders()
       });
-    } catch (iLdError) {
-      throw new Error(`Endpoint ${this.iConfig.endpointId} is unavailable or inaccessible: ${fnFormatAxiosError(iLdError)}`);
+    } catch (idError) {
+      throw new Error(`Endpoint ${this.iConfig.endpointId} is unavailable or inaccessible: ${fnFormatAxiosError(idError)}`);
     }
   }
 
   /**
    * Reads every Portainer endpoint before auto-selection.
    */
-  async fnListEndpoints(): Promise<PortainerEndpoint[]> {
+  async fnListEndpoints(): Promise<IPortainerEndpoint[]> {
     try {
-      const LdResponse = await this.clHttp.get<PortainerEndpoint[]>("/api/endpoints", {
+      const LdResponse = await this.clHttp.get<IPortainerEndpoint[]>("/api/endpoints", {
         headers: this.fnAuthHeaders()
       });
       return LdResponse.data;
-    } catch (iLdError) {
-      throw new Error(`Unable to list Portainer endpoints: ${fnFormatAxiosError(iLdError)}`);
+    } catch (idError) {
+      throw new Error(`Unable to list Portainer endpoints: ${fnFormatAxiosError(idError)}`);
     }
   }
 
   /**
    * Reads stacks for the selected endpoint so active-stack filters can work.
    */
-  async fnListStacks(iLsEndpointId: string): Promise<PortainerStack[]> {
+  async fnListStacks(iEndpointId: string): Promise<IPortainerStack[]> {
     try {
-      const LdResponse = await this.clHttp.get<PortainerStack[]>("/api/stacks", {
+      const LdResponse = await this.clHttp.get<IPortainerStack[]>("/api/stacks", {
         headers: this.fnAuthHeaders(),
-        params: { endpointId: iLsEndpointId }
+        params: { endpointId: iEndpointId }
       });
       return LdResponse.data;
-    } catch (iLdError) {
-      throw new Error(`Unable to list Portainer stacks: ${fnFormatAxiosError(iLdError)}`);
+    } catch (idError) {
+      throw new Error(`Unable to list Portainer stacks: ${fnFormatAxiosError(idError)}`);
     }
   }
 
   /**
    * Probes Docker gateway access as the source of truth for endpoint auto-selection.
    */
-  async fnCanUseDockerGateway(iLsEndpointId: string): Promise<boolean> {
+  async fnCanUseDockerGateway(iEndpointId: string): Promise<boolean> {
     try {
-      await this.clHttp.get(`/api/endpoints/${iLsEndpointId}/docker/version`, {
+      await this.clHttp.get(`/api/endpoints/${iEndpointId}/docker/version`, {
         headers: this.fnAuthHeaders()
       });
       return true;
@@ -108,7 +108,7 @@ export class clPortainerClient {
 
     const LaEndpoints = await this.fnListEndpoints();
     const LaActiveEndpoints = LaEndpoints.filter((iEndpoint) => iEndpoint.Status === undefined || iEndpoint.Status === 1);
-    const LaDockerGatewayEndpoints: PortainerEndpoint[] = [];
+    const LaDockerGatewayEndpoints: IPortainerEndpoint[] = [];
 
     for (const LdEndpoint of LaActiveEndpoints) {
       if (await this.fnCanUseDockerGateway(String(LdEndpoint.Id))) {
@@ -117,17 +117,17 @@ export class clPortainerClient {
     }
 
     if (LaDockerGatewayEndpoints.length !== 1) {
-      const LsAvailable = LaEndpoints.map((iEndpoint) => `${iEndpoint.Id}:${iEndpoint.Name}:type=${iEndpoint.Type}:status=${iEndpoint.Status}`).join(", ");
-      const LsWorking = LaDockerGatewayEndpoints.map((iEndpoint) => `${iEndpoint.Id}:${iEndpoint.Name}`).join(", ");
+      const LAvailable = LaEndpoints.map((iEndpoint) => `${iEndpoint.Id}:${iEndpoint.Name}:type=${iEndpoint.Type}:status=${iEndpoint.Status}`).join(", ");
+      const LWorking = LaDockerGatewayEndpoints.map((iEndpoint) => `${iEndpoint.Id}:${iEndpoint.Name}`).join(", ");
 
       if (LaDockerGatewayEndpoints.length > 1) {
         throw new Error(
-          `Auto endpoint selection found multiple active endpoints with Docker gateway access: ${LsWorking}. Set PORTAINER_ENDPOINT_ID manually. Available endpoints: ${LsAvailable || "none"}`
+          `Auto endpoint selection found multiple active endpoints with Docker gateway access: ${LWorking}. Set PORTAINER_ENDPOINT_ID manually. Available endpoints: ${LAvailable || "none"}`
         );
       }
 
       throw new Error(
-        `Auto endpoint selection found no active endpoints with Docker gateway access. Set PORTAINER_ENDPOINT_ID manually after checking Portainer. Available endpoints: ${LsAvailable || "none"}`
+        `Auto endpoint selection found no active endpoints with Docker gateway access. Set PORTAINER_ENDPOINT_ID manually after checking Portainer. Available endpoints: ${LAvailable || "none"}`
       );
     }
 
@@ -138,21 +138,21 @@ export class clPortainerClient {
   /**
    * Reads the chosen endpoint metadata for validation and display.
    */
-  async fnGetEndpoint(iLsEndpointId: string): Promise<PortainerEndpoint> {
+  async fnGetEndpoint(iEndpointId: string): Promise<IPortainerEndpoint> {
     try {
-      const LdResponse = await this.clHttp.get<PortainerEndpoint>(`/api/endpoints/${iLsEndpointId}`, {
+      const LdResponse = await this.clHttp.get<IPortainerEndpoint>(`/api/endpoints/${iEndpointId}`, {
         headers: this.fnAuthHeaders()
       });
       return LdResponse.data;
-    } catch (iLdError) {
-      throw new Error(`Endpoint ${iLsEndpointId} is unavailable or inaccessible: ${fnFormatAxiosError(iLdError)}`);
+    } catch (idError) {
+      throw new Error(`Endpoint ${iEndpointId} is unavailable or inaccessible: ${fnFormatAxiosError(idError)}`);
     }
   }
 
   /**
    * Returns the single supported authentication header: Portainer PAT token.
    */
-  fnAuthHeaders(): AuthHeaders {
+  fnAuthHeaders(): TAuthHeaders {
     return {
       "X-API-Key": this.iConfig.patToken
     };
@@ -162,15 +162,15 @@ export class clPortainerClient {
 /**
  * Converts Axios failures into compact messages for reports and CLI errors.
  */
-export function fnFormatAxiosError(iLdError: unknown): string {
-  if (axios.isAxiosError(iLdError)) {
-    const LdAxiosError = iLdError as AxiosError<unknown>;
-    const LnStatus = LdAxiosError.response?.status;
-    const LsStatusText = LdAxiosError.response?.statusText;
+export function fnFormatAxiosError(idError: unknown): string {
+  if (axios.isAxiosError(idError)) {
+    const LdAxiosError = idError as AxiosError<unknown>;
+    const LStatus = LdAxiosError.response?.status;
+    const LStatusText = LdAxiosError.response?.statusText;
     const LdBody = LdAxiosError.response?.data;
-    const LsBodyText = typeof LdBody === "string" ? LdBody : JSON.stringify(LdBody);
-    return [LnStatus, LsStatusText, LsBodyText || LdAxiosError.message].filter(Boolean).join(" ");
+    const LBodyText = typeof LdBody === "string" ? LdBody : JSON.stringify(LdBody);
+    return [LStatus, LStatusText, LBodyText || LdAxiosError.message].filter(Boolean).join(" ");
   }
 
-  return iLdError instanceof Error ? iLdError.message : String(iLdError);
+  return idError instanceof Error ? idError.message : String(idError);
 }

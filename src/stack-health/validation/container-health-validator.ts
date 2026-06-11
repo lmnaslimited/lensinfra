@@ -13,28 +13,28 @@
 import { Logger } from "pino";
 import { clDockerGatewayClient } from "../docker-gateway-client.js";
 import {
-  ContainerHealthStatus,
-  DockerContainerInspect,
-  DockerContainerSummary,
-  ReportContainer
+  TContainerHealthStatus,
+  IDockerContainerInspect,
+  IDockerContainerSummary,
+  IReportContainer
 } from "../types.js";
 
 // Function: Validate all containers for one service.
 export async function fnValidateContainers(
   clDockerGatewayClient: clDockerGatewayClient,
-  iContainers: DockerContainerSummary[],
+  iContainers: IDockerContainerSummary[],
   clLogger: Logger
-): Promise<ReportContainer[]> {
+): Promise<IReportContainer[]> {
   // Array: Report container rows returned to the service validator.
-  const LaResults: ReportContainer[] = [];
+  const LaResults: IReportContainer[] = [];
 
   // Loop: Inspect each container individually so one failure does not stop the full ACK.
   for (const LdContainer of iContainers) {
     // Object: Full inspect payload, available only when Docker inspect succeeds.
-    let LdContainerInspect: DockerContainerInspect | undefined;
+    let LdContainerInspect: IDockerContainerInspect | undefined;
 
     // String: Inspect failure reason, left empty when inspect succeeds.
-    let LsMessage = "";
+    let LMessage = "";
 
     // Guard: A container can disappear while the scan is running.
     try {
@@ -42,26 +42,26 @@ export async function fnValidateContainers(
       LdContainerInspect = await clDockerGatewayClient.fnInspectContainer(LdContainer.Id);
     } catch (iError) {
       // String: Convert unknown inspect failure into readable text.
-      LsMessage = iError instanceof Error ? iError.message : String(iError);
+      LMessage = iError instanceof Error ? iError.message : String(iError);
 
       // Log: Mark one container inspect as failed but continue the scan.
-      clLogger.warn({ containerId: LdContainer.Id, error: LsMessage }, "container scan: inspect failed");
+      clLogger.warn({ containerId: LdContainer.Id, error: LMessage }, "container scan: inspect failed");
     }
 
     // String: Docker health classification for this container.
-    const LsStatus = fnClassifyHealth(LdContainerInspect);
+    const LStatus = fnClassifyHealth(LdContainerInspect);
 
-    // String: Runtime state from inspect when possible, otherwise from summary.
-    const LsContainerState = LdContainerInspect?.State?.Status ?? LdContainer.State ?? "unknown";
+    // String: IRuntime state from inspect when possible, otherwise from summary.
+    const LContainerState = LdContainerInspect?.State?.Status ?? LdContainer.State ?? "unknown";
 
     // Action: Add the normalized container row to the report.
     LaResults.push({
       containerId: LdContainer.Id,
       containerName: fnNormalizeContainerName(LdContainerInspect?.Name ?? LdContainer.Names?.[0] ?? LdContainer.Id),
-      state: LsContainerState,
+      state: LContainerState,
       status: LdContainer.Status ?? "",
-      health: LsStatus,
-      reason: fnHealthReason(LsStatus, LdContainerInspect, LsMessage)
+      health: LStatus,
+      reason: fnHealthReason(LStatus, LdContainerInspect, LMessage)
     });
   }
 
@@ -70,14 +70,14 @@ export async function fnValidateContainers(
 }
 
 // Function: Convert Docker inspect health status into the report enum.
-export function fnClassifyHealth(iContainerInspect: DockerContainerInspect | undefined): ContainerHealthStatus {
+export function fnClassifyHealth(iContainerInspect: IDockerContainerInspect | undefined): TContainerHealthStatus {
   // String: Lowercase Docker health status.
-  const LsStatus = iContainerInspect?.State?.Health?.Status?.toLowerCase();
+  const LStatus = iContainerInspect?.State?.Health?.Status?.toLowerCase();
 
   // Branch: Docker health states accepted as-is.
-  if (LsStatus === "healthy" || LsStatus === "unhealthy" || LsStatus === "starting") {
+  if (LStatus === "healthy" || LStatus === "unhealthy" || LStatus === "starting") {
     // Output: Known health status.
-    return LsStatus;
+    return LStatus;
   }
 
   // Output: No health check or missing health payload.
@@ -92,8 +92,8 @@ function fnNormalizeContainerName(iName: string): string {
 
 // Function: Explain why a container received its health classification.
 function fnHealthReason(
-  iHealth: ContainerHealthStatus,
-  iContainerInspect: DockerContainerInspect | undefined,
+  iHealth: TContainerHealthStatus,
+  iContainerInspect: IDockerContainerInspect | undefined,
   iInspectMessage: string
 ): string {
   // Guard: Inspect failures are the most actionable reason.
@@ -109,8 +109,8 @@ function fnHealthReason(
   }
 
   // String: Latest health-check output when Docker provides it.
-  const LsMessage = iContainerInspect?.State?.Health?.Log?.at(-1)?.Output?.trim();
+  const LMessage = iContainerInspect?.State?.Health?.Log?.at(-1)?.Output?.trim();
 
   // Output: Latest health-check text or empty string.
-  return LsMessage ?? "";
+  return LMessage ?? "";
 }
